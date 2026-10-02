@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Acceso Denegado (403) — GRINGO SEXY')}"></head>
+<body>
+
+<div class="ambient-glow"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="auth-wrapper">
+    <div class="auth-card" style="text-align: center; max-width: 500px;">
+        <div style="font-size: 5rem; font-weight: 900; color: var(--primary); line-height: 1; margin-bottom: 12px; text-shadow: 0 0 30px var(--primary-glow);">
+            403
+        </div>
+
+        <h2 class="auth-title" th:text="${errorTitle != null ? errorTitle : 'Acceso Restringido'}">Acceso Restringido</h2>
+        
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;" th:text="${errorMessage != null ? errorMessage : 'No cuentas con los permisos necesarios o tu dispositivo registrado no tiene autorización para consultar este contenido.'}">
+            No cuentas con los permisos necesarios.
+        </p>
+
+        <div style="display:flex; gap:12px; justify-content:center;">
+            <a th:href="@{/dashboard}" class="btn btn-primary">
+                <i class="fas fa-th-large"></i> Volver al Dashboard
+            </a>
+            <a th:href="@{/support}" class="btn btn-secondary">
+                <i class="fas fa-headset"></i> Solicitar Acceso
+            </a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: footer}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

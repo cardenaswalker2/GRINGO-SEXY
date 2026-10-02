@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Verifica tu Correo — GRINGO SEXY')}"></head>
+<body>
+
+<div class="ambient-glow"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="auth-wrapper">
+    <div class="auth-card" style="text-align: center; max-width: 500px;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); display: inline-flex; align-items: center; justify-content: center; font-size: 2.2rem; margin-bottom: 20px;">
+            <i class="fas fa-envelope-open-text"></i>
+        </div>
+
+        <h2 class="auth-title" style="font-size: 1.6rem; margin-bottom: 12px;">¡Revisa tu Bandeja de Entrada!</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+            Hemos enviado un enlace de confirmación seguro a <strong style="color: #ffffff;" th:text="${userEmail}">tu correo</strong>.
+        </p>
+
+        <div class="glass-card" style="padding: 16px; font-size: 0.88rem; color: var(--text-dim); margin-bottom: 28px; text-align: left;">
+            <i class="fas fa-info-circle" style="color:var(--accent-cyan); margin-right:6px;"></i>
+            Haz clic en el enlace dentro de las próximas 24 horas para activar tu cuenta e ingresar al panel privado. Si no lo ves en tu bandeja principal, revisa la carpeta de Spam.
+        </div>
+
+        <a th:href="@{/login}" class="btn btn-primary btn-block">
+            <i class="fas fa-sign-in-alt"></i> Ir a Iniciar Sesión
+        </a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: footer}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

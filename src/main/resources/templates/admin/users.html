@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-users')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Gestión de Usuarios</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Control de cuentas, roles, estados y permisos individuales</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body">
+            <!-- Filter & Search Bar Form -->
+            <div class="glass-card" style="margin-bottom:24px; padding:20px;">
+                <form th:action="@{/admin/users}" method="get" style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap:12px; align-items:end;">
+                    <div>
+                        <label class="form-label" style="font-size:0.8rem;">Buscar por Nombre, Usuario o Email</label>
+                        <input type="text" name="search" th:value="${search}" class="form-control" placeholder="Escribe para buscar...">
+                    </div>
+
+                    <div>
+                        <label class="form-label" style="font-size:0.8rem;">Estado</label>
+                        <select name="status" class="form-select">
+                            <option value="">Todos los Estados</option>
+                            <option th:each="st : ${statuses}" th:value="${st}" th:text="${st.name()}" th:selected="${st == status}"></option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label" style="font-size:0.8rem;">Rol</label>
+                        <select name="role" class="form-select">
+                            <option value="">Todos los Roles</option>
+                            <option th:each="r : ${roles}" th:value="${r}" th:text="${r.name()}" th:selected="${r == role}"></option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label" style="font-size:0.8rem;">Dispositivo</label>
+                        <select name="deviceType" class="form-select">
+                            <option value="">Todos los Dispositivos</option>
+                            <option th:each="dev : ${devices}" th:value="${dev.type}" th:text="${dev.name}" th:selected="${dev.type == deviceType}"></option>
+                        </select>
+                    </div>
+
+                    <div style="display:flex; gap:8px;">
+                        <button type="submit" class="btn btn-primary" title="Filtrar"><i class="fas fa-filter"></i> Filtrar</button>
+                        <a th:href="@{/admin/users}" class="btn btn-secondary" title="Limpiar"><i class="fas fa-undo"></i></a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Users Table -->
+            <div class="glass-card" style="padding:0; overflow:hidden;">
+                <div class="table-responsive" style="border:none; border-radius:0;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Correo Electrónico</th>
+                                <th>Dispositivo</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Verificado</th>
+                                <th>Fecha Registro</th>
+                                <th style="text-align:right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${usersPage.empty}">
+                                <td colspan="8" style="text-align:center; padding:40px; color:var(--text-muted);">
+                                    No se encontraron usuarios que coincidan con los criterios de búsqueda.
+                                </td>
+                            </tr>
+                            <tr th:each="u : ${usersPage.content}">
+                                <td>
+                                    <div style="font-weight:700; color:#ffffff;" th:text="${u.fullName}">Nombre</div>
+                                    <div style="font-size:0.8rem; color:var(--text-dim);" th:text="${'@' + u.username}">@usuario</div>
+                                </td>
+                                <td th:text="${u.email}">email@ejemplo.com</td>
+                                <td>
+                                    <span class="badge badge-secondary">
+                                        <i th:class="${u.deviceType.iconClass}"></i>
+                                        <span th:text="${u.deviceType.displayName}">iPhone</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge" th:classappend="${u.role.name() == 'SUPER_ADMIN' ? 'badge-primary' : (u.role.name() == 'ADMIN' ? 'badge-info' : 'badge-secondary')}" th:text="${u.role.name()}">USER</span>
+                                </td>
+                                <td>
+                                    <span th:if="${u.status.name() == 'ACTIVE'}" class="badge badge-success">Activo</span>
+                                    <span th:if="${u.status.name() == 'PENDING'}" class="badge badge-warning">Pendiente</span>
+                                    <span th:if="${u.status.name() == 'SUSPENDED'}" class="badge badge-danger">Suspendido</span>
+                                    <span th:if="${u.status.name() == 'BLOCKED'}" class="badge badge-danger">Bloqueado</span>
+                                </td>
+                                <td>
+                                    <i th:if="${u.emailVerified}" class="fas fa-check-circle" style="color:var(--accent-emerald);" title="Verificado"></i>
+                                    <i th:unless="${u.emailVerified}" class="fas fa-times-circle" style="color:var(--text-dim);" title="No verificado"></i>
+                                </td>
+                                <td th:text="${#temporals.format(u.createdAt, 'dd/MM/yyyy')}">01/01/2026</td>
+                                <td style="text-align:right;">
+                                    <a th:href="@{'/admin/users/' + ${u.id}}" class="btn btn-secondary btn-sm" title="Editar y Gestionar Permisos">
+                                        <i class="fas fa-user-edit"></i> Administrar
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Server-Side Pagination Controls -->
+                <div class="pagination-container" style="padding:16px 24px;" th:if="${usersPage.totalPages > 1}">
+                    <div style="font-size:0.85rem; color:var(--text-muted);">
+                        Mostrando página <strong th:text="${usersPage.number + 1}">1</strong> de <strong th:text="${usersPage.totalPages}">5</strong> (<span th:text="${usersPage.totalElements}">50</span> usuarios en total)
+                    </div>
+
+                    <div class="pagination-nav">
+                        <!-- Previous Page -->
+                        <a th:if="${usersPage.hasPrevious()}"
+                           th:href="@{/admin/users(page=${usersPage.number - 1}, search=${search}, status=${status}, role=${role}, deviceType=${deviceType})}"
+                           class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                        <span th:unless="${usersPage.hasPrevious()}" class="page-btn disabled"><i class="fas fa-chevron-left"></i></span>
+
+                        <!-- Page Numbers -->
+                        <th:block th:each="i : ${#numbers.sequence(0, usersPage.totalPages - 1)}">
+                            <a th:if="${i >= usersPage.number - 2 and i <= usersPage.number + 2}"
+                               th:href="@{/admin/users(page=${i}, search=${search}, status=${status}, role=${role}, deviceType=${deviceType})}"
+                               th:text="${i + 1}"
+                               class="page-btn"
+                               th:classappend="${i == usersPage.number ? 'active' : ''}">1</a>
+                        </th:block>
+
+                        <!-- Next Page -->
+                        <a th:if="${usersPage.hasNext()}"
+                           th:href="@{/admin/users(page=${usersPage.number + 1}, search=${search}, status=${status}, role=${role}, deviceType=${deviceType})}"
+                           class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                        <span th:unless="${usersPage.hasNext()}" class="page-btn disabled"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

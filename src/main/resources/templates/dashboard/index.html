@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <!-- User Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></div>
+
+    <!-- Main Content Area -->
+    <div class="app-main-content">
+        <!-- Topbar -->
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Panel Principal</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Optimización y Modificaciones Móviles</p>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:16px;">
+                <div class="glass-card" style="padding:6px 14px; border-radius:var(--radius-full); display:flex; align-items:center; gap:8px;">
+                    <i th:class="${currentUser.deviceType.iconClass}" style="color:var(--primary);"></i>
+                    <span style="font-size:0.85rem; font-weight:700;" th:text="${currentUser.deviceType.displayName}">iPhone</span>
+                </div>
+                <div th:if="${currentUser.active}" class="badge badge-success">
+                    <i class="fas fa-circle" style="font-size:0.5rem;"></i> Activo
+                </div>
+                <div th:unless="${currentUser.active}" class="badge badge-warning" th:text="${currentUser.status.name()}">
+                    Pendiente
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body">
+            <!-- Welcome Banner -->
+            <div class="glass-card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(244,63,94,0.15) 0%, rgba(139,92,246,0.1) 100%); border-color: rgba(244,63,94,0.3); padding: 32px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+                    <div>
+                        <div style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:700; color:#fb7185; text-transform:uppercase; margin-bottom:8px;">
+                            <i class="fas fa-bolt"></i> Sistema Calibrado
+                        </div>
+                        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px;">
+                            ¡Hola, <span th:text="${currentUser.fullName}">Usuario</span>! 👋
+                        </h1>
+                        <p style="color: var(--text-muted); max-width: 600px;">
+                            Tu dispositivo registrado es <strong style="color:#ffffff;" th:text="${currentUser.deviceType.displayName}">iPhone</strong>. Todas las sensibilidades, parámetros de DPI y guías técnicas están filtradas automáticamente para tu modelo.
+                        </p>
+                    </div>
+                    <div>
+                        <a th:href="@{/profile}" class="btn btn-secondary">
+                            <i class="fas fa-sliders-h"></i> Ajustes de Perfil
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Grid -->
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 4px;">Tus Módulos Autorizados</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Selecciona una categoría para explorar configuraciones, comandos y archivos.</p>
+            </div>
+
+            <div class="categories-grid">
+                <div th:each="cat : ${categories}" class="category-card" th:if="${currentUser.permissions.hasPermissionFor(cat.slug) || currentUser.admin}">
+                    <div>
+                        <div class="category-icon-box">
+                            <i th:class="${cat.iconClass}"></i>
+                        </div>
+                        <h3 th:text="${cat.name}">Sensibilidades</h3>
+                        <p th:text="${cat.description}">Configuraciones de puntero, DPI y respuesta táctil para máxima precisión.</p>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+                        <span class="badge badge-success"><i class="fas fa-unlock"></i> Desbloqueado</span>
+                        <a th:href="@{'/content/' + ${cat.slug}}" class="btn btn-primary btn-sm">
+                            Abrir Módulo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar(${category.slug})}"></div>
+
+    <div class="app-main-content">
+        <!-- Topbar -->
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;" th:text="${category.name}">Sensibilidades</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);" th:text="${'Contenido optimizado para ' + currentUser.deviceType.displayName}">Dispositivo</p>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:12px;">
+                <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+
+        <div class="app-page-body">
+            <!-- Category Header -->
+            <div class="glass-card" style="margin-bottom: 32px; display:flex; align-items:center; gap:24px;">
+                <div class="category-icon-box" style="margin-bottom:0; width:64px; height:64px; font-size:1.8rem;">
+                    <i th:class="${category.iconClass}"></i>
+                </div>
+                <div>
+                    <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 4px;" th:text="${category.name}">Nombre Categoría</h1>
+                    <p style="color: var(--text-muted);" th:text="${category.description}">Descripción detallada del módulo.</p>
+                </div>
+            </div>
+
+            <!-- Content List -->
+            <div th:if="${contents.empty}" class="glass-card" style="text-align: center; padding: 60px 20px;">
+                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-dim); margin-bottom: 16px;"></i>
+                <h3 style="font-size: 1.2rem; margin-bottom: 8px;">No hay publicaciones disponibles</h3>
+                <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 20px;">Actualmente no hay artículos o configuraciones publicadas para tu dispositivo en esta categoría.</p>
+                <a th:href="@{/dashboard}" class="btn btn-secondary">Regresar al Panel Principal</a>
+            </div>
+
+            <div th:unless="${contents.empty}">
+                <div th:each="item : ${contents}" class="content-card">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+                        <div>
+                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                                <span class="badge badge-primary" th:if="${item.applyToAllDevices}">Universal (Todos los dispositivos)</span>
+                                <span class="badge badge-info" th:unless="${item.applyToAllDevices}">
+                                    <i class="fas fa-mobile-alt"></i> Exclusivo para tu modelo
+                                </span>
+                            </div>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 10px;">
+                                <a th:href="@{'/content/' + ${category.slug} + '/' + ${item.slug}}" th:text="${item.title}" style="color: #ffffff;">Título del Contenido</a>
+                            </h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;" th:text="${item.summary}">Resumen y descripción del tutorial o ajuste.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-meta">
+                        <div><i class="far fa-clock" style="margin-right:4px;"></i> <span th:text="${#temporals.format(item.createdAt, 'dd MMM yyyy, HH:mm')}">Fecha</span></div>
+                        <div><i class="fas fa-user-shield" style="margin-right:4px;"></i> Verificado por GRINGO SEXY Team</div>
+                        <a th:href="@{'/content/' + ${category.slug} + '/' + ${item.slug}}" class="btn btn-secondary btn-sm" style="margin-left:auto;">
+                            Ver Instrucciones <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

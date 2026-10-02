@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<!-- Header Navigation Matching Reference Design -->
+<header th:fragment="navbar" class="site-header">
+    <div class="container nav-wrapper">
+        <a th:href="@{/}" class="site-logo">
+            <i class="fas fa-fire-alt"></i>
+            <span>GRINGO <span class="text-gradient">SEXY</span></span>
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a th:href="@{/}" class="nav-link active">Inicio</a></li>
+            <li><a th:href="@{/#funciones}" class="nav-link">Funciones</a></li>
+            <li><a th:href="@{/#compatibilidad}" class="nav-link">Dispositivos</a></li>
+            <li><a th:href="@{/#redes}" class="nav-link">Redes Sociales</a></li>
+            <li><a th:href="@{/support}" class="nav-link">Soporte</a></li>
+
+            <!-- Mobile actions inside drawer -->
+            <div class="nav-actions-mobile" sec:authorize="isAnonymous()">
+                <a th:href="@{/login}" class="btn btn-secondary btn-block">Iniciar sesión</a>
+                <a th:href="@{/register}" class="btn btn-primary btn-block">Comenzar ahora <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="nav-actions-mobile" sec:authorize="isAuthenticated()">
+                <a th:href="@{/dashboard}" class="btn btn-primary btn-block">Mi Dashboard</a>
+            </div>
+        </ul>
+
+        <div class="nav-actions" sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="background:transparent; border:none; color:var(--text-muted);">
+                Iniciar sesión
+            </a>
+            <a th:href="@{/register}" class="btn btn-primary btn-sm btn-pill">
+                Comenzar ahora <i class="fas fa-arrow-right" style="font-size:0.75rem;"></i>
+            </a>
+        </div>
+
+        <div class="nav-actions" sec:authorize="isAuthenticated()">
+            <a th:href="@{/dashboard}" class="btn btn-primary btn-sm btn-pill">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-secondary btn-sm" title="Cerrar sesión" style="padding:6px 10px;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+<!-- Redesigned Minimalist & Editorial Footer -->
+<footer th:fragment="footer" class="site-footer">
+    <div class="container">
+        <div class="footer-top-row">
+            <a th:href="@{/}" class="site-logo">
+                <i class="fas fa-fire-alt"></i>
+                <span>GRINGO <span class="text-gradient">SEXY</span></span>
+            </a>
+
+            <ul class="footer-nav-links">
+                <li><a th:href="@{/}">Inicio</a></li>
+                <li><a th:href="@{/#funciones}">Funciones</a></li>
+                <li><a th:href="@{/#redes}">Redes Sociales</a></li>
+                <li><a th:href="@{/support}">Soporte</a></li>
+            </ul>
+
+            <div class="footer-social-icons">
+                <a th:href="${socialTiktok != null ? socialTiktok : 'https://tiktok.com/@gringosexy'}" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a th:href="${socialInstagram != null ? socialInstagram : 'https://instagram.com/gringosexy'}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a th:href="${socialYoutube != null ? socialYoutube : 'https://youtube.com/@gringosexy'}" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a th:href="${socialDiscord != null ? socialDiscord : 'https://discord.gg/gringosexy'}" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-bottom-row">
+            <div>
+                © <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy')}">2026</span> GRINGO SEXY. Todos los derechos reservados.
+            </div>
+            <ul class="footer-legal-links">
+                <li><a href="#" style="color:var(--text-dim);">Personalización</a></li>
+                <li><a href="#" style="color:var(--text-dim);">Rendimiento</a></li>
+                <li><a href="#" style="color:var(--text-dim);">Sensibilidad</a></li>
+                <li><a href="#" style="color:var(--text-dim);">Batería</a></li>
+                <li><a href="#" style="color:var(--text-dim);">Privacidad</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<!-- Alerts Fragment -->
+<div th:fragment="alerts">
+    <div class="toast-container" id="toastContainer">
+        <div th:if="${successMessage != null}" class="toast toast-success">
+            <i class="fas fa-check-circle" style="color: #34d399; font-size:1.2rem;"></i>
+            <span th:text="${successMessage}">Operación exitosa</span>
+        </div>
+        <div th:if="${errorMessage != null}" class="toast toast-error">
+            <i class="fas fa-exclamation-circle" style="color: #f87171; font-size:1.2rem;"></i>
+            <span th:text="${errorMessage}">Ha ocurrido un error</span>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts Fragment -->
+<div th:fragment="scripts">
+    <script th:src="@{/js/main.js}"></script>
+</div>
+
+</body>
+</html>

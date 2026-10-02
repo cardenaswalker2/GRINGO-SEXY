@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<!-- User / Dashboard Sidebar Fragment -->
+<aside th:fragment="sidebar(activePage)" class="app-sidebar" id="appSidebar">
+    <div class="sidebar-header">
+        <a th:href="@{/dashboard}" class="site-logo">
+            <i class="fas fa-fire-alt"></i>
+            <span>GRINGO <span class="text-gradient">SEXY</span></span>
+        </a>
+    </div>
+
+    <ul class="sidebar-nav">
+        <li class="sidebar-section-title">Navegación Principal</li>
+        <li>
+            <a th:href="@{/dashboard}" class="sidebar-link" th:classappend="${activePage == 'dashboard' ? 'active' : ''}">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="sidebar-section-title">Categorías Móviles</li>
+        <li>
+            <a th:href="@{/content/modificaciones}" class="sidebar-link" th:classappend="${activePage == 'modificaciones' ? 'active' : ''}">
+                <i class="fas fa-sliders-h"></i>
+                <span>Modificaciones</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/sensibilidades}" class="sidebar-link" th:classappend="${activePage == 'sensibilidades' ? 'active' : ''}">
+                <i class="fas fa-bullseye"></i>
+                <span>Sensibilidades</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/optimizaciones}" class="sidebar-link" th:classappend="${activePage == 'optimizaciones' ? 'active' : ''}">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Optimizaciones</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/rendimiento}" class="sidebar-link" th:classappend="${activePage == 'rendimiento' ? 'active' : ''}">
+                <i class="fas fa-bolt"></i>
+                <span>Rendimiento</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/bateria}" class="sidebar-link" th:classappend="${activePage == 'bateria' ? 'active' : ''}">
+                <i class="fas fa-battery-full"></i>
+                <span>Batería</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/privacidad}" class="sidebar-link" th:classappend="${activePage == 'privacidad' ? 'active' : ''}">
+                <i class="fas fa-shield-alt"></i>
+                <span>Privacidad</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/apps}" class="sidebar-link" th:classappend="${activePage == 'apps' ? 'active' : ''}">
+                <i class="fas fa-cubes"></i>
+                <span>Apps y Herramientas</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/content/personalizacion}" class="sidebar-link" th:classappend="${activePage == 'personalizacion' ? 'active' : ''}">
+                <i class="fas fa-paint-brush"></i>
+                <span>Personalización</span>
+            </a>
+        </li>
+
+        <li class="sidebar-section-title">Cuenta & Ayuda</li>
+        <li>
+            <a th:href="@{/profile}" class="sidebar-link" th:classappend="${activePage == 'profile' ? 'active' : ''}">
+                <i class="fas fa-user-circle"></i>
+                <span>Mi Perfil</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/support}" class="sidebar-link" th:classappend="${activePage == 'support' ? 'active' : ''}">
+                <i class="fas fa-headset"></i>
+                <span>Soporte Técnico</span>
+            </a>
+        </li>
+
+        <!-- Admin Shortcut if authorized -->
+        <li sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="sidebar-section-title">Administración</li>
+        <li sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')">
+            <a th:href="@{/admin}" class="sidebar-link" style="color:#fb7185;">
+                <i class="fas fa-lock"></i>
+                <span>Panel Administrativo</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-footer" th:if="${currentUser != null}">
+        <div class="user-mini-card">
+            <div class="user-avatar" th:text="${#strings.substring(currentUser.fullName, 0, 1)}">U</div>
+            <div class="user-meta">
+                <div class="user-meta-name" th:text="${currentUser.fullName}">Usuario</div>
+                <div class="user-meta-role">
+                    <span th:text="${currentUser.deviceType.displayName}">iPhone</span> • 
+                    <span th:text="${currentUser.role.name()}">USER</span>
+                </div>
+            </div>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-secondary btn-sm" title="Cerrar sesión" style="padding:6px 8px;">
+                    <i class="fas fa-power-off" style="color:#f43f5e;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</aside>
+
+<!-- Admin Sidebar Fragment -->
+<aside th:fragment="admin-sidebar(activePage)" class="app-sidebar" id="appSidebar">
+    <div class="sidebar-header" style="background: rgba(244,63,94,0.08); border-bottom: 1px solid rgba(244,63,94,0.2);">
+        <a th:href="@{/admin}" class="site-logo">
+            <i class="fas fa-shield-halved" style="color:var(--primary);"></i>
+            <span>ADMIN <span class="text-gradient">GS</span></span>
+        </a>
+    </div>
+
+    <ul class="sidebar-nav">
+        <li class="sidebar-section-title">Módulos Administrativos</li>
+        <li>
+            <a th:href="@{/admin}" class="sidebar-link" th:classappend="${activePage == 'admin-dashboard' ? 'active' : ''}">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard Admin</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/users}" class="sidebar-link" th:classappend="${activePage == 'admin-users' ? 'active' : ''}">
+                <i class="fas fa-users-cog"></i>
+                <span>Usuarios & Permisos</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/content}" class="sidebar-link" th:classappend="${activePage == 'admin-content' ? 'active' : ''}">
+                <i class="fas fa-newspaper"></i>
+                <span>Contenido Móvil</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/devices}" class="sidebar-link" th:classappend="${activePage == 'admin-devices' ? 'active' : ''}">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Dispositivos</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/categories}" class="sidebar-link" th:classappend="${activePage == 'admin-categories' ? 'active' : ''}">
+                <i class="fas fa-folder-open"></i>
+                <span>Categorías</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/support}" class="sidebar-link" th:classappend="${activePage == 'admin-support' ? 'active' : ''}">
+                <i class="fas fa-comments"></i>
+                <span>Tickets de Soporte</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/activity}" class="sidebar-link" th:classappend="${activePage == 'admin-activity' ? 'active' : ''}">
+                <i class="fas fa-history"></i>
+                <span>Auditoría & Logs</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/settings}" class="sidebar-link" th:classappend="${activePage == 'admin-settings' ? 'active' : ''}">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+        </li>
+
+        <li class="sidebar-section-title">Vista de Usuario</li>
+        <li>
+            <a th:href="@{/dashboard}" class="sidebar-link" style="color:var(--accent-cyan);">
+                <i class="fas fa-arrow-left"></i>
+                <span>Regresar al Dashboard</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <div class="user-mini-card">
+            <div class="user-avatar" style="background:var(--gradient-gold);">A</div>
+            <div class="user-meta">
+                <div class="user-meta-name" th:text="${currentUser != null ? currentUser.fullName : 'Admin'}">Super Admin</div>
+                <div class="user-meta-role badge badge-primary" style="display:inline-block; font-size:0.65rem; padding:2px 6px;">
+                    CONTROL GLOBAL
+                </div>
+            </div>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-secondary btn-sm" title="Cerrar sesión" style="padding:6px 8px;">
+                    <i class="fas fa-power-off" style="color:#f43f5e;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</aside>
+
+</body>
+</html>

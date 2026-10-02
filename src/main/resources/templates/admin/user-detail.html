@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-users')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <a th:href="@{/admin/users}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver a Usuarios</a>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;" th:text="${'Administrar: ' + user.fullName}">Detalle Usuario</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);" th:text="${'@' + user.username + ' • ' + user.email}">@usuario</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body" style="max-width: 1000px;">
+            <div style="display:grid; grid-template-columns: 1fr 1.4fr; gap:24px;">
+                <!-- User Core Settings Form -->
+                <div class="glass-card">
+                    <h3 style="font-size:1.15rem; margin-bottom:20px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
+                        <i class="fas fa-id-card" style="color:var(--primary); margin-right:6px;"></i> Datos & Estado
+                    </h3>
+
+                    <!-- Status Update Form -->
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/status'}" method="post" style="margin-bottom:20px;">
+                        <label class="form-label">Estado de la Cuenta</label>
+                        <div style="display:flex; gap:10px;">
+                            <select name="status" class="form-select">
+                                <option th:each="st : ${statuses}" th:value="${st}" th:text="${st.name()}" th:selected="${st == user.status}"></option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary">Actualizar</button>
+                        </div>
+                    </form>
+
+                    <!-- Role Update Form -->
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/role'}" method="post" style="margin-bottom:20px;" sec:authorize="hasRole('SUPER_ADMIN')">
+                        <label class="form-label">Rol del Sistema</label>
+                        <div style="display:flex; gap:10px;">
+                            <select name="role" class="form-select">
+                                <option th:each="r : ${roles}" th:value="${r}" th:text="${r.name()}" th:selected="${r == user.role}"></option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary">Asignar</button>
+                        </div>
+                    </form>
+
+                    <!-- Device Update Form -->
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/device'}" method="post">
+                        <label class="form-label">Dispositivo Asignado</label>
+                        <div style="display:flex; gap:10px;">
+                            <select name="deviceType" class="form-select">
+                                <option th:each="dev : ${devices}" th:value="${dev.type}" th:text="${dev.name}" th:selected="${dev.type == user.deviceType}"></option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary">Cambiar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Granular Permissions Matrix Form -->
+                <div class="glass-card">
+                    <h3 style="font-size:1.15rem; margin-bottom:12px;">
+                        <i class="fas fa-key" style="color:var(--accent-cyan); margin-right:6px;"></i> Matriz de Permisos Individuales
+                    </h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
+                        Habilita o deshabilita el acceso individual a cada uno de los módulos de la plataforma para este usuario.
+                    </p>
+
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/permissions'}" th:object="${permissionRequest}" method="post">
+                        <div class="permissions-grid">
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-sliders-h" style="color:var(--primary); margin-right:6px;"></i> Modificaciones</span>
+                                <input type="checkbox" th:field="*{modifications}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-bullseye" style="color:var(--primary); margin-right:6px;"></i> Sensibilidades</span>
+                                <input type="checkbox" th:field="*{sensitivities}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-tachometer-alt" style="color:var(--primary); margin-right:6px;"></i> Optimizaciones</span>
+                                <input type="checkbox" th:field="*{optimizations}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-bolt" style="color:var(--primary); margin-right:6px;"></i> Rendimiento</span>
+                                <input type="checkbox" th:field="*{performance}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-battery-full" style="color:var(--primary); margin-right:6px;"></i> Batería</span>
+                                <input type="checkbox" th:field="*{battery}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-shield-alt" style="color:var(--primary); margin-right:6px;"></i> Privacidad</span>
+                                <input type="checkbox" th:field="*{privacy}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-cubes" style="color:var(--primary); margin-right:6px;"></i> Apps & Tools</span>
+                                <input type="checkbox" th:field="*{apps}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-paint-brush" style="color:var(--primary); margin-right:6px;"></i> Personalización</span>
+                                <input type="checkbox" th:field="*{personalization}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+
+                            <label class="permission-toggle-item">
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-headset" style="color:var(--primary); margin-right:6px;"></i> Soporte</span>
+                                <input type="checkbox" th:field="*{support}" style="accent-color:var(--primary); width:18px; height:18px;">
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" style="margin-top:24px;">
+                            <i class="fas fa-save"></i> Guardar Permisos de Acceso
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

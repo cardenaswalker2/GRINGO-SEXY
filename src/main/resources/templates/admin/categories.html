@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-categories')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Gestión de Categorías</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Módulos disponibles en la plataforma</p>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" data-modal-target="categoryModal">
+                <i class="fas fa-plus-circle"></i> Nueva Categoría
+            </button>
+        </div>
+
+        <div class="app-page-body">
+            <div class="glass-card" style="padding:0; overflow:hidden;">
+                <div class="table-responsive" style="border:none;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Icono</th>
+                                <th>Nombre</th>
+                                <th>Slug</th>
+                                <th>Descripción</th>
+                                <th>Orden</th>
+                                <th>Estado</th>
+                                <th style="text-align:right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="c : ${categories}">
+                                <td>
+                                    <div style="width:38px; height:38px; border-radius:var(--radius-sm); background:rgba(244,63,94,0.1); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+                                        <i th:class="${c.iconClass}"></i>
+                                    </div>
+                                </td>
+                                <td><strong style="color:#ffffff; font-size:0.95rem;" th:text="${c.name}">Sensibilidades</strong></td>
+                                <td style="font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--accent-cyan);" th:text="${c.slug}">sensibilidades</td>
+                                <td style="color:var(--text-muted); font-size:0.85rem;" th:text="${c.description}">Descripción</td>
+                                <td th:text="${c.sortOrder}">1</td>
+                                <td>
+                                    <span th:if="${c.active}" class="badge badge-success">Activo</span>
+                                    <span th:unless="${c.active}" class="badge badge-secondary">Inactivo</span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <div style="display:inline-flex; gap:6px;">
+                                        <!-- Edit Modal Trigger -->
+                                        <button type="button"
+                                                class="btn btn-secondary btn-sm"
+                                                title="Editar"
+                                                data-modal-target="categoryModal"
+                                                th:data-category-id="${c.id}"
+                                                th:data-category-name="${c.name}"
+                                                th:data-category-slug="${c.slug}"
+                                                th:data-category-desc="${c.description}"
+                                                th:data-category-icon="${c.iconClass}"
+                                                th:data-category-order="${c.sortOrder}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+
+                                        <!-- Toggle Status -->
+                                        <form th:action="@{'/admin/categories/toggle/' + ${c.id}}" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-secondary btn-sm" th:title="${c.active ? 'Desactivar' : 'Activar'}">
+                                                <i class="fas" th:classappend="${c.active ? 'fa-toggle-on' : 'fa-toggle-off'}" th:style="${c.active ? 'color:#34d399;' : 'color:var(--text-dim);'}"></i>
+                                            </button>
+                                        </form>
+
+                                        <!-- Delete -->
+                                        <form th:action="@{'/admin/categories/delete/' + ${c.id}}" method="post" style="display:inline;" data-confirm="¿Estás seguro de eliminar esta categoría?">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Eliminar">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create / Edit Category -->
+<div class="modal-backdrop" id="categoryModal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 id="categoryModalTitle" style="font-size:1.15rem; font-weight:700;">Añadir Nueva Categoría</h3>
+            <button type="button" class="btn-close" data-modal-close>&times;</button>
+        </div>
+        <form th:action="@{/admin/categories/save}" method="post">
+            <input type="hidden" id="categoryId" name="id">
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="categoryName">Nombre de la Categoría</label>
+                    <input type="text" id="categoryName" name="name" class="form-control" placeholder="ej. Emuladores, Macros Pro, Gráficos Ultra" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="categorySlug">Slug URL (Opcional - automático)</label>
+                    <input type="text" id="categorySlug" name="slug" class="form-control" placeholder="ej. emuladores-pc">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="categoryIcon">Icono FontAwesome</label>
+                    <input type="text" id="categoryIcon" name="iconClass" class="form-control" placeholder="ej. fas fa-gamepad o fas fa-rocket" value="fas fa-folder">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="categoryDesc">Descripción</label>
+                    <textarea id="categoryDesc" name="description" class="form-control" rows="2" placeholder="Resumen del contenido que albergará este módulo..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="categoryOrder">Orden</label>
+                    <input type="number" id="categoryOrder" name="sortOrder" class="form-control" value="0">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Categoría
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${title})}"></head>
+<body>
+
+<div class="ambient-glow"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="auth-wrapper">
+    <div class="auth-card" style="text-align: center; max-width: 480px;">
+        <div th:if="${success}" style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); display: inline-flex; align-items: center; justify-content: center; font-size: 2.2rem; margin-bottom: 20px;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <div th:unless="${success}" style="width: 72px; height: 72px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); color: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 2.2rem; margin-bottom: 20px;">
+            <i class="fas fa-times-circle"></i>
+        </div>
+
+        <h2 class="auth-title" th:text="${title}">Resultado</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px;" th:text="${message}">Mensaje descriptivo del resultado.</p>
+
+        <a th:if="${success}" th:href="@{/login?verified=true}" class="btn btn-primary btn-block btn-lg">
+            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión Ahora
+        </a>
+
+        <a th:unless="${success}" th:href="@{/register}" class="btn btn-secondary btn-block">
+            <i class="fas fa-redo"></i> Volver a Intentar
+        </a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: footer}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

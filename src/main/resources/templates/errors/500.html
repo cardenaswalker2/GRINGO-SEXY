@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Error del Servidor (500) — GRINGO SEXY')}"></head>
+<body>
+
+<div class="ambient-glow"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="auth-wrapper">
+    <div class="auth-card" style="text-align: center; max-width: 500px;">
+        <div style="font-size: 5rem; font-weight: 900; color: var(--accent-amber); line-height: 1; margin-bottom: 12px; text-shadow: 0 0 30px rgba(245,158,11,0.4);">
+            500
+        </div>
+
+        <h2 class="auth-title" th:text="${errorTitle != null ? errorTitle : 'Error Interno del Servidor'}">Error del Servidor</h2>
+        
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;" th:text="${errorMessage != null ? errorMessage : 'Ha ocurrido un error inesperado al procesar la solicitud. Nuestro equipo técnico ha sido notificado.'}">
+            Ha ocurrido un problema interno.
+        </p>
+
+        <a th:href="@{/}" class="btn btn-primary">
+            <i class="fas fa-home"></i> Ir a la Página Principal
+        </a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: footer}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

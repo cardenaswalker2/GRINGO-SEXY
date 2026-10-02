@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="ambient-glow"></div>
+<div class="ambient-glow-bottom"></div>
+
+<!-- Top Navigation -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Alerts Toast Component -->
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+
+<main>
+    <!-- 1. HERO SECTION -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-wrapper">
+                <!-- Left Editorial Text -->
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span style="width:6px; height:6px; border-radius:50%; background:var(--primary); display:inline-block;"></span>
+                        PLATAFORMA MÓVIL DE ÉLITE
+                    </div>
+
+                    <h1 class="hero-title-main">
+                        GRINGO <span class="text-gradient">SEXY</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Personaliza, optimiza y lleva el rendimiento de tu smartphone al siguiente nivel.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a th:href="@{/register}" class="btn btn-primary btn-lg btn-pill">
+                            Comenzar ahora <i class="fas fa-arrow-right" style="font-size:0.85rem;"></i>
+                        </a>
+                        <a th:href="@{/#funciones}" class="btn btn-secondary btn-lg btn-pill">
+                            Explorar funciones
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Visual Composition with 3D Mockup & Floating Cards -->
+                <div class="hero-visual">
+                    <img th:src="@{/images/hero-mockup.png}" alt="GRINGO SEXY Mobile Optimization Mockup" class="hero-mockup-img">
+
+                    <!-- Floating Indicator Badges -->
+                    <div class="hero-floating-badge badge-float-1">
+                        <div class="floating-icon"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <div style="font-size:0.85rem; font-weight:700; color:#ffffff;">Rendimiento optimizado</div>
+                            <div style="font-size:0.75rem; color:var(--text-dim);">120 FPS Estables</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-floating-badge badge-float-2">
+                        <div class="floating-icon" style="color:var(--accent-pink); background:rgba(236,72,153,0.15);"><i class="fas fa-battery-full"></i></div>
+                        <div>
+                            <div style="font-size:0.85rem; font-weight:700; color:#ffffff;">Mayor duración</div>
+                            <div style="font-size:0.75rem; color:var(--text-dim);">Gestión térmica</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-floating-badge badge-float-3">
+                        <div class="floating-icon" style="color:var(--accent-cyan); background:rgba(6,182,212,0.15);"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <div style="font-size:0.85rem; font-weight:700; color:#ffffff;">Tu privacidad primero</div>
+                            <div style="font-size:0.75rem; color:var(--text-dim);">Sin telemetría</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. QUICK BENEFITS STRIP -->
+    <section class="highlights-strip">
+        <div class="container">
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <i class="fas fa-bolt"></i>
+                    <span>Latencia cero</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>FPS estables</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Multi-dispositivo</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacidad avanzada</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. FUNCIONES PRINCIPALES / MÓDULOS -->
+    <section id="funciones" class="modules-section">
+        <div class="container">
+            <div class="section-tag">FUNCIONES PRINCIPALES</div>
+            <h2 class="section-title">Todo para llevar tu dispositivo<br>al siguiente nivel</h2>
+            <p class="section-subtitle">Herramientas diseñadas para que controles cada aspecto del rendimiento, la personalización y la seguridad de tu smartphone.</p>
+
+            <div class="modules-grid">
+                <!-- Modificaciones -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-sliders-h"></i></div>
+                        <h3>Modificaciones</h3>
+                        <p>Personaliza tu sistema y saca el máximo provecho de tu procesador y opciones ocultas.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Sensibilidades -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-bullseye"></i></div>
+                        <h3>Sensibilidades</h3>
+                        <p>Ajusta la precisión de puntero y responde más rápido en cada juego competitivo.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Optimizaciones -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Optimizaciones</h3>
+                        <p>Elimina procesos innecesarios en segundo plano y mejora la memoria RAM disponible.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Rendimiento -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>Rendimiento</h3>
+                        <p>FPS estables y mayor fluidez gráfica en cada juego pesado y aplicación exigente.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Batería -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-battery-full"></i></div>
+                        <h3>Batería</h3>
+                        <p>Extiende la duración, evita el sobrecalentamiento y controla los ciclos de carga.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Privacidad -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Privacidad</h3>
+                        <p>Tu información siempre protegida mediante bloqueo de telemetría y permisos seguros.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Apps y Herramientas -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-cubes"></i></div>
+                        <h3>Apps y Herramientas</h3>
+                        <p>Utilidades esenciales recomendadas para auditar y monitorear hardware en tiempo real.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Personalización -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-paint-brush"></i></div>
+                        <h3>Personalización</h3>
+                        <p>Ajustes visuales de alto contraste, wallpapers AMOLED oscuros e interfaces elegantes.</p>
+                    </div>
+                    <a th:href="@{/register}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Soporte Técnico -->
+                <div class="module-card">
+                    <div>
+                        <div class="module-icon"><i class="fas fa-headset"></i></div>
+                        <h3>Soporte Técnico</h3>
+                        <p>Asistencia personalizada directa para solucionar cualquier inconveniente de configuración.</p>
+                    </div>
+                    <a th:href="@{/support}" class="module-action-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. COMPATIBILIDAD / DISEÑADO PARA CADA FORMA DE JUGAR -->
+    <section id="compatibilidad" class="compatibility-section">
+        <div class="container">
+            <div class="compatibility-box">
+                <!-- Left: Info & Tabs -->
+                <div>
+                    <div class="section-tag">COMPATIBILIDAD</div>
+                    <h2 style="font-size:2rem; font-weight:800; margin-bottom:12px; line-height:1.2;">
+                        Diseñado para cada<br><span class="text-gradient">forma de jugar</span>
+                    </h2>
+                    <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.6; margin-bottom:24px;">
+                        GRINGO SEXY se adapta a tu dispositivo y a tu estilo. Elige tu marca y recibe una experiencia optimizada con configuraciones específicas para cada modelo.
+                    </p>
+
+                    <div class="device-tab-list">
+                        <button class="device-tab-btn active" data-brand="iphone">
+                            <i class="fab fa-apple"></i>
+                            <span>iPhone</span>
+                        </button>
+                        <button class="device-tab-btn" data-brand="samsung">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Samsung</span>
+                        </button>
+                        <button class="device-tab-btn" data-brand="android">
+                            <i class="fab fa-android"></i>
+                            <span>Android</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Middle: Visual Mockup -->
+                <div class="compatibility-visual" style="text-align:center;">
+                    <img th:src="@{/images/devices-mockup.png}" alt="iPhone & Samsung Game Settings" style="width:100%; max-width:440px; border-radius:var(--radius-lg); box-shadow:0 15px 40px rgba(0,0,0,0.8);">
+                </div>
+
+                <!-- Right: Device Capabilities -->
+                <div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
+                        <i id="compatDeviceIcon" class="fab fa-apple" style="font-size:1.4rem; color:var(--text-main);"></i>
+                        <strong id="compatDeviceTitle" style="font-size:1.15rem; color:#ffffff;">iPhone & iOS</strong>
+                    </div>
+                    <p id="compatDeviceSubtitle" style="font-size:0.88rem; color:var(--text-muted); margin-bottom:24px;">
+                        Rendimiento y estabilidad garantizada con calibración táctil de alta precisión.
+                    </p>
+
+                    <div class="device-feature-list">
+                        <div class="device-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Configuraciones específicas</span>
+                        </div>
+                        <div class="device-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Sincronización en la nube</span>
+                        </div>
+                        <div class="device-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Actualizaciones constantes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CARACTERÍSTICAS DESTACADAS (EDITORIAL GRID) -->
+    <section class="why-us-section">
+        <div class="container">
+            <div class="why-us-card">
+                <div>
+                    <div class="section-tag">POR QUÉ ELEGIRNOS</div>
+                    <h2 style="font-size:2rem; font-weight:800; margin-bottom:12px; line-height:1.2;">Características destacadas</h2>
+                    <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">
+                        Más que una app, es una ventaja competitiva para tu dispositivo.
+                    </p>
+                </div>
+
+                <div class="features-grid-inline">
+                    <div class="feature-inline-item">
+                        <div class="feature-inline-icon"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <h4>Rendimiento real</h4>
+                            <p>FPS estables y mayor fluidez en tus apps y juegos.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-inline-item">
+                        <div class="feature-inline-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <h4>Seguridad total</h4>
+                            <p>Protege tu privacidad y tus datos confidenciales.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-inline-item">
+                        <div class="feature-inline-icon"><i class="fas fa-cog"></i></div>
+                        <div>
+                            <h4>Fácil de usar</h4>
+                            <p>Interfaz intuitiva y sin complicaciones técnicas.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-inline-item">
+                        <div class="feature-inline-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <div>
+                            <h4>Multi-dispositivo</h4>
+                            <p>Funciona en todos tus dispositivos móviles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. FINAL CALL TO ACTION (CTA) -->
+    <section class="cta-banner-section">
+        <div class="container">
+            <div class="cta-banner-card">
+                <div class="cta-banner-info">
+                    <div class="section-tag" style="color:#fb7185;">TU DISPOSITIVO, TU CONTROL</div>
+                    <h3 style="color:#ffffff;">Lleva tu dispositivo<br><span class="text-gradient">más lejos</span></h3>
+                    <p style="color:var(--text-muted); font-size:0.95rem; margin-top:8px;">
+                        • Únete a miles de usuarios que ya están optimizando su experiencia móvil con GRINGO SEXY.
+                    </p>
+                </div>
+
+                <a th:href="@{/register}" class="btn btn-primary btn-lg btn-pill" style="box-shadow: 0 10px 30px rgba(244,63,94,0.45);">
+                    Comenzar ahora <i class="fas fa-arrow-right" style="font-size:0.85rem;"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Redesigned Footer -->
+<div th:replace="~{fragments/navbar :: footer}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

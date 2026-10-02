@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar('profile')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Mi Perfil</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Gestiona tus datos y dispositivo móvil</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body" style="max-width: 800px;">
+            <div class="glass-card" style="margin-bottom: 24px;">
+                <div style="display:flex; align-items:center; gap:20px; margin-bottom:28px;">
+                    <div class="user-avatar" style="width:64px; height:64px; font-size:1.6rem;" th:text="${#strings.substring(currentUser.fullName, 0, 1)}">U</div>
+                    <div>
+                        <h2 style="font-size:1.4rem; font-weight:700;" th:text="${currentUser.fullName}">Nombre</h2>
+                        <p style="color:var(--text-muted); font-size:0.9rem;">
+                            @<span th:text="${currentUser.username}">usuario</span> • 
+                            <span th:text="${currentUser.email}">correo@ejemplo.com</span>
+                        </p>
+                    </div>
+                </div>
+
+                <form th:action="@{/profile}" th:object="${updateRequest}" method="post">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Nombre Completo</label>
+                        <input type="text" id="fullName" th:field="*{fullName}" class="form-control" required>
+                        <div class="form-text-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Dispositivo Principal Actual</label>
+                        <select th:field="*{deviceType}" class="form-select">
+                            <option th:each="dev : ${devices}" th:value="${dev.type}" th:text="${dev.name}"></option>
+                        </select>
+                        <p style="font-size:0.8rem; color:var(--text-dim); margin-top:6px;">
+                            Al cambiar de dispositivo, el dashboard adaptará automáticamente los DPIs y calibraciones táctiles.
+                        </p>
+                    </div>
+
+                    <div style="border-top:1px solid var(--border-subtle); padding-top:20px; margin-top:28px;">
+                        <h3 style="font-size:1.1rem; margin-bottom:16px;">Cambiar Contraseña (Opcional)</h3>
+
+                        <div class="form-group">
+                            <label class="form-label" for="currentPassword">Contraseña Actual</label>
+                            <input type="password" id="currentPassword" th:field="*{currentPassword}" class="form-control" placeholder="••••••••">
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                            <div class="form-group">
+                                <label class="form-label" for="newPassword">Nueva Contraseña</label>
+                                <input type="password" id="newPassword" th:field="*{newPassword}" class="form-control" placeholder="Mínimo 6 caracteres">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="confirmNewPassword">Confirmar Nueva Contraseña</label>
+                                <input type="password" id="confirmNewPassword" th:field="*{confirmNewPassword}" class="form-control" placeholder="Repite la nueva clave">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top:16px;">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

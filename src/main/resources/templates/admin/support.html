@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-support')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Tickets de Soporte Técnico</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Atención y resolución de dudas enviadas por los usuarios</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body">
+            <div th:if="${ticketsPage.empty}" class="glass-card" style="text-align:center; padding:60px 20px;">
+                <i class="fas fa-check-circle" style="font-size:3rem; color:var(--accent-emerald); margin-bottom:16px;"></i>
+                <h3>No hay tickets pendientes</h3>
+                <p style="color:var(--text-muted);">Todas las consultas han sido atendidas o no existen tickets en este momento.</p>
+            </div>
+
+            <div th:unless="${ticketsPage.empty}">
+                <div th:each="t : ${ticketsPage.content}" class="glass-card" style="margin-bottom:24px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+                        <div>
+                            <span class="badge" th:classappend="${t.status.badgeClass}" th:text="${t.status.displayName}">Abierto</span>
+                            <h3 style="font-size:1.2rem; margin-top:6px;" th:text="${t.subject}">Asunto</h3>
+                            <div style="font-size:0.85rem; color:var(--text-dim); margin-top:2px;">
+                                Por <strong style="color:#ffffff;" th:text="${t.userFullName}">Usuario</strong> (<span th:text="${t.userEmail}">email</span>) • 
+                                <span th:text="${#temporals.format(t.createdAt, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="font-size:0.95rem; color:var(--text-main); margin-bottom:16px; background:var(--bg-surface); padding:16px; border-radius:var(--radius-md);" th:text="${t.message}">
+                        Mensaje del usuario...
+                    </p>
+
+                    <!-- Reply Form -->
+                    <form th:action="@{'/admin/support/' + ${t.id} + '/reply'}" method="post" style="border-top:1px solid var(--border-subtle); padding-top:16px;">
+                        <div class="form-group">
+                            <label class="form-label" style="font-size:0.85rem;">Respuesta del Administrador</label>
+                            <textarea name="adminResponse" class="form-control" rows="3" placeholder="Escribe la respuesta que verá el usuario..." th:text="${t.adminResponse}" required></textarea>
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <label class="form-label" style="margin-bottom:0; font-size:0.85rem;">Cambiar Estado:</label>
+                                <select name="status" class="form-select" style="width:auto; padding:6px 12px; font-size:0.85rem;">
+                                    <option th:each="st : ${statuses}" th:value="${st}" th:text="${st.displayName}" th:selected="${st == t.status}"></option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-reply"></i> Enviar Respuesta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

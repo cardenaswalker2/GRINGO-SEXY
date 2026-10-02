@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-activity')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Registro de Auditoría</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Trazabilidad completa de acciones y seguridad</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body">
+            <div class="glass-card" style="padding:0; overflow:hidden;">
+                <div class="table-responsive" style="border:none;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fecha & Hora</th>
+                                <th>Acción</th>
+                                <th>Usuario / Actor</th>
+                                <th>Descripción del Evento</th>
+                                <th>Dirección IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${logsPage.empty}">
+                                <td colspan="5" style="text-align:center; padding:40px; color:var(--text-muted);">
+                                    No hay registros de actividad aún.
+                                </td>
+                            </tr>
+                            <tr th:each="l : ${logsPage.content}">
+                                <td style="font-size:0.85rem;" th:text="${#temporals.format(l.timestamp, 'dd/MM/yyyy HH:mm:ss')}">01/01/2026 12:00:00</td>
+                                <td>
+                                    <span class="badge badge-info" th:text="${l.action}">ACTION</span>
+                                </td>
+                                <td>
+                                    <strong style="color:#ffffff;" th:text="${l.username != null ? l.username : 'Sistema'}">Usuario</strong>
+                                </td>
+                                <td th:text="${l.description}">Descripción</td>
+                                <td style="font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--text-dim);" th:text="${l.ipAddress != null ? l.ipAddress : '127.0.0.1'}">127.0.0.1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container" style="padding:16px 24px;" th:if="${logsPage.totalPages > 1}">
+                    <div style="font-size:0.85rem; color:var(--text-muted);">
+                        Página <strong th:text="${logsPage.number + 1}">1</strong> de <strong th:text="${logsPage.totalPages}">5</strong>
+                    </div>
+
+                    <div class="pagination-nav">
+                        <a th:if="${logsPage.hasPrevious()}" th:href="@{/admin/activity(page=${logsPage.number - 1})}" class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                        <span th:unless="${logsPage.hasPrevious()}" class="page-btn disabled"><i class="fas fa-chevron-left"></i></span>
+
+                        <th:block th:each="i : ${#numbers.sequence(0, logsPage.totalPages - 1)}">
+                            <a th:if="${i >= logsPage.number - 2 and i <= logsPage.number + 2}"
+                               th:href="@{/admin/activity(page=${i})}"
+                               th:text="${i + 1}"
+                               class="page-btn"
+                               th:classappend="${i == logsPage.number ? 'active' : ''}">1</a>
+                        </th:block>
+
+                        <a th:if="${logsPage.hasNext()}" th:href="@{/admin/activity(page=${logsPage.number + 1})}" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                        <span th:unless="${logsPage.hasNext()}" class="page-btn disabled"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-devices')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <button class="hamburger-btn" id="sidebarToggleBtn" aria-label="Abrir panel" style="display:inline-block;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;">Gestión de Dispositivos</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Administración de marcas, iconos y modelos soportados</p>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" data-modal-target="deviceModal">
+                <i class="fas fa-plus-circle"></i> Nuevo Dispositivo
+            </button>
+        </div>
+
+        <div class="app-page-body">
+            <div class="glass-card" style="padding:0; overflow:hidden;">
+                <div class="table-responsive" style="border:none;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Icono</th>
+                                <th>Nombre</th>
+                                <th>Identificador</th>
+                                <th>Descripción</th>
+                                <th>Orden</th>
+                                <th>Estado</th>
+                                <th style="text-align:right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="d : ${devices}">
+                                <td>
+                                    <div style="width:38px; height:38px; border-radius:var(--radius-sm); background:rgba(244,63,94,0.1); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+                                        <i th:class="${d.iconClass}"></i>
+                                    </div>
+                                </td>
+                                <td><strong style="color:#ffffff; font-size:0.95rem;" th:text="${d.name}">iPhone</strong></td>
+                                <td style="font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--accent-cyan);" th:text="${d.type != null ? d.type.name() : 'CUSTOM'}">IPHONE</td>
+                                <td style="color:var(--text-muted); font-size:0.85rem;" th:text="${d.description}">Apple iOS Devices</td>
+                                <td th:text="${d.sortOrder}">1</td>
+                                <td>
+                                    <span th:if="${d.active}" class="badge badge-success">Activo</span>
+                                    <span th:unless="${d.active}" class="badge badge-secondary">Inactivo</span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <div style="display:inline-flex; gap:6px;">
+                                        <!-- Edit Modal Trigger -->
+                                        <button type="button"
+                                                class="btn btn-secondary btn-sm"
+                                                title="Editar"
+                                                data-modal-target="deviceModal"
+                                                th:data-device-id="${d.id}"
+                                                th:data-device-name="${d.name}"
+                                                th:data-device-code="${d.type != null ? d.type.name() : 'OTHER'}"
+                                                th:data-device-desc="${d.description}"
+                                                th:data-device-icon="${d.iconClass}"
+                                                th:data-device-order="${d.sortOrder}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+
+                                        <!-- Toggle Status -->
+                                        <form th:action="@{'/admin/devices/toggle/' + ${d.id}}" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-secondary btn-sm" th:title="${d.active ? 'Desactivar' : 'Activar'}">
+                                                <i class="fas" th:classappend="${d.active ? 'fa-toggle-on' : 'fa-toggle-off'}" th:style="${d.active ? 'color:#34d399;' : 'color:var(--text-dim);'}"></i>
+                                            </button>
+                                        </form>
+
+                                        <!-- Delete -->
+                                        <form th:action="@{'/admin/devices/delete/' + ${d.id}}" method="post" style="display:inline;" data-confirm="¿Estás seguro de eliminar este dispositivo?">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Eliminar">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create / Edit Device -->
+<div class="modal-backdrop" id="deviceModal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 id="deviceModalTitle" style="font-size:1.15rem; font-weight:700;">Añadir Nuevo Dispositivo</h3>
+            <button type="button" class="btn-close" data-modal-close>&times;</button>
+        </div>
+        <form th:action="@{/admin/devices/save}" method="post">
+            <input type="hidden" id="deviceId" name="id">
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="deviceName">Nombre de la Marca o Modelo</label>
+                    <input type="text" id="deviceName" name="name" class="form-control" placeholder="ej. Realme, Asus ROG, Black Shark, Poco" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="deviceCode">Código / Familia</label>
+                    <select id="deviceCode" name="codeName" class="form-select">
+                        <option th:each="dt : ${deviceTypes}" th:value="${dt.name()}" th:text="${dt.name() + ' (' + dt.displayName + ')'}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="deviceIcon">Clase de Icono FontAwesome</label>
+                    <input type="text" id="deviceIcon" name="iconClass" class="form-control" placeholder="ej. fas fa-mobile-alt o fab fa-apple" value="fas fa-mobile-alt">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="deviceDesc">Descripción</label>
+                    <textarea id="deviceDesc" name="description" class="form-control" rows="2" placeholder="Gama de dispositivos y compatibilidad..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="deviceOrder">Orden de Visualización</label>
+                    <input type="number" id="deviceOrder" name="sortOrder" class="form-control" value="0">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Dispositivo
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

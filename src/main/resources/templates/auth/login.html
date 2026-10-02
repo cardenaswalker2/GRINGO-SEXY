@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Iniciar Sesión — GRINGO SEXY')}"></head>
+<body>
+
+<div class="ambient-glow"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-logo">
+                <i class="fas fa-fire-alt"></i>
+                <span>GRINGO <span class="text-gradient">SEXY</span></span>
+            </div>
+            <h2 class="auth-title">Bienvenido de Vuelta</h2>
+            <p class="auth-subtitle">Ingresa tus credenciales para acceder a tus configuraciones</p>
+        </div>
+
+        <form th:action="@{/login}" method="post" id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="username">
+                    <i class="fas fa-user" style="color:var(--text-dim); margin-right:4px;"></i> Correo Electrónico o Usuario
+                </label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="ej. gringo@gmail.com o gringo2026" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">
+                    <i class="fas fa-lock" style="color:var(--text-dim); margin-right:4px;"></i> Contraseña
+                </label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+
+            <div class="auth-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="remember-me" id="rememberMe">
+                    <span>Recordarme</span>
+                </label>
+                <a th:href="@{/forgot-password}" style="color:var(--text-muted); font-size:0.85rem;">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitLoginBtn">
+                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            ¿Aún no tienes una cuenta? <a th:href="@{/register}">Regístrate aquí</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: footer}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

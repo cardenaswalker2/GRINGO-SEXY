@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: admin-sidebar('admin-content')}"></div>
+
+    <div class="app-main-content">
+        <div class="app-topbar">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <a th:href="@{/admin/content}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver</a>
+                <div>
+                    <h2 style="font-size:1.3rem; font-weight:800;" th:text="${isNew ? 'Nuevo Contenido' : 'Editar Contenido'}">Editor</h2>
+                    <p style="font-size:0.82rem; color:var(--text-dim);">Redacta instrucciones técnicas y calibraciones</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-page-body" style="max-width: 900px;">
+            <div class="glass-card">
+                <form th:action="${isNew ? '/admin/content/new' : '/admin/content/' + contentId + '/edit'}" th:object="${contentRequest}" method="post">
+                    <div class="form-group">
+                        <label class="form-label" for="title">Título del Contenido</label>
+                        <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="ej. Sensibilidad Pro para iPhone 15 Pro Max (120 FPS)" required>
+                        <div class="form-text-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="category">Categoría</label>
+                            <select id="category" th:field="*{category}" class="form-select" required>
+                                <option th:each="cat : ${categories}" th:value="${cat.code}" th:text="${cat.name}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="slug">Slug URL (Opcional - se autogenera)</label>
+                            <input type="text" id="slug" th:field="*{slug}" class="form-control" placeholder="sensibilidad-iphone-15-pro">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="summary">Resumen Breve (Aparece en las tarjetas)</label>
+                        <textarea id="summary" th:field="*{summary}" class="form-control" rows="2" placeholder="Resumen conciso del contenido y beneficios..." required></textarea>
+                        <div class="form-text-error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="body">Instrucciones & Contenido Detallado</label>
+                        <textarea id="body" th:field="*{body}" class="form-control" rows="10" placeholder="Escribe aquí los pasos detallados, valores de DPI, velocidad de puntero, configuraciones en el juego..." required></textarea>
+                        <div class="form-text-error" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>
+                    </div>
+
+                    <!-- Target Devices -->
+                    <div class="form-group" style="background:var(--bg-surface); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
+                        <label class="form-label">Dispositivos de Destino</label>
+                        <div style="margin-bottom:12px;">
+                            <label class="checkbox-label" style="font-weight:600; color:#ffffff;">
+                                <input type="checkbox" th:field="*{applyToAllDevices}" id="allDevicesCheck">
+                                <span>Habilitar para TODOS los dispositivos (Universal)</span>
+                            </label>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:10px; margin-top:14px;">
+                            <div th:each="dev : ${devices}">
+                                <label class="checkbox-label" style="font-size:0.85rem;">
+                                    <input type="checkbox" th:field="*{targetDevices}" th:value="${dev.type}">
+                                    <span th:text="${dev.name}">iPhone</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Options -->
+                    <div style="display:flex; gap:24px; margin:20px 0;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" th:field="*{active}">
+                            <span>Publicación Activa</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" th:field="*{featured}">
+                            <span>Destacar Contenido</span>
+                        </label>
+                    </div>
+
+                    <div style="display:flex; gap:12px; margin-top:24px;">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save"></i> Guardar y Publicar
+                        </button>
+                        <a th:href="@{/admin/content}" class="btn btn-secondary btn-lg">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: alerts}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+</body>
+</html>

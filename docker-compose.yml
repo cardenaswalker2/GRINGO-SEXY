@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: gringosexy-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: gringosexy_db
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build: .
+    container_name: gringosexy-app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/gringosexy_db
+      APP_BASE_URL: http://localhost:8080
+      SUPERADMIN_USERNAME: admin
+      SUPERADMIN_PASSWORD: Admin12345!
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo_data:
