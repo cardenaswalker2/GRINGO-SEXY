@@ -25,9 +25,15 @@ public class HomeController {
     @Value("${app.social.youtube:https://youtube.com/@gringosexy}")
     private String socialYoutube;
 
-    public HomeController(CategoryService categoryService, DeviceService deviceService) {
+    private final com.gringosexy.service.ContentService contentService;
+
+    @Value("${app.contact.whatsapp-number:+12392450044}")
+    private String whatsappNumber;
+
+    public HomeController(CategoryService categoryService, DeviceService deviceService, com.gringosexy.service.ContentService contentService) {
         this.categoryService = categoryService;
         this.deviceService = deviceService;
+        this.contentService = contentService;
     }
 
     @GetMapping("/")
@@ -40,5 +46,27 @@ public class HomeController {
         model.addAttribute("socialInstagram", socialInstagram);
         model.addAttribute("socialYoutube", socialYoutube);
         return "home/index";
+    }
+
+    @GetMapping("/preview/{categorySlug}")
+    public String previewCategory(@org.springframework.web.bind.annotation.PathVariable("categorySlug") String categorySlug, Model model) {
+        com.gringosexy.enums.ContentCategory categoryEnum = com.gringosexy.enums.ContentCategory.fromSlug(categorySlug);
+        if (categoryEnum == null) {
+            return "redirect:/#funciones";
+        }
+
+        com.gringosexy.model.Category category = categoryService.getByCode(categoryEnum);
+        java.util.List<com.gringosexy.model.Content> sampleContents = contentService.getContentsForUserCategory(null, categoryEnum);
+
+        String cleanNumber = whatsappNumber.replaceAll("[^0-9]", "");
+        String encodedMsg = java.net.URLEncoder.encode("Hola! Vi las funciones de " + category.getName() + " en GRINGO SEXY y quiero activar mi cuenta para desbloquear todo el contenido.", java.nio.charset.StandardCharsets.UTF_8);
+        String whatsappDirectUrl = "https://wa.me/" + cleanNumber + "?text=" + encodedMsg;
+
+        model.addAttribute("category", category);
+        model.addAttribute("contents", sampleContents);
+        model.addAttribute("whatsappDirectUrl", whatsappDirectUrl);
+        model.addAttribute("whatsappNumberDisplay", whatsappNumber);
+        model.addAttribute("pageTitle", "Vista Previa: " + category.getName() + " — GRINGO SEXY");
+        return "home/preview";
     }
 }

@@ -60,8 +60,10 @@ public class SecurityConfig {
                 // Public routes
                 .requestMatchers(
                     "/",
+                    "/preview/**",
                     "/login",
                     "/register",
+                    "/pending-activation",
                     "/verify-email",
                     "/forgot-password",
                     "/reset-password"
