@@ -145,22 +145,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const deviceTitle = document.querySelector('#compatDeviceTitle');
     const deviceSubtitle = document.querySelector('#compatDeviceSubtitle');
     const deviceIcon = document.querySelector('#compatDeviceIcon');
+    const compatFeature1 = document.querySelector('#compatFeature1');
+    const compatFeature2 = document.querySelector('#compatFeature2');
+    const compatFeature3 = document.querySelector('#compatFeature3');
 
     const deviceData = {
-        'iphone': {
-            title: 'iPhone & iOS',
-            subtitle: 'Rendimiento y estabilidad garantizada con calibración táctil de alta precisión.',
-            icon: 'fab fa-apple'
-        },
         'samsung': {
             title: 'Samsung Galaxy',
-            subtitle: 'Optimizaciones de One UI, Game Booster avanzado y calibración de latencia de pantalla.',
-            icon: 'fas fa-mobile-alt'
+            subtitle: 'Calibración especial One UI, DPI recomendado y Game Booster Plus optimizado para máxima tasa de refresco táctil.',
+            icon: 'fas fa-mobile-alt',
+            f1: 'DPI óptimo (580 - 640) para One UI',
+            f2: 'Optimización de Game Booster y táctil',
+            f3: 'Limpieza de RAM y procesos secundarios'
         },
-        'android': {
-            title: 'Android Universal (Xiaomi, POCO, etc.)',
-            subtitle: 'Ajustes de memoria virtual, aceleración gráfica por GPU y configuraciones de DPI.',
-            icon: 'fab fa-android'
+        'motorola': {
+            title: 'Motorola Moto Series',
+            subtitle: 'Configuración para pantallas Moto 120Hz/144Hz, velocidad de puntero y ajuste de latencia táctil en Edge y Moto G.',
+            icon: 'fas fa-mobile-android',
+            f1: 'Aceleración táctil y DPI para Moto G & Edge',
+            f2: 'GameTime Turbo configurado al 100%',
+            f3: 'Estabilidad de FPS en partidas largas'
+        },
+        'xiaomi': {
+            title: 'Xiaomi, Redmi & POCO',
+            subtitle: 'Optimización especial para MIUI & HyperOS, Game Turbo avanzado y eliminación del retraso en el panel táctil.',
+            icon: 'fas fa-mobile',
+            f1: 'Respuesta táctil y sensibilidad Game Turbo',
+            f2: 'DPI y aceleración de hardware HyperOS/MIUI',
+            f3: 'Bloqueo de thermal throttling y caídas de FPS'
+        },
+        'realme': {
+            title: 'Realme & GT Series',
+            subtitle: 'Modo GT al máximo, frecuencia de muestreo táctil instantánea y calibración de puntero para tiros precisos.',
+            icon: 'fas fa-bolt',
+            f1: 'Modo GT & Ultra Touch Response',
+            f2: 'Calibración DPI milimétrica para Realme UI',
+            f3: 'Aceleración de gráficos y enfriamiento de CPU'
+        },
+        'iphone': {
+            title: 'iPhone & iOS',
+            subtitle: 'Configuración de AssistiveTouch, Switch Control a 120 DPI y velocidad de puntero para iPhone 11 al 16 Pro Max.',
+            icon: 'fab fa-apple',
+            f1: 'Sensibilidad de seguimiento 100% y 120 DPI',
+            f2: 'Respuesta táctil 3D/Haptic Touch calibrada',
+            f3: '120 FPS estables sin calentamiento'
         }
     };
 
@@ -170,12 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 deviceTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
 
-                const brand = tab.getAttribute('data-brand') || 'iphone';
+                const brand = tab.getAttribute('data-brand') || 'samsung';
                 const data = deviceData[brand];
-                if (data && deviceTitle && deviceSubtitle && deviceIcon) {
-                    deviceTitle.textContent = data.title;
-                    deviceSubtitle.textContent = data.subtitle;
-                    deviceIcon.className = data.icon;
+                if (data) {
+                    if (deviceTitle) deviceTitle.textContent = data.title;
+                    if (deviceSubtitle) deviceSubtitle.textContent = data.subtitle;
+                    if (deviceIcon) deviceIcon.className = data.icon;
+                    if (compatFeature1 && data.f1) compatFeature1.textContent = data.f1;
+                    if (compatFeature2 && data.f2) compatFeature2.textContent = data.f2;
+                    if (compatFeature3 && data.f3) compatFeature3.textContent = data.f3;
                 }
             });
         });

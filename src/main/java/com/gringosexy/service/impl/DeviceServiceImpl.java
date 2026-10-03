@@ -92,11 +92,39 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public void initDefaultDevices() {
-        if (deviceRepository.count() == 0) {
-            int order = 1;
-            for (DeviceType type : DeviceType.values()) {
-                Device device = new Device(type, type.getDisplayName(), type.getDescription(), type.getIconClass(), order++);
-                deviceRepository.save(device);
+        DeviceType[] coreDevices = new DeviceType[] {
+            DeviceType.SAMSUNG,
+            DeviceType.MOTOROLA,
+            DeviceType.XIAOMI,
+            DeviceType.REALME,
+            DeviceType.IPHONE
+        };
+
+        int order = 1;
+        for (DeviceType type : coreDevices) {
+            Device dev = deviceRepository.findByType(type).orElse(null);
+            if (dev == null) {
+                dev = new Device(type, type.getDisplayName(), type.getDescription(), type.getIconClass(), order);
+            } else {
+                dev.setName(type.getDisplayName());
+                dev.setDescription(type.getDescription());
+                dev.setIconClass(type.getIconClass());
+                dev.setSortOrder(order);
+                dev.setActive(true);
+            }
+            deviceRepository.save(dev);
+            order++;
+        }
+
+        // Delete non-core devices from repository
+        List<Device> all = deviceRepository.findAll();
+        for (Device existing : all) {
+            if (existing.getType() != DeviceType.SAMSUNG &&
+                existing.getType() != DeviceType.MOTOROLA &&
+                existing.getType() != DeviceType.XIAOMI &&
+                existing.getType() != DeviceType.REALME &&
+                existing.getType() != DeviceType.IPHONE) {
+                deviceRepository.delete(existing);
             }
         }
     }

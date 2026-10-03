@@ -1,16 +1,20 @@
 package com.gringosexy.enums;
 
 public enum DeviceType {
-    IPHONE("iPhone", "Apple iOS Devices", "fab fa-apple"),
-    SAMSUNG("Samsung", "Samsung Galaxy Devices", "fas fa-mobile-alt"),
-    XIAOMI("Xiaomi", "Xiaomi & Poco Devices", "fas fa-mobile"),
-    MOTOROLA("Motorola", "Motorola Moto Devices", "fas fa-mobile-android"),
+    SAMSUNG("Samsung", "Samsung Galaxy (One UI & Game Booster)", "fas fa-mobile-alt"),
+    MOTOROLA("Motorola", "Motorola Moto Series (MyUX & Edge)", "fas fa-mobile-android"),
+    XIAOMI("Xiaomi", "Xiaomi, Redmi & POCO (MIUI / HyperOS)", "fas fa-mobile"),
+    REALME("Realme", "Realme & GT Series (Realme UI)", "fas fa-bolt"),
+    IPHONE("iPhone", "Apple iOS Devices (11 al 16 Pro Max)", "fab fa-apple"),
+    
+    // Legacy mapping to avoid Mongo deserialization errors
     HUAWEI("Huawei", "Huawei Devices", "fas fa-mobile-screen"),
-    OPPO("Oppo", "Oppo & Realme Devices", "fas fa-mobile-retro"),
+    OPPO("Oppo", "Oppo Devices", "fas fa-mobile-retro"),
     VIVO("Vivo", "Vivo Devices", "fas fa-mobile-screen-button"),
     PIXEL("Google Pixel", "Google Pixel Devices", "fab fa-google"),
     ONEPLUS("OnePlus", "OnePlus Devices", "fas fa-plus-square"),
     OTHER("Otro / Genérico", "Otros dispositivos móviles", "fas fa-gamepad");
+
 
     private final String displayName;
     private final String description;

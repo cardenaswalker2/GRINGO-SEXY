@@ -147,59 +147,71 @@
             <div class="compatibility-box">
                 <!-- Left: Info & Tabs -->
                 <div>
-                    <div class="section-tag">COMPATIBILIDAD</div>
+                    <div class="section-tag">DISPOSITIVOS SOPORTADOS</div>
                     <h2 style="font-size:2rem; font-weight:800; margin-bottom:12px; line-height:1.2;">
-                        Diseñado para cada<br><span class="text-gradient">forma de jugar</span>
+                        Calibración exacta para<br><span class="text-gradient">tu smartphone</span>
                     </h2>
                     <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.6; margin-bottom:24px;">
-                        GRINGO SEXY se adapta a tu dispositivo y a tu estilo. Elige tu marca y recibe una experiencia optimizada con configuraciones específicas para cada modelo.
+                        Selecciona tu marca para previsualizar las optimizaciones. Para desbloquear el acceso completo con todas las configuraciones secretas, regístrate y activa tu cuenta por WhatsApp.
                     </p>
 
-                    <div class="device-tab-list">
-                        <button class="device-tab-btn active" data-brand="iphone">
-                            <i class="fab fa-apple"></i>
-                            <span>iPhone</span>
-                        </button>
-                        <button class="device-tab-btn" data-brand="samsung">
+                    <div class="device-tab-list" style="display:flex; flex-wrap:wrap; gap:8px;">
+                        <button class="device-tab-btn active" data-brand="samsung">
                             <i class="fas fa-mobile-alt"></i>
                             <span>Samsung</span>
                         </button>
-                        <button class="device-tab-btn" data-brand="android">
-                            <i class="fab fa-android"></i>
-                            <span>Android</span>
+                        <button class="device-tab-btn" data-brand="motorola">
+                            <i class="fas fa-mobile-android"></i>
+                            <span>Motorola</span>
+                        </button>
+                        <button class="device-tab-btn" data-brand="xiaomi">
+                            <i class="fas fa-mobile"></i>
+                            <span>Xiaomi</span>
+                        </button>
+                        <button class="device-tab-btn" data-brand="realme">
+                            <i class="fas fa-bolt"></i>
+                            <span>Realme</span>
+                        </button>
+                        <button class="device-tab-btn" data-brand="iphone">
+                            <i class="fab fa-apple"></i>
+                            <span>iPhone</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Middle: Visual Mockup -->
                 <div class="compatibility-visual" style="text-align:center;">
-                    <img th:src="@{/images/devices-mockup.png}" alt="iPhone & Samsung Game Settings" style="width:100%; max-width:440px; border-radius:var(--radius-lg); box-shadow:0 15px 40px rgba(0,0,0,0.8);">
+                    <img th:src="@{/images/devices-mockup.png}" alt="Samsung, Motorola, Xiaomi, Realme & iPhone Game Settings" style="width:100%; max-width:440px; border-radius:var(--radius-lg); box-shadow:0 15px 40px rgba(0,0,0,0.8);">
                 </div>
 
-                <!-- Right: Device Capabilities -->
+                <!-- Right: Device Capabilities & Action -->
                 <div>
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
-                        <i id="compatDeviceIcon" class="fab fa-apple" style="font-size:1.4rem; color:var(--text-main);"></i>
-                        <strong id="compatDeviceTitle" style="font-size:1.15rem; color:#ffffff;">iPhone & iOS</strong>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+                        <i id="compatDeviceIcon" class="fas fa-mobile-alt" style="font-size:1.4rem; color:var(--primary);"></i>
+                        <strong id="compatDeviceTitle" style="font-size:1.2rem; color:#ffffff;">Samsung Galaxy</strong>
                     </div>
-                    <p id="compatDeviceSubtitle" style="font-size:0.88rem; color:var(--text-muted); margin-bottom:24px;">
-                        Rendimiento y estabilidad garantizada con calibración táctil de alta precisión.
+                    <p id="compatDeviceSubtitle" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px; line-height:1.6;">
+                        Calibración especial One UI, DPI recomendado y Game Booster Plus optimizado para máxima tasa de refresco táctil.
                     </p>
 
-                    <div class="device-feature-list">
+                    <div class="device-feature-list" style="margin-bottom:24px;">
                         <div class="device-feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Configuraciones específicas</span>
+                            <i class="fas fa-check-circle" style="color:var(--accent-emerald);"></i>
+                            <span id="compatFeature1">Ajustes de DPI & Puntero precisos</span>
                         </div>
                         <div class="device-feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Sincronización en la nube</span>
+                            <i class="fas fa-check-circle" style="color:var(--accent-emerald);"></i>
+                            <span id="compatFeature2">Reducción de latencia táctil en pantalla</span>
                         </div>
                         <div class="device-feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Actualizaciones constantes</span>
+                            <i class="fas fa-check-circle" style="color:var(--accent-emerald);"></i>
+                            <span id="compatFeature3">Modificaciones del sistema y RAM limpia</span>
                         </div>
                     </div>
+
+                    <a th:href="@{/register}" class="btn btn-primary btn-block btn-pill" style="box-shadow: 0 6px 20px rgba(244,63,94,0.35); text-align:center;">
+                        Obtener para mi dispositivo <i class="fas fa-arrow-right" style="font-size:0.8rem;"></i>
+                    </a>
                 </div>
             </div>
         </div>
