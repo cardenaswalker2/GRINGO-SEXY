@@ -46,7 +46,13 @@
             </button>
         </form>
 
-        <div class="auth-footer">
+        <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-subtle); text-align: center;">
+            <a th:href="@{/pending-activation}" style="color: #25d366; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fab fa-whatsapp"></i> ¿Pendiente de activación o pago? Contactar por WhatsApp
+            </a>
+        </div>
+
+        <div class="auth-footer" style="margin-top: 14px;">
             ¿Aún no tienes una cuenta? <a th:href="@{/register}">Regístrate aquí</a>
         </div>
     </div>

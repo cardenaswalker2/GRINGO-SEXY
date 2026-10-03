@@ -1,15 +1,10 @@
 package com.gringosexy.enums;
 
 public enum ContentCategory {
-    MODIFICATIONS("Modificaciones", "modificaciones", "Ajustes del sistema, DPI, puntero y opciones de desarrollador", "fas fa-sliders-h", 1),
-    SENSITIVITIES("Sensibilidades", "sensibilidades", "Configuraciones y sensibilidades óptimas para juegos y respuesta táctil", "fas fa-bullseye", 2),
-    OPTIMIZATIONS("Optimizaciones", "optimizaciones", "Mejoras de memoria RAM, caché y limpieza de servicios en segundo plano", "fas fa-tachometer-alt", 3),
-    PERFORMANCE("Rendimiento", "rendimiento", "Configuraciones para máximos FPS, aceleración gráfica y refrigeración", "fas fa-bolt", 4),
-    BATTERY("Batería", "bateria", "Calibración, ahorro extremo y optimización de ciclos de carga", "fas fa-battery-full", 5),
-    PRIVACY("Privacidad", "privacidad", "Seguridad, permisos ocultos, telemetría y protección de datos", "fas fa-shield-alt", 6),
-    APPS("Apps y Herramientas", "apps", "Utilidades recomendadas, APKs/IPAs y optimizadores oficiales", "fas fa-cubes", 7),
-    PERSONALIZATION("Personalización", "personalizacion", "Temas, iconos, animaciones y diseño visual personalizado", "fas fa-paint-brush", 8),
-    SUPPORT("Soporte", "soporte", "Canal de ayuda técnica personalizada y resolución de dudas", "fas fa-headset", 9);
+    MODIFICATIONS("Modificaciones", "modificaciones", "Personaliza tu sistema y saca el máximo provecho de tu procesador y opciones ocultas", "fas fa-sliders-h", 1),
+    SENSITIVITIES("Sensibilidades", "sensibilidades", "Ajusta la precisión de puntero y responde más rápido en cada juego competitivo", "fas fa-bullseye", 2),
+    OPTIMIZATIONS("Optimizaciones", "optimizaciones", "Elimina procesos innecesarios en segundo plano y mejora la memoria RAM disponible", "fas fa-bolt", 3);
+
 
     private final String displayName;
     private final String slug;

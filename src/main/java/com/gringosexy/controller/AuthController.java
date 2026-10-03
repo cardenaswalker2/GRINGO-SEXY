@@ -24,6 +24,12 @@ public class AuthController {
     private final DeviceService deviceService;
     private final VerificationService verificationService;
 
+    @org.springframework.beans.factory.annotation.Value("${app.contact.whatsapp-number:+12392450044}")
+    private String whatsappNumber;
+
+    @org.springframework.beans.factory.annotation.Value("${app.contact.whatsapp-message:Hola, acabo de registrarme en GRINGO SEXY con el usuario: %s. Deseo realizar el pago para activar mi cuenta.}")
+    private String whatsappMessageTemplate;
+
     public AuthController(UserService userService,
                           DeviceService deviceService,
                           VerificationService verificationService) {
@@ -37,9 +43,10 @@ public class AuthController {
                             @RequestParam(value = "logout", required = false) String logout,
                             @RequestParam(value = "verified", required = false) String verified,
                             @RequestParam(value = "reset", required = false) String reset,
+                            @RequestParam(value = "pending", required = false) String pending,
                             Model model) {
         if (error != null) {
-            model.addAttribute("errorMessage", "Credenciales incorrectas o tu cuenta no está habilitada.");
+            model.addAttribute("errorMessage", "Credenciales incorrectas o tu cuenta está pendiente de aprobación/pago.");
         }
         if (logout != null) {
             model.addAttribute("successMessage", "Has cerrado sesión correctamente.");
@@ -49,6 +56,9 @@ public class AuthController {
         }
         if (reset != null) {
             model.addAttribute("successMessage", "Tu contraseña ha sido restablecida. Inicia sesión con tus nuevas credenciales.");
+        }
+        if (pending != null) {
+            model.addAttribute("infoMessage", "Tu cuenta está pendiente de activación. Contáctanos por WhatsApp para completar tu pago.");
         }
         return "auth/login";
     }
@@ -73,7 +83,8 @@ public class AuthController {
         try {
             String clientIp = SecurityUtils.getClientIp(request);
             userService.registerUser(registerRequest, clientIp);
-            return "redirect:/verify-email?email=" + registerRequest.getEmail();
+            return "redirect:/pending-activation?username=" + java.net.URLEncoder.encode(registerRequest.getUsername(), java.nio.charset.StandardCharsets.UTF_8)
+                    + "&email=" + java.net.URLEncoder.encode(registerRequest.getEmail(), java.nio.charset.StandardCharsets.UTF_8);
         } catch (ValidationException e) {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("devices", deviceService.getActiveDevices());
@@ -84,6 +95,23 @@ public class AuthController {
             return "auth/register";
         }
     }
+
+    @GetMapping("/pending-activation")
+    public String pendingActivation(@RequestParam(value = "username", required = false) String username,
+                                    @RequestParam(value = "email", required = false) String email,
+                                    Model model) {
+        String cleanNumber = whatsappNumber.replaceAll("[^0-9]", "");
+        String displayUsername = username != null && !username.isBlank() ? username : "usuario";
+        String encodedMessage = java.net.URLEncoder.encode(String.format(whatsappMessageTemplate, displayUsername), java.nio.charset.StandardCharsets.UTF_8);
+        String whatsappUrl = "https://wa.me/" + cleanNumber + "?text=" + encodedMessage;
+
+        model.addAttribute("username", displayUsername);
+        model.addAttribute("email", email != null ? email : "");
+        model.addAttribute("whatsappNumberDisplay", whatsappNumber);
+        model.addAttribute("whatsappUrl", whatsappUrl);
+        return "auth/pending-activation";
+    }
+
 
     @GetMapping("/verify-email")
     public String verifyEmailNoticeOrToken(@RequestParam(value = "token", required = false) String token,

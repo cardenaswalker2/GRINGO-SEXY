@@ -70,9 +70,6 @@ public class VerificationServiceImpl implements VerificationService {
                 .orElseThrow(() -> new ResourceNotFoundException("El usuario asociado al token no existe."));
 
         user.setEmailVerified(true);
-        if (user.getStatus() == UserStatus.PENDING) {
-            user.setStatus(UserStatus.ACTIVE);
-        }
         userRepository.save(user);
 
         // Mark token as used

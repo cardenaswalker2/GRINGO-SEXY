@@ -72,7 +72,7 @@
                     </p>
 
                     <form th:action="@{'/admin/users/' + ${user.id} + '/permissions'}" th:object="${permissionRequest}" method="post">
-                        <div class="permissions-grid">
+                        <div class="permissions-grid" style="grid-template-columns: 1fr;">
                             <label class="permission-toggle-item">
                                 <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-sliders-h" style="color:var(--primary); margin-right:6px;"></i> Modificaciones</span>
                                 <input type="checkbox" th:field="*{modifications}" style="accent-color:var(--primary); width:18px; height:18px;">
@@ -84,38 +84,8 @@
                             </label>
 
                             <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-tachometer-alt" style="color:var(--primary); margin-right:6px;"></i> Optimizaciones</span>
+                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-bolt" style="color:var(--primary); margin-right:6px;"></i> Optimizaciones</span>
                                 <input type="checkbox" th:field="*{optimizations}" style="accent-color:var(--primary); width:18px; height:18px;">
-                            </label>
-
-                            <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-bolt" style="color:var(--primary); margin-right:6px;"></i> Rendimiento</span>
-                                <input type="checkbox" th:field="*{performance}" style="accent-color:var(--primary); width:18px; height:18px;">
-                            </label>
-
-                            <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-battery-full" style="color:var(--primary); margin-right:6px;"></i> Batería</span>
-                                <input type="checkbox" th:field="*{battery}" style="accent-color:var(--primary); width:18px; height:18px;">
-                            </label>
-
-                            <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-shield-alt" style="color:var(--primary); margin-right:6px;"></i> Privacidad</span>
-                                <input type="checkbox" th:field="*{privacy}" style="accent-color:var(--primary); width:18px; height:18px;">
-                            </label>
-
-                            <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-cubes" style="color:var(--primary); margin-right:6px;"></i> Apps & Tools</span>
-                                <input type="checkbox" th:field="*{apps}" style="accent-color:var(--primary); width:18px; height:18px;">
-                            </label>
-
-                            <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-paint-brush" style="color:var(--primary); margin-right:6px;"></i> Personalización</span>
-                                <input type="checkbox" th:field="*{personalization}" style="accent-color:var(--primary); width:18px; height:18px;">
-                            </label>
-
-                            <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-headset" style="color:var(--primary); margin-right:6px;"></i> Soporte</span>
-                                <input type="checkbox" th:field="*{support}" style="accent-color:var(--primary); width:18px; height:18px;">
                             </label>
                         </div>
 

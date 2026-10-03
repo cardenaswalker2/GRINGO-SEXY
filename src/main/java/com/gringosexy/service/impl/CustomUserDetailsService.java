@@ -39,6 +39,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new DisabledException("Tu cuenta se encuentra temporalmente suspendida.");
         }
 
+        if (user.getStatus() == UserStatus.PENDING) {
+            throw new DisabledException("Tu cuenta está pendiente de activación por el Administrador. Realiza tu pago por WhatsApp para habilitarla.");
+        }
+
         // Grant roles with ROLE_ prefix for Spring Security
         List<GrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
@@ -47,10 +51,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getStatus() == UserStatus.ACTIVE || user.getStatus() == UserStatus.PENDING,
+                user.getStatus() == UserStatus.ACTIVE,
                 true,
                 true,
-                user.getStatus() != UserStatus.BLOCKED && user.getStatus() != UserStatus.SUSPENDED,
+                true,
                 authorities
         );
     }

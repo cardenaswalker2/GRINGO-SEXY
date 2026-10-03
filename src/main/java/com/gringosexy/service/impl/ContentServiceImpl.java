@@ -235,59 +235,8 @@ public class ContentServiceImpl implements ContentService {
             c4.setSortOrder(4);
             contentRepository.save(c4);
 
-            // 5. Batería
-            Content c5 = new Content(
-                    "Calibración de Ciclos de Batería y Bypass de Carga Térmica",
-                    "calibracion-bateria-carga-termica",
-                    "Evita el Thermal Throttling mientras juegas manteniendo la temperatura de la batería por debajo de 38°C.",
-                    "### Estrategia de Cuidado Térmico:\n\n1. No cargues tu dispositivo por encima del 85% para partidas prolongadas.\n2. Si tu teléfono soporta 'Pausa de carga por USB' o Bypass Charging (Samsung/Asus/Black Shark), actívalo en Game Booster.\n3. Retira cualquier funda de silicona gruesa durante sesiones de alto rendimiento.\n4. Desactiva la búsqueda constante de redes Wi-Fi y dispositivos Bluetooth cercanos en Ajustes de Ubicación.",
-                    ContentCategory.BATTERY,
-                    null,
-                    true
-            );
-            c5.setSortOrder(5);
-            contentRepository.save(c5);
-
-            // 6. Privacidad
-            Content c6 = new Content(
-                    "Bloqueo de Telemetría Oculta y Permisos de Rastreo en Apps Móviles",
-                    "bloqueo-telemetria-permisos-rastreo",
-                    "Cómo revocar accesos en segundo plano de telemetría invasiva que consume batería, datos y recursos de CPU.",
-                    "### Guía de Privacidad Extrema:\n\n1. En iOS: Ve a **Privacidad y seguridad > Rastreo** y desactiva 'Permitir que las apps soliciten rastrearte'.\n2. En Android: Ve a **Ajustes > Google > Anuncios** y selecciona 'Eliminar el ID de publicidad'.\n3. Desactiva el 'Uso y diagnóstico' en Ajustes de Privacidad del fabricante.\n4. Configura DNS Privado cifrado: `dns.adguard-dns.com` o `1dot1dot1dot1.cloudflare-dns.com`.",
-                    ContentCategory.PRIVACY,
-                    null,
-                    true
-            );
-            c6.setSortOrder(6);
-            contentRepository.save(c6);
-
-            // 7. Apps y Herramientas
-            Content c7 = new Content(
-                    "Pack de Herramientas Esenciales: Optimizadores, Medidor de FPS y Limpiadores",
-                    "pack-herramientas-esenciales-fps-limpiadores",
-                    "Las utilidades más seguras y libres de publicidad engañosa para monitorear tu hardware en tiempo real.",
-                    "### Utilidades Recomendadas:\n\n1. **CPU-Z / AIDA64**: Para monitorear la temperatura exacta de núcleos y batería en tiempo real.\n2. **Display Checker / Test de Pantalla**: Para verificar la tasa de refresco táctil real (Polling Rate).\n3. **SetEdit (Settings Database Editor)**: Para usuarios avanzados en Android que buscan afinar registros táctiles.\n4. **Shortcuts / Atajos en iOS**: Macro automatizada para activar 'Modo Juego' (No molestar + brillo fijado + bajo consumo desactivado).",
-                    ContentCategory.APPS,
-                    null,
-                    true
-            );
-            c7.setSortOrder(7);
-            contentRepository.save(c7);
-
-            // 8. Personalización
-            Content c8 = new Content(
-                    "Estética Cyberpunk & Minimalista: Wallpapers OLED 4K y Fuentes Tipográficas",
-                    "estetica-cyberpunk-minimalista-oled",
-                    "Personaliza la interfaz de tu smartphone con fondos oscuros optimizados para paneles OLED y pantallas AMOLED.",
-                    "### Recursos de Personalización:\n\n- Descarga nuestros paquetes de wallpapers con negros puros (#000000) que ahorran batería en pantallas AMOLED.\n- Fuentes personalizadas de alta legibilidad para interfaces móviles.\n- Configuración de iconos con sombras difusas y bordes neón acordes al estilo GRINGO SEXY.",
-                    ContentCategory.PERSONALIZATION,
-                    null,
-                    true
-            );
-            c8.setSortOrder(8);
-            contentRepository.save(c8);
-
-            log.info("Initialized 8 default content articles.");
+            log.info("Initialized default content articles for the 3 active categories.");
         }
     }
+
 }
