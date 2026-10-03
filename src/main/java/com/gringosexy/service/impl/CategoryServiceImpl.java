@@ -99,10 +99,27 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void initDefaultCategories() {
-        if (categoryRepository.count() == 0) {
-            for (ContentCategory cc : ContentCategory.values()) {
-                Category cat = new Category(cc, cc.getDisplayName(), cc.getSlug(), cc.getDescription(), cc.getIconClass(), cc.getSortOrder());
-                categoryRepository.save(cat);
+        // Ensure only active defined categories exist and update them
+        for (ContentCategory cc : ContentCategory.values()) {
+            Category cat = categoryRepository.findBySlug(cc.getSlug()).orElse(null);
+            if (cat == null) {
+                cat = new Category(cc, cc.getDisplayName(), cc.getSlug(), cc.getDescription(), cc.getIconClass(), cc.getSortOrder());
+            } else {
+                cat.setCode(cc);
+                cat.setName(cc.getDisplayName());
+                cat.setDescription(cc.getDescription());
+                cat.setIconClass(cc.getIconClass());
+                cat.setSortOrder(cc.getSortOrder());
+                cat.setActive(true);
+            }
+            categoryRepository.save(cat);
+        }
+
+        // Delete any legacy categories that are no longer in ContentCategory (e.g. PERFORMANCE, BATTERY, etc.)
+        List<Category> all = categoryRepository.findAll();
+        for (Category existing : all) {
+            if (existing.getCode() == null || ContentCategory.fromSlug(existing.getSlug()) == null) {
+                categoryRepository.delete(existing);
             }
         }
     }

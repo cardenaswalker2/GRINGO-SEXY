@@ -178,6 +178,15 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void initDefaultContents() {
+        // 1. Delete legacy contents with old categories (PERFORMANCE, BATTERY, PRIVACY, APPS, PERSONALIZATION, SUPPORT)
+        List<Content> all = contentRepository.findAll();
+        for (Content c : all) {
+            if (c.getCategory() == null || ContentCategory.fromSlug(c.getCategory().getSlug()) == null) {
+                contentRepository.delete(c);
+            }
+        }
+
+        // 2. Ensure initial contents exist
         if (contentRepository.count() == 0) {
             log.info("Seeding initial curated contents for GRINGO SEXY platform...");
 
@@ -222,7 +231,7 @@ public class ContentServiceImpl implements ContentService {
             c3.setSortOrder(3);
             contentRepository.save(c3);
 
-            // 4. Modificaciones
+            // 4. Modificaciones con Video
             Content c4 = new Content(
                     "Ajustes Secretos del Desarrollador y Registro del Sistema (Buffer 16M)",
                     "ajustes-secretos-desarrollador-buffer-16m",
@@ -232,10 +241,19 @@ public class ContentServiceImpl implements ContentService {
                     null,
                     true
             );
+            c4.setVideoUrl("/videos/modificacion-tutorial.mov");
             c4.setSortOrder(4);
             contentRepository.save(c4);
 
             log.info("Initialized default content articles for the 3 active categories.");
+        } else {
+            // Ensure modification video is assigned if c4 exists
+            contentRepository.findBySlug("ajustes-secretos-desarrollador-buffer-16m").ifPresent(c -> {
+                if (c.getVideoUrl() == null || c.getVideoUrl().isEmpty()) {
+                    c.setVideoUrl("/videos/modificacion-tutorial.mov");
+                    contentRepository.save(c);
+                }
+            });
         }
     }
 
