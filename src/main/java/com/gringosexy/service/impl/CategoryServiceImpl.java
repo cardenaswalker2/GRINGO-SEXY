@@ -99,8 +99,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void initDefaultCategories() {
-        // Ensure only active defined categories exist and update them
-        for (ContentCategory cc : ContentCategory.values()) {
+        // Ensure only the 3 core categories are seeded and enabled
+        ContentCategory[] coreCategories = new ContentCategory[] {
+            ContentCategory.MODIFICATIONS,
+            ContentCategory.SENSITIVITIES,
+            ContentCategory.OPTIMIZATIONS
+        };
+
+        for (ContentCategory cc : coreCategories) {
             Category cat = categoryRepository.findBySlug(cc.getSlug()).orElse(null);
             if (cat == null) {
                 cat = new Category(cc, cc.getDisplayName(), cc.getSlug(), cc.getDescription(), cc.getIconClass(), cc.getSortOrder());
@@ -115,10 +121,12 @@ public class CategoryServiceImpl implements CategoryService {
             categoryRepository.save(cat);
         }
 
-        // Delete any legacy categories that are no longer in ContentCategory (e.g. PERFORMANCE, BATTERY, etc.)
+        // Delete any legacy categories that are not one of the 3 core categories
         List<Category> all = categoryRepository.findAll();
         for (Category existing : all) {
-            if (existing.getCode() == null || ContentCategory.fromSlug(existing.getSlug()) == null) {
+            if (existing.getCode() != ContentCategory.MODIFICATIONS &&
+                existing.getCode() != ContentCategory.SENSITIVITIES &&
+                existing.getCode() != ContentCategory.OPTIMIZATIONS) {
                 categoryRepository.delete(existing);
             }
         }
