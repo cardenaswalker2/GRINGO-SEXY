@@ -60,6 +60,7 @@ public class SecurityConfig {
                 // Public routes
                 .requestMatchers(
                     "/",
+                    "/api/cron/**",
                     "/preview/**",
                     "/login",
                     "/register",
