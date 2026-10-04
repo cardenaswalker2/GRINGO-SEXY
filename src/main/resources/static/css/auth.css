@@ -150,3 +150,25 @@
     font-weight: 600;
     color: var(--text-main);
 }
+
+/* Module / Plan Pickers */
+.module-radio-item {
+    position: relative;
+}
+
+.module-radio-item input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.module-card-select {
+    transition: all var(--trans-fast);
+}
+
+.module-radio-item input[type="radio"]:checked + .module-card-select {
+    border-color: var(--primary) !important;
+    background: var(--primary-light) !important;
+    box-shadow: 0 0 0 2px rgba(242, 85, 56, 0.25) !important;
+}

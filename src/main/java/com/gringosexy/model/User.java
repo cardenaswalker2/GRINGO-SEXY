@@ -36,6 +36,8 @@ public class User {
     @Indexed
     private DeviceType deviceType = DeviceType.IPHONE;
 
+    private String requestedModule = "ALL"; // MODIFICATIONS, SENSITIVITIES, OPTIMIZATIONS, ALL
+
     private boolean emailVerified = false;
 
     private UserPermissions permissions = new UserPermissions();
@@ -158,6 +160,14 @@ public class User {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getRequestedModule() {
+        return requestedModule != null ? requestedModule : "ALL";
+    }
+
+    public void setRequestedModule(String requestedModule) {
+        this.requestedModule = requestedModule;
     }
 
     public boolean isActive() {

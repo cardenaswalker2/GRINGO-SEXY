@@ -84,7 +84,9 @@ public class AuthController {
             String clientIp = SecurityUtils.getClientIp(request);
             userService.registerUser(registerRequest, clientIp);
             return "redirect:/pending-activation?username=" + java.net.URLEncoder.encode(registerRequest.getUsername(), java.nio.charset.StandardCharsets.UTF_8)
-                    + "&email=" + java.net.URLEncoder.encode(registerRequest.getEmail(), java.nio.charset.StandardCharsets.UTF_8);
+                    + "&email=" + java.net.URLEncoder.encode(registerRequest.getEmail(), java.nio.charset.StandardCharsets.UTF_8)
+                    + "&module=" + java.net.URLEncoder.encode(registerRequest.getRequestedModule(), java.nio.charset.StandardCharsets.UTF_8)
+                    + "&device=" + java.net.URLEncoder.encode(registerRequest.getDeviceType().name(), java.nio.charset.StandardCharsets.UTF_8);
         } catch (ValidationException e) {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("devices", deviceService.getActiveDevices());
@@ -99,14 +101,33 @@ public class AuthController {
     @GetMapping("/pending-activation")
     public String pendingActivation(@RequestParam(value = "username", required = false) String username,
                                     @RequestParam(value = "email", required = false) String email,
+                                    @RequestParam(value = "module", required = false) String module,
+                                    @RequestParam(value = "device", required = false) String device,
                                     Model model) {
         String cleanNumber = whatsappNumber.replaceAll("[^0-9]", "");
         String displayUsername = username != null && !username.isBlank() ? username : "usuario";
-        String encodedMessage = java.net.URLEncoder.encode(String.format(whatsappMessageTemplate, displayUsername), java.nio.charset.StandardCharsets.UTF_8);
+        
+        String moduleName = "Membresía Completa (VIP All-Access - $25 USD)";
+        if ("MODIFICATIONS".equalsIgnoreCase(module)) {
+            moduleName = "Módulo de Modificaciones ($10 USD)";
+        } else if ("SENSITIVITIES".equalsIgnoreCase(module)) {
+            moduleName = "Módulo de Sensibilidades ($10 USD)";
+        } else if ("OPTIMIZATIONS".equalsIgnoreCase(module)) {
+            moduleName = "Módulo de Optimizaciones ($10 USD)";
+        }
+
+        String deviceText = device != null && !device.isBlank() ? device : "Móvil";
+
+        String customWhatsappText = "🔥 Hola GRINGO SEXY! Acabo de registrar mi cuenta con el usuario: @" + displayUsername 
+                + " (Dispositivo: " + deviceText + "). Deseo realizar el pago para activar: " + moduleName + ".";
+
+        String encodedMessage = java.net.URLEncoder.encode(customWhatsappText, java.nio.charset.StandardCharsets.UTF_8);
         String whatsappUrl = "https://wa.me/" + cleanNumber + "?text=" + encodedMessage;
 
         model.addAttribute("username", displayUsername);
         model.addAttribute("email", email != null ? email : "");
+        model.addAttribute("moduleName", moduleName);
+        model.addAttribute("deviceText", deviceText);
         model.addAttribute("whatsappNumberDisplay", whatsappNumber);
         model.addAttribute("whatsappUrl", whatsappUrl);
         return "auth/pending-activation";

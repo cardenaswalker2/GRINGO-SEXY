@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setDeviceType(request.getDeviceType());
+        user.setRequestedModule(request.getRequestedModule() != null ? request.getRequestedModule() : "ALL");
         user.setRole(Role.USER);
         user.setStatus(UserStatus.PENDING);
         user.setEmailVerified(false);
@@ -96,7 +97,7 @@ public class UserServiceImpl implements UserService {
         VerificationToken token = verificationService.createEmailVerificationToken(savedUser.getId(), savedUser.getEmail());
         emailService.sendVerificationEmail(savedUser.getEmail(), savedUser.getFullName(), token.getToken());
 
-        activityLogService.log(savedUser.getId(), savedUser.getUsername(), "USER_REGISTERED", "Nuevo usuario registrado. Dispositivo: " + savedUser.getDeviceType(), ipAddress);
+        activityLogService.log(savedUser.getId(), savedUser.getUsername(), "USER_REGISTERED", "Nuevo usuario registrado. Dispositivo: " + savedUser.getDeviceType() + " | Módulo: " + savedUser.getRequestedModule(), ipAddress);
 
         return savedUser;
     }

@@ -68,8 +68,83 @@
                 <div class="form-text-error" th:if="${#fields.hasErrors('deviceType')}" th:errors="*{deviceType}"></div>
             </div>
 
+            <!-- Module / Plan Selection with Pricing -->
+            <div class="form-group" style="margin-top: 20px;">
+                <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>¿Qué contenido deseas adquirir?</span>
+                    <span style="font-size:0.75rem; color:var(--primary); font-weight:700;">PAGO ÚNICO</span>
+                </label>
+                
+                <div class="module-picker-grid" style="display:grid; grid-template-columns:1fr; gap:10px; margin-top:8px;">
+                    <!-- VIP All-Access Plan (Featured) -->
+                    <div class="module-radio-item">
+                        <input type="radio" id="plan_all" th:field="*{requestedModule}" value="ALL" checked>
+                        <label for="plan_all" class="module-card-select" style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:#fffcf9; border:2px solid var(--primary); border-radius:var(--radius-md); cursor:pointer; position:relative;">
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight:800; color:var(--text-main); font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+                                        Membresía Completa VIP
+                                        <span style="background:var(--primary); color:#ffffff; font-size:0.68rem; padding:2px 6px; border-radius:4px; font-weight:800;">TODO INCLUIDO</span>
+                                    </div>
+                                    <div style="font-size:0.8rem; color:var(--text-muted);">Modificaciones + Sensibilidades + Optimizaciones + Soporte VIP</div>
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:1.15rem; font-weight:900; color:var(--primary);">$25 USD</div>
+                                <div style="font-size:0.72rem; color:#16a34a; font-weight:700;">Ahorra 20%</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Individual Modules Grid -->
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
+                        <!-- Modificaciones -->
+                        <div class="module-radio-item">
+                            <input type="radio" id="plan_mod" th:field="*{requestedModule}" value="MODIFICATIONS">
+                            <label for="plan_mod" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:var(--bg-surface-warm); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                                <div style="display:flex; align-items:center; justify-content:space-between;">
+                                    <i class="fas fa-microchip" style="color:var(--primary);"></i>
+                                    <span style="font-weight:800; color:var(--text-main); font-size:0.95rem;">$10 USD</span>
+                                </div>
+                                <div style="font-weight:700; color:var(--text-main); font-size:0.85rem;">Modificaciones</div>
+                                <div style="font-size:0.74rem; color:var(--text-muted);">Buffer 16M & Video Tutorial</div>
+                            </label>
+                        </div>
+
+                        <!-- Sensibilidades -->
+                        <div class="module-radio-item">
+                            <input type="radio" id="plan_sens" th:field="*{requestedModule}" value="SENSITIVITIES">
+                            <label for="plan_sens" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:var(--bg-surface-warm); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                                <div style="display:flex; align-items:center; justify-content:space-between;">
+                                    <i class="fas fa-crosshairs" style="color:var(--accent-amber);"></i>
+                                    <span style="font-weight:800; color:var(--text-main); font-size:0.95rem;">$10 USD</span>
+                                </div>
+                                <div style="font-weight:700; color:var(--text-main); font-size:0.85rem;">Sensibilidades</div>
+                                <div style="font-size:0.74rem; color:var(--text-muted);">DPI, Puntero & Headshot</div>
+                            </label>
+                        </div>
+
+                        <!-- Optimizaciones -->
+                        <div class="module-radio-item">
+                            <input type="radio" id="plan_opt" th:field="*{requestedModule}" value="OPTIMIZATIONS">
+                            <label for="plan_opt" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:var(--bg-surface-warm); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                                <div style="display:flex; align-items:center; justify-content:space-between;">
+                                    <i class="fas fa-tachometer-alt" style="color:var(--accent-cyan);"></i>
+                                    <span style="font-weight:800; color:var(--text-main); font-size:0.95rem;">$10 USD</span>
+                                </div>
+                                <div style="font-weight:700; color:var(--text-main); font-size:0.85rem;">Optimizaciones</div>
+                                <div style="font-size:0.74rem; color:var(--text-muted);">120Hz, RAM & Latencia</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitRegisterBtn" style="margin-top:24px;">
-                <i class="fas fa-user-plus"></i> Registrarme Ahora
+                <i class="fas fa-user-plus"></i> Continuar al Pago por WhatsApp
             </button>
         </form>
 

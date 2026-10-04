@@ -28,6 +28,12 @@
                         <i class="fas fa-id-card" style="color:var(--primary); margin-right:6px;"></i> Datos & Estado
                     </h3>
 
+                    <!-- Requested Module Badge -->
+                    <div style="background:var(--primary-light); border:1px solid rgba(242,85,56,0.3); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:20px;">
+                        <span style="font-size:0.75rem; font-weight:800; color:var(--primary); text-transform:uppercase; display:block;">Paquete Solicitado en Registro</span>
+                        <strong style="font-size:0.95rem; color:var(--text-main);" th:text="${user.requestedModule == 'ALL' ? 'Membresía Completa VIP ($25 USD)' : (user.requestedModule == 'MODIFICATIONS' ? 'Módulo Modificaciones ($10 USD)' : (user.requestedModule == 'SENSITIVITIES' ? 'Módulo Sensibilidades ($10 USD)' : (user.requestedModule == 'OPTIMIZATIONS' ? 'Módulo Optimizaciones ($10 USD)' : user.requestedModule)))}">Membresía Completa ($25 USD)</strong>
+                    </div>
+
                     <!-- Status Update Form -->
                     <form th:action="@{'/admin/users/' + ${user.id} + '/status'}" method="post" style="margin-bottom:20px;">
                         <label class="form-label">Estado de la Cuenta</label>

@@ -32,6 +32,8 @@ public class RegisterRequest {
     @NotNull(message = "Debes seleccionar tu dispositivo principal")
     private DeviceType deviceType;
 
+    private String requestedModule = "ALL";
+
     public RegisterRequest() {
     }
 
@@ -85,5 +87,13 @@ public class RegisterRequest {
 
     public void setDeviceType(DeviceType deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public String getRequestedModule() {
+        return requestedModule != null ? requestedModule : "ALL";
+    }
+
+    public void setRequestedModule(String requestedModule) {
+        this.requestedModule = requestedModule;
     }
 }

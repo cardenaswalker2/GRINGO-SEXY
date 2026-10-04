@@ -14,14 +14,23 @@
         </div>
 
         <h2 class="auth-title" style="font-size: 1.75rem; margin-bottom: 8px; color:var(--text-main);">¡Registro Completado con Éxito!</h2>
-        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6;">
-            Tu cuenta <strong style="color: var(--primary);" th:text="${'@' + username}">@usuario</strong> ha sido creada. Para habilitar tu acceso total a los módulos exclusivos de <strong>Modificaciones, Sensibilidades y Optimizaciones</strong>, completa tu suscripción.
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6;">
+            Tu cuenta <strong style="color: var(--primary);" th:text="${'@' + username}">@usuario</strong> ha sido creada para tu <strong style="color:var(--text-main);" th:text="${deviceText}">Dispositivo</strong>.
         </p>
+
+        <!-- Selected Module Banner -->
+        <div style="background:var(--primary-light); border:1px solid rgba(242,85,56,0.3); border-radius:var(--radius-md); padding:16px 20px; margin-bottom:24px; text-align:left; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div>
+                <span style="font-size:0.75rem; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; display:block;">Paquete Seleccionado</span>
+                <strong style="font-size:1.02rem; color:var(--text-main);" th:text="${moduleName}">Membresía Completa VIP ($25 USD)</strong>
+            </div>
+            <span class="badge badge-primary" style="font-size:0.8rem; padding:6px 12px;"><i class="fas fa-clock"></i> Esperando Pago</span>
+        </div>
 
         <!-- Steps Guide -->
         <div class="glass-card" style="padding: 24px; text-align: left; margin-bottom: 28px; border-color: rgba(37, 211, 102, 0.3); background: #f0fdf4;">
             <div style="font-weight: 800; color: #15803d; margin-bottom: 14px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-lock" style="color: var(--primary);"></i> Pasos para activar tu cuenta:
+                <i class="fas fa-lock" style="color: var(--primary);"></i> Pasos para activar tu acceso:
             </div>
             <ol style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.75;">
                 <li>Haz clic en el botón verde de abajo para abrir nuestro <strong>WhatsApp oficial</strong>.</li>
