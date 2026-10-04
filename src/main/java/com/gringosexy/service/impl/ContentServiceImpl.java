@@ -241,18 +241,16 @@ public class ContentServiceImpl implements ContentService {
                     null,
                     true
             );
-            c4.setVideoUrl("/videos/modificacion-tutorial.mov");
+            c4.setVideoUrl("/videos/modificacionx.mp4");
             c4.setSortOrder(4);
             contentRepository.save(c4);
 
             log.info("Initialized default content articles for the 3 active categories.");
         } else {
-            // Ensure modification video is assigned if c4 exists
+            // Ensure modification video is updated to modificacionx.mp4
             contentRepository.findBySlug("ajustes-secretos-desarrollador-buffer-16m").ifPresent(c -> {
-                if (c.getVideoUrl() == null || c.getVideoUrl().isEmpty()) {
-                    c.setVideoUrl("/videos/modificacion-tutorial.mov");
-                    contentRepository.save(c);
-                }
+                c.setVideoUrl("/videos/modificacionx.mp4");
+                contentRepository.save(c);
             });
         }
     }
