@@ -58,24 +58,102 @@
                 </div>
             </div>
 
-            <!-- Second Stats Row: Devices distribution -->
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom:32px;">
+            <!-- Second Row: Solicitudes Pendientes de Activación (Priority for Admin) -->
+            <div class="glass-card" style="margin-bottom:32px; border-color:rgba(217,119,6,0.3); background:#ffffff;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="width:10px; height:10px; border-radius:50%; background:#d97706; display:inline-block; box-shadow:0 0 8px rgba(217,119,6,0.6);"></span>
+                            <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-main); margin:0;">
+                                Nuevos Usuarios Pendientes de Activación & Pago
+                            </h3>
+                        </div>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin:4px 0 0 18px;">
+                            Usuarios que acaban de registrarse y están esperando que confirmes su pago por WhatsApp para habilitarles la cuenta.
+                        </p>
+                    </div>
+                    <a th:href="@{/admin/users(status='PENDING')}" class="btn btn-secondary btn-sm">Ver Todos los Pendientes (<span th:text="${stats.pendingUsers}">0</span>)</a>
+                </div>
+
+                <div class="table-responsive" style="border:none; border-radius:0;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Usuario Registrado</th>
+                                <th>Email</th>
+                                <th>Dispositivo</th>
+                                <th>Paquete Solicitado</th>
+                                <th>Fecha / Hora</th>
+                                <th style="text-align:right;">Acción Rápida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${pendingUsers.empty}">
+                                <td colspan="6" style="text-align:center; padding:32px; color:var(--text-muted);">
+                                    <i class="fas fa-check-circle" style="color:#059669; font-size:1.4rem; margin-bottom:8px; display:block;"></i>
+                                    No hay usuarios pendientes por activar en este momento. ¡Todo al día!
+                                </td>
+                            </tr>
+                            <tr th:each="pUser : ${pendingUsers}">
+                                <td>
+                                    <div style="font-weight:800; color:var(--text-main);" th:text="${pUser.fullName}">Nombre</div>
+                                    <div style="font-size:0.8rem; color:var(--primary); font-weight:700;" th:text="${'@' + pUser.username}">@usuario</div>
+                                </td>
+                                <td th:text="${pUser.email}">email@ejemplo.com</td>
+                                <td>
+                                    <span class="badge badge-secondary">
+                                        <i th:class="${pUser.deviceType.iconClass}"></i>
+                                        <span th:text="${pUser.deviceType.displayName}">iPhone</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-primary" style="font-size:0.82rem;" th:text="${pUser.requestedModule == 'ALL' ? 'VIP Completo ($25)' : (pUser.requestedModule == 'MODIFICATIONS' ? 'Modificaciones ($10)' : (pUser.requestedModule == 'SENSITIVITIES' ? 'Sensibilidades ($10)' : (pUser.requestedModule == 'OPTIMIZATIONS' ? 'Optimizaciones ($10)' : pUser.requestedModule)))}">VIP All-Access</span>
+                                </td>
+                                <td style="font-size:0.85rem; color:var(--text-secondary);" th:text="${#temporals.format(pUser.createdAt, 'dd/MM/yyyy HH:mm')}">01/01 12:00</td>
+                                <td style="text-align:right;">
+                                    <div style="display:inline-flex; gap:8px;">
+                                        <form th:action="@{'/admin/users/' + ${pUser.id} + '/quick-activate'}" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm" style="background:#059669; color:#ffffff; font-weight:700; border-radius:var(--radius-sm);" title="Activar inmediatamente tras recibir pago">
+                                                <i class="fas fa-check"></i> Activar Cuenta
+                                            </button>
+                                        </form>
+                                        <a th:href="@{'/admin/users/' + ${pUser.id}}" class="btn btn-secondary btn-sm" title="Ver detalles y permisos">
+                                            <i class="fas fa-cog"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Third Row: Devices distribution & Fast actions -->
+            <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:24px; margin-bottom:32px;">
                 <div class="glass-card">
                     <h3 style="font-size:1.2rem; font-weight:800; margin-bottom:16px; color:var(--text-main);">
-                        <i class="fas fa-mobile-alt" style="color:var(--primary); margin-right:8px;"></i> Distribución por Dispositivo
+                        <i class="fas fa-mobile-alt" style="color:var(--primary); margin-right:8px;"></i> Distribución de Clientes por Dispositivo
                     </h3>
-                    <div style="display:flex; flex-direction:column; gap:12px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                            <span style="display:flex; align-items:center; gap:8px; font-weight:700; color:var(--text-main);"><i class="fab fa-apple" style="color:#000000;"></i> iPhone (iOS)</span>
-                            <span class="badge badge-primary" th:text="${stats.iphoneUsers + ' usuarios'}">0</span>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                            <span style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.88rem; color:var(--text-main);"><i class="fab fa-apple" style="color:#000000;"></i> iPhone</span>
+                            <span class="badge badge-primary" th:text="${stats.iphoneUsers}">0</span>
                         </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                            <span style="display:flex; align-items:center; gap:8px; font-weight:700; color:var(--text-main);"><i class="fas fa-mobile-alt" style="color:#0284c7;"></i> Samsung Galaxy</span>
-                            <span class="badge badge-info" th:text="${stats.samsungUsers + ' usuarios'}">0</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                            <span style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.88rem; color:var(--text-main);"><i class="fas fa-mobile-alt" style="color:#0284c7;"></i> Samsung</span>
+                            <span class="badge badge-info" th:text="${stats.samsungUsers}">0</span>
                         </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                            <span style="display:flex; align-items:center; gap:8px; font-weight:700; color:var(--text-main);"><i class="fas fa-mobile" style="color:#d97706;"></i> Xiaomi / Poco</span>
-                            <span class="badge badge-warning" th:text="${stats.xiaomiUsers + ' usuarios'}">0</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                            <span style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.88rem; color:var(--text-main);"><i class="fas fa-mobile" style="color:#d97706;"></i> Xiaomi</span>
+                            <span class="badge badge-warning" th:text="${stats.xiaomiUsers}">0</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                            <span style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.88rem; color:var(--text-main);"><i class="fas fa-mobile-android" style="color:#6366f1;"></i> Motorola</span>
+                            <span class="badge badge-secondary" th:text="${stats.motorolaUsers}">0</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface-warm); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                            <span style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.88rem; color:var(--text-main);"><i class="fas fa-bolt" style="color:#10b981;"></i> Realme</span>
+                            <span class="badge badge-success" th:text="${stats.realmeUsers}">0</span>
                         </div>
                     </div>
                 </div>

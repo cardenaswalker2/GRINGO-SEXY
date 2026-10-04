@@ -274,7 +274,9 @@ public class UserServiceImpl implements UserService {
         stats.put("blockedUsers", userRepository.countByStatus(UserStatus.BLOCKED));
         stats.put("iphoneUsers", userRepository.countByDeviceType(DeviceType.IPHONE));
         stats.put("samsungUsers", userRepository.countByDeviceType(DeviceType.SAMSUNG));
+        stats.put("motorolaUsers", userRepository.countByDeviceType(DeviceType.MOTOROLA));
         stats.put("xiaomiUsers", userRepository.countByDeviceType(DeviceType.XIAOMI));
+        stats.put("realmeUsers", userRepository.countByDeviceType(DeviceType.REALME));
         stats.put("otherUsers", userRepository.countByDeviceType(DeviceType.OTHER));
         return stats;
     }

@@ -126,4 +126,15 @@ public class AdminUserController {
         redirectAttributes.addFlashAttribute("successMessage", "Permisos de usuario actualizados correctamente.");
         return "redirect:/admin/users/" + id;
     }
+
+    @PostMapping("/{id}/quick-activate")
+    public String quickActivate(@PathVariable("id") String id,
+                                HttpServletRequest request,
+                                RedirectAttributes redirectAttributes) {
+        String adminId = securityUtils.getCurrentUser().map(User::getId).orElse("system");
+        String clientIp = SecurityUtils.getClientIp(request);
+        userService.updateStatus(id, UserStatus.ACTIVE, adminId, clientIp);
+        redirectAttributes.addFlashAttribute("successMessage", "¡Usuario activado exitosamente! Ahora tiene acceso a la plataforma.");
+        return "redirect:/admin/users";
+    }
 }

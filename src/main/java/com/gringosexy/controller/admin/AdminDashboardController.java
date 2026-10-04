@@ -44,8 +44,18 @@ public class AdminDashboardController {
         stats.put("totalContents", contentRepository.count());
         stats.put("openTickets", supportService.getTicketsByStatus(TicketStatus.OPEN, null).getTotalElements());
 
+        // Get recent pending users awaiting payment/activation
+        org.springframework.data.domain.Pageable pendingPageable = org.springframework.data.domain.PageRequest.of(0, 10, org.springframework.data.domain.Sort.by("createdAt").descending());
+        org.springframework.data.domain.Page<User> pendingUsersPage = userService.getUsers(null, com.gringosexy.enums.UserStatus.PENDING, null, null, pendingPageable);
+
+        // Get latest registered users
+        org.springframework.data.domain.Pageable latestPageable = org.springframework.data.domain.PageRequest.of(0, 8, org.springframework.data.domain.Sort.by("createdAt").descending());
+        org.springframework.data.domain.Page<User> latestUsersPage = userService.getUsers(null, null, null, null, latestPageable);
+
         model.addAttribute("currentUser", admin);
         model.addAttribute("stats", stats);
+        model.addAttribute("pendingUsers", pendingUsersPage.getContent());
+        model.addAttribute("latestUsers", latestUsersPage.getContent());
         model.addAttribute("recentLogs", activityLogService.getRecentLogs());
         model.addAttribute("pageTitle", "Admin Dashboard — GRINGO SEXY");
         return "admin/dashboard";

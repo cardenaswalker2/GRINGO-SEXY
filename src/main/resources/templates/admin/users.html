@@ -71,9 +71,9 @@
                                 <th>Usuario</th>
                                 <th>Correo Electrónico</th>
                                 <th>Dispositivo</th>
+                                <th>Paquete Solicitado</th>
                                 <th>Rol</th>
                                 <th>Estado</th>
-                                <th>Verificado</th>
                                 <th>Fecha Registro</th>
                                 <th style="text-align:right;">Acciones</th>
                             </tr>
@@ -87,7 +87,7 @@
                             <tr th:each="u : ${usersPage.content}">
                                 <td>
                                     <div style="font-weight:800; color:var(--text-main);" th:text="${u.fullName}">Nombre</div>
-                                    <div style="font-size:0.8rem; color:var(--text-dim);" th:text="${'@' + u.username}">@usuario</div>
+                                    <div style="font-size:0.8rem; color:var(--primary); font-weight:700;" th:text="${'@' + u.username}">@usuario</div>
                                 </td>
                                 <td th:text="${u.email}">email@ejemplo.com</td>
                                 <td>
@@ -95,6 +95,9 @@
                                         <i th:class="${u.deviceType.iconClass}"></i>
                                         <span th:text="${u.deviceType.displayName}">iPhone</span>
                                     </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-primary" style="font-size:0.78rem;" th:text="${u.requestedModule == 'ALL' ? 'VIP ($25)' : (u.requestedModule == 'MODIFICATIONS' ? 'Mod ($10)' : (u.requestedModule == 'SENSITIVITIES' ? 'Sens ($10)' : (u.requestedModule == 'OPTIMIZATIONS' ? 'Opt ($10)' : u.requestedModule)))}">VIP ($25)</span>
                                 </td>
                                 <td>
                                     <span class="badge" th:classappend="${u.role.name() == 'SUPER_ADMIN' ? 'badge-primary' : (u.role.name() == 'ADMIN' ? 'badge-info' : 'badge-secondary')}" th:text="${u.role.name()}">USER</span>
@@ -105,15 +108,18 @@
                                     <span th:if="${u.status.name() == 'SUSPENDED'}" class="badge badge-danger">Suspendido</span>
                                     <span th:if="${u.status.name() == 'BLOCKED'}" class="badge badge-danger">Bloqueado</span>
                                 </td>
-                                <td>
-                                    <i th:if="${u.emailVerified}" class="fas fa-check-circle" style="color:var(--accent-emerald);" title="Verificado"></i>
-                                    <i th:unless="${u.emailVerified}" class="fas fa-times-circle" style="color:var(--text-dim);" title="No verificado"></i>
-                                </td>
-                                <td th:text="${#temporals.format(u.createdAt, 'dd/MM/yyyy')}">01/01/2026</td>
+                                <td style="font-size:0.85rem;" th:text="${#temporals.format(u.createdAt, 'dd/MM/yyyy')}">01/01/2026</td>
                                 <td style="text-align:right;">
-                                    <a th:href="@{'/admin/users/' + ${u.id}}" class="btn btn-secondary btn-sm" title="Editar y Gestionar Permisos">
-                                        <i class="fas fa-user-edit"></i> Administrar
-                                    </a>
+                                    <div style="display:inline-flex; gap:6px;">
+                                        <form th:if="${u.status.name() == 'PENDING'}" th:action="@{'/admin/users/' + ${u.id} + '/quick-activate'}" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm" style="background:#059669; color:#ffffff; font-weight:700; padding:6px 10px;" title="Activar inmediatamente">
+                                                <i class="fas fa-check"></i> Activar
+                                            </button>
+                                        </form>
+                                        <a th:href="@{'/admin/users/' + ${u.id}}" class="btn btn-secondary btn-sm" title="Editar y Gestionar Permisos">
+                                            <i class="fas fa-user-edit"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
