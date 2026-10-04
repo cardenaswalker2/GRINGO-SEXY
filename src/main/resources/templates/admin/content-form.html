@@ -50,6 +50,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label" for="videoUrl">URL de Video Tutorial (Opcional - MP4, MOV o enlace de YouTube)</label>
+                        <input type="text" id="videoUrl" th:field="*{videoUrl}" class="form-control" placeholder="ej. /videos/modificacion-tutorial.mov o https://www.youtube.com/watch?v=...">
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label" for="body">Instrucciones & Contenido Detallado</label>
                         <textarea id="body" th:field="*{body}" class="form-control" rows="10" placeholder="Escribe aquí los pasos detallados, valores de DPI, velocidad de puntero, configuraciones en el juego..." required></textarea>
                         <div class="form-text-error" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>

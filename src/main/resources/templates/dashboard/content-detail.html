@@ -42,13 +42,25 @@
                     Resumen del contenido.
                 </p>
 
-                <!-- Optional Video Player -->
+                <!-- Professional Video Player / Tutorial Embed -->
                 <div th:if="${content.videoUrl != null and !content.videoUrl.empty}" style="margin-bottom: 30px; border-radius: var(--radius-lg); overflow: hidden; background: #000000; border: 1px solid var(--border-card); box-shadow: var(--shadow-md);">
-                    <video controls playsinline preload="metadata" style="width: 100%; max-height: 480px; display: block;">
-                        <source th:src="@{${content.videoUrl}}" type="video/mp4">
-                        <source th:src="@{${content.videoUrl}}" type="video/quicktime">
-                        Tu navegador no soporta la reproducción de video HTML5.
-                    </video>
+                    <!-- 1. YouTube Video Embed -->
+                    <div th:if="${#strings.contains(content.videoUrl, 'youtube.com') or #strings.contains(content.videoUrl, 'youtu.be')}" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <iframe th:src="${#strings.contains(content.videoUrl, 'watch?v=') ? #strings.replace(content.videoUrl, 'watch?v=', 'embed/') : content.videoUrl}" 
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen></iframe>
+                    </div>
+
+                    <!-- 2. Direct HTML5 Video Player (MP4 / MOV / WebM) -->
+                    <div th:unless="${#strings.contains(content.videoUrl, 'youtube.com') or #strings.contains(content.videoUrl, 'youtu.be')}">
+                        <video controls playsinline preload="auto" style="width: 100%; max-height: 520px; display: block; margin: 0 auto; background: #000000;">
+                            <source th:src="${#strings.startsWith(content.videoUrl, 'http') ? content.videoUrl : content.videoUrl}" type="video/mp4">
+                            <source th:src="${#strings.startsWith(content.videoUrl, 'http') ? content.videoUrl : content.videoUrl}" type="video/quicktime">
+                            <source th:src="${#strings.startsWith(content.videoUrl, 'http') ? content.videoUrl : content.videoUrl}">
+                            Tu navegador no soporta la reproducción de video HTML5.
+                        </video>
+                    </div>
                 </div>
 
                 <div style="border-top: 1px solid var(--border-subtle); padding-top: 28px; margin-top: 24px;">
