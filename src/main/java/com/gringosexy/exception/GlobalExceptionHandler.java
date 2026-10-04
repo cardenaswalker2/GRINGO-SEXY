@@ -59,6 +59,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleGeneralException(Exception ex, Model model) {
+        // Suppress benign client disconnects (e.g. user closes tab or cancels media stream download)
+        String exName = ex.getClass().getName();
+        String message = ex.getMessage() != null ? ex.getMessage() : "";
+        if (exName.contains("ClientAbortException") || message.contains("Broken pipe") || message.contains("connection was aborted")) {
+            log.debug("Client closed media connection early (Broken pipe / ClientAbortException)");
+            return null;
+        }
+
         log.error("Internal server error: ", ex);
         model.addAttribute("errorCode", 500);
         model.addAttribute("errorTitle", "Error Interno del Servidor");
