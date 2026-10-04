@@ -3,7 +3,35 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
-<!-- Header Navigation Matching Reference Design -->
+<!-- TOP SOCIAL BAR (Prominent, Elegant, Responsive) -->
+<div th:fragment="top-social" class="social-top-bar" id="redes">
+    <div class="container social-top-container">
+        <div class="social-top-label">
+            <i class="fas fa-fire-alt" style="color:var(--primary);"></i>
+            <span>Comunidad Oficial GRINGO SEXY</span>
+        </div>
+        <div class="social-pill-group">
+            <a th:href="${socialTiktok != null ? socialTiktok : 'https://www.tiktok.com/@7gringo_'}" target="_blank" rel="noopener noreferrer" class="social-pill tiktok">
+                <i class="fab fa-tiktok"></i>
+                <span>TikTok</span>
+            </a>
+            <a th:href="${socialInstagram != null ? socialInstagram : 'https://www.instagram.com/7gringo.sex?stkn=MTVnMXRnamg4eXBoCA%3D%3D&utm_source=qr'}" target="_blank" rel="noopener noreferrer" class="social-pill instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a th:href="${socialDiscord != null ? socialDiscord : 'https://discord.gg/cks2QZKEr'}" target="_blank" rel="noopener noreferrer" class="social-pill discord">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+            </a>
+            <a th:href="@{https://wa.me/12392450044}" target="_blank" rel="noopener noreferrer" class="social-pill whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp VIP</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Header Navigation Matching Warm Modern Design -->
 <header th:fragment="navbar" class="site-header">
     <div class="container nav-wrapper">
         <a th:href="@{/}" class="site-logo">
@@ -29,7 +57,7 @@
         </ul>
 
         <div class="nav-actions" sec:authorize="isAnonymous()">
-            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="background:transparent; border:none; color:var(--text-muted);">
+            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="background:transparent; border:none; color:var(--text-secondary); font-weight:700;">
                 Iniciar sesión
             </a>
             <a th:href="@{/register}" class="btn btn-primary btn-sm btn-pill">
@@ -54,7 +82,7 @@
     </div>
 </header>
 
-<!-- Redesigned Minimalist & Editorial Footer -->
+<!-- Redesigned Minimalist & Warm Editorial Footer -->
 <footer th:fragment="footer" class="site-footer">
     <div class="container">
         <div class="footer-top-row">
@@ -66,15 +94,16 @@
             <ul class="footer-nav-links">
                 <li><a th:href="@{/}">Inicio</a></li>
                 <li><a th:href="@{/#funciones}">Funciones</a></li>
+                <li><a th:href="@{/#compatibilidad}">Dispositivos</a></li>
                 <li><a th:href="@{/#redes}">Redes Sociales</a></li>
                 <li><a th:href="@{/support}">Soporte</a></li>
             </ul>
 
             <div class="footer-social-icons">
-                <a th:href="${socialTiktok != null ? socialTiktok : 'https://tiktok.com/@gringosexy'}" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a th:href="${socialInstagram != null ? socialInstagram : 'https://instagram.com/gringosexy'}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a th:href="${socialYoutube != null ? socialYoutube : 'https://youtube.com/@gringosexy'}" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a th:href="${socialDiscord != null ? socialDiscord : 'https://discord.gg/gringosexy'}" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a th:href="${socialTiktok != null ? socialTiktok : 'https://www.tiktok.com/@7gringo_'}" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a th:href="${socialInstagram != null ? socialInstagram : 'https://www.instagram.com/7gringo.sex?stkn=MTVnMXRnamg4eXBoCA%3D%3D&utm_source=qr'}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a th:href="${socialDiscord != null ? socialDiscord : 'https://discord.gg/cks2QZKEr'}" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a th:href="@{https://wa.me/12392450044}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
 
@@ -83,11 +112,10 @@
                 © <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy')}">2026</span> GRINGO SEXY. Todos los derechos reservados.
             </div>
             <ul class="footer-legal-links">
-                <li><a href="#" style="color:var(--text-dim);">Personalización</a></li>
-                <li><a href="#" style="color:var(--text-dim);">Rendimiento</a></li>
-                <li><a href="#" style="color:var(--text-dim);">Sensibilidad</a></li>
-                <li><a href="#" style="color:var(--text-dim);">Batería</a></li>
-                <li><a href="#" style="color:var(--text-dim);">Privacidad</a></li>
+                <li><a th:href="@{/preview/modificaciones}" style="color:var(--text-dim);">Modificaciones</a></li>
+                <li><a th:href="@{/preview/sensibilidades}" style="color:var(--text-dim);">Sensibilidades</a></li>
+                <li><a th:href="@{/preview/optimizaciones}" style="color:var(--text-dim);">Optimizaciones</a></li>
+                <li><a th:href="@{/support}" style="color:var(--text-dim);">Contacto VIP</a></li>
             </ul>
         </div>
     </div>
@@ -97,11 +125,11 @@
 <div th:fragment="alerts">
     <div class="toast-container" id="toastContainer">
         <div th:if="${successMessage != null}" class="toast toast-success">
-            <i class="fas fa-check-circle" style="color: #34d399; font-size:1.2rem;"></i>
+            <i class="fas fa-check-circle" style="color: #059669; font-size:1.2rem;"></i>
             <span th:text="${successMessage}">Operación exitosa</span>
         </div>
         <div th:if="${errorMessage != null}" class="toast toast-error">
-            <i class="fas fa-exclamation-circle" style="color: #f87171; font-size:1.2rem;"></i>
+            <i class="fas fa-exclamation-circle" style="color: #dc2626; font-size:1.2rem;"></i>
             <span th:text="${errorMessage}">Ha ocurrido un error</span>
         </div>
     </div>

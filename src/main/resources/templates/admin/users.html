@@ -16,23 +16,23 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Gestión de Usuarios</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Control de cuentas, roles, estados y permisos individuales</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Gestión de Usuarios</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Control de cuentas, roles, estados y permisos individuales</p>
                 </div>
             </div>
         </div>
 
         <div class="app-page-body">
             <!-- Filter & Search Bar Form -->
-            <div class="glass-card" style="margin-bottom:24px; padding:20px;">
-                <form th:action="@{/admin/users}" method="get" style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap:12px; align-items:end;">
+            <div class="glass-card" style="margin-bottom:24px; padding:22px;">
+                <form th:action="@{/admin/users}" method="get" style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap:14px; align-items:end;">
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Buscar por Nombre, Usuario o Email</label>
+                        <label class="form-label" style="font-size:0.82rem;">Buscar por Nombre, Usuario o Email</label>
                         <input type="text" name="search" th:value="${search}" class="form-control" placeholder="Escribe para buscar...">
                     </div>
 
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Estado</label>
+                        <label class="form-label" style="font-size:0.82rem;">Estado</label>
                         <select name="status" class="form-select">
                             <option value="">Todos los Estados</option>
                             <option th:each="st : ${statuses}" th:value="${st}" th:text="${st.name()}" th:selected="${st == status}"></option>
@@ -40,7 +40,7 @@
                     </div>
 
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Rol</label>
+                        <label class="form-label" style="font-size:0.82rem;">Rol</label>
                         <select name="role" class="form-select">
                             <option value="">Todos los Roles</option>
                             <option th:each="r : ${roles}" th:value="${r}" th:text="${r.name()}" th:selected="${r == role}"></option>
@@ -48,7 +48,7 @@
                     </div>
 
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Dispositivo</label>
+                        <label class="form-label" style="font-size:0.82rem;">Dispositivo</label>
                         <select name="deviceType" class="form-select">
                             <option value="">Todos los Dispositivos</option>
                             <option th:each="dev : ${devices}" th:value="${dev.type}" th:text="${dev.name}" th:selected="${dev.type == deviceType}"></option>
@@ -86,7 +86,7 @@
                             </tr>
                             <tr th:each="u : ${usersPage.content}">
                                 <td>
-                                    <div style="font-weight:700; color:#ffffff;" th:text="${u.fullName}">Nombre</div>
+                                    <div style="font-weight:800; color:var(--text-main);" th:text="${u.fullName}">Nombre</div>
                                     <div style="font-size:0.8rem; color:var(--text-dim);" th:text="${'@' + u.username}">@usuario</div>
                                 </td>
                                 <td th:text="${u.email}">email@ejemplo.com</td>

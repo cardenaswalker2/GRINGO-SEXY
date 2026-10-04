@@ -19,15 +19,15 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Panel Principal</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Optimización y Modificaciones Móviles</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Panel Principal</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Optimización y Modificaciones Móviles</p>
                 </div>
             </div>
 
             <div style="display:flex; align-items:center; gap:16px;">
                 <div class="glass-card" style="padding:6px 14px; border-radius:var(--radius-full); display:flex; align-items:center; gap:8px;">
                     <i th:class="${currentUser.deviceType.iconClass}" style="color:var(--primary);"></i>
-                    <span style="font-size:0.85rem; font-weight:700;" th:text="${currentUser.deviceType.displayName}">iPhone</span>
+                    <span style="font-size:0.85rem; font-weight:700; color:var(--text-main);" th:text="${currentUser.deviceType.displayName}">iPhone</span>
                 </div>
                 <div th:if="${currentUser.active}" class="badge badge-success">
                     <i class="fas fa-circle" style="font-size:0.5rem;"></i> Activo
@@ -40,17 +40,17 @@
 
         <div class="app-page-body">
             <!-- Welcome Banner -->
-            <div class="glass-card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(244,63,94,0.15) 0%, rgba(139,92,246,0.1) 100%); border-color: rgba(244,63,94,0.3); padding: 32px;">
+            <div class="glass-card" style="margin-bottom: 32px; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fef2f2 100%); border-color: rgba(242,85,56,0.3); padding: 32px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
                     <div>
-                        <div style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:700; color:#fb7185; text-transform:uppercase; margin-bottom:8px;">
+                        <div style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:8px;">
                             <i class="fas fa-bolt"></i> Sistema Calibrado
                         </div>
-                        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px;">
+                        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px; color:var(--text-main);">
                             ¡Hola, <span th:text="${currentUser.fullName}">Usuario</span>! 👋
                         </h1>
-                        <p style="color: var(--text-muted); max-width: 600px;">
-                            Tu dispositivo registrado es <strong style="color:#ffffff;" th:text="${currentUser.deviceType.displayName}">iPhone</strong>. Todas las sensibilidades, parámetros de DPI y guías técnicas están filtradas automáticamente para tu modelo.
+                        <p style="color: var(--text-secondary); max-width: 600px; font-size:0.95rem;">
+                            Tu dispositivo registrado es <strong style="color:var(--text-main);" th:text="${currentUser.deviceType.displayName}">iPhone</strong>. Todas las sensibilidades, parámetros de DPI y guías técnicas están filtradas automáticamente para tu modelo.
                         </p>
                     </div>
                     <div>
@@ -63,8 +63,8 @@
 
             <!-- Categories Grid -->
             <div style="margin-bottom: 24px;">
-                <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 4px;">Tus Módulos Autorizados</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Selecciona una categoría para explorar configuraciones, comandos y archivos.</p>
+                <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; color:var(--text-main);">Tus Módulos Autorizados</h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted);">Selecciona una categoría para explorar configuraciones, comandos y archivos.</p>
             </div>
 
             <div class="categories-grid">

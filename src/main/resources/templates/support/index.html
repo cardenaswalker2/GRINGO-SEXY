@@ -16,8 +16,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Soporte Técnico</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Asistencia y resolución de dudas sobre configuraciones</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Soporte Técnico</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Asistencia y resolución de dudas sobre configuraciones</p>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:32px;">
                 <!-- New Ticket Form -->
                 <div class="glass-card">
-                    <h3 style="font-size:1.2rem; margin-bottom:16px;">
+                    <h3 style="font-size:1.25rem; font-weight:800; margin-bottom:16px; color:var(--text-main);">
                         <i class="fas fa-plus-circle" style="color:var(--primary); margin-right:6px;"></i> Crear Nueva Solicitud
                     </h3>
 
@@ -49,8 +49,8 @@
 
                 <!-- My Tickets History -->
                 <div>
-                    <h3 style="font-size:1.2rem; margin-bottom:16px;">
-                        <i class="fas fa-history" style="color:var(--accent-cyan); margin-right:6px;"></i> Mis Solicitudes Anteriores
+                    <h3 style="font-size:1.25rem; font-weight:800; margin-bottom:16px; color:var(--text-main);">
+                        <i class="fas fa-history" style="color:var(--accent-indigo); margin-right:6px;"></i> Mis Solicitudes Anteriores
                     </h3>
 
                     <div th:if="${tickets.empty}" class="glass-card" style="text-align:center; padding:40px 20px;">
@@ -59,20 +59,20 @@
                     </div>
 
                     <div th:unless="${tickets.empty}">
-                        <div th:each="t : ${tickets}" class="glass-card" style="margin-bottom:16px; padding:20px;">
+                        <div th:each="t : ${tickets}" class="glass-card" style="margin-bottom:16px; padding:22px;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                                <h4 style="font-size:1rem; font-weight:700;" th:text="${t.subject}">Asunto</h4>
+                                <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);" th:text="${t.subject}">Asunto</h4>
                                 <span class="badge" th:classappend="${t.status.badgeClass}" th:text="${t.status.displayName}">Abierto</span>
                             </div>
-                            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;" th:text="${t.message}">Mensaje</p>
+                            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px;" th:text="${t.message}">Mensaje</p>
 
                             <!-- Admin Response if exists -->
-                            <div th:if="${t.adminResponse != null}" style="background:rgba(6, 182, 212, 0.1); border-left:3px solid var(--accent-cyan); padding:12px 14px; border-radius:var(--radius-sm); margin-top:10px;">
-                                <div style="font-size:0.75rem; font-weight:700; color:var(--accent-cyan); margin-bottom:4px; text-transform:uppercase;">Respuesta de GRINGO SEXY Support:</div>
-                                <div style="font-size:0.88rem; color:#e2e8f0;" th:text="${t.adminResponse}">Respuesta</div>
+                            <div th:if="${t.adminResponse != null}" style="background:#f0f9ff; border-left:4px solid var(--accent-cyan); padding:14px 16px; border-radius:var(--radius-sm); margin-top:12px;">
+                                <div style="font-size:0.75rem; font-weight:800; color:#0284c7; margin-bottom:4px; text-transform:uppercase;">Respuesta de GRINGO SEXY Support:</div>
+                                <div style="font-size:0.9rem; color:var(--text-main);" th:text="${t.adminResponse}">Respuesta</div>
                             </div>
 
-                            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:10px;">
+                            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:10px;">
                                 Creado el <span th:text="${#temporals.format(t.createdAt, 'dd/MM/yyyy HH:mm')}">Fecha</span>
                             </div>
                         </div>

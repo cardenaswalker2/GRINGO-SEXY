@@ -14,13 +14,13 @@
             <div style="display:flex; align-items:center; gap:16px;">
                 <a th:href="@{/admin/content}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver</a>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;" th:text="${isNew ? 'Nuevo Contenido' : 'Editar Contenido'}">Editor</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Redacta instrucciones técnicas y calibraciones</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);" th:text="${isNew ? 'Nuevo Contenido' : 'Editar Contenido'}">Editor</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Redacta instrucciones técnicas y calibraciones</p>
                 </div>
             </div>
         </div>
 
-        <div class="app-page-body" style="max-width: 900px;">
+        <div class="app-page-body" style="max-width: 920px;">
             <div class="glass-card">
                 <form th:action="${isNew ? '/admin/content/new' : '/admin/content/' + contentId + '/edit'}" th:object="${contentRequest}" method="post">
                     <div class="form-group">
@@ -56,18 +56,18 @@
                     </div>
 
                     <!-- Target Devices -->
-                    <div class="form-group" style="background:var(--bg-surface); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
+                    <div class="form-group" style="background:var(--bg-surface-warm); padding:22px; border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
                         <label class="form-label">Dispositivos de Destino</label>
                         <div style="margin-bottom:12px;">
-                            <label class="checkbox-label" style="font-weight:600; color:#ffffff;">
+                            <label class="checkbox-label" style="font-weight:700; color:var(--text-main);">
                                 <input type="checkbox" th:field="*{applyToAllDevices}" id="allDevicesCheck">
                                 <span>Habilitar para TODOS los dispositivos (Universal)</span>
                             </label>
                         </div>
 
-                        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:10px; margin-top:14px;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:12px; margin-top:14px;">
                             <div th:each="dev : ${devices}">
-                                <label class="checkbox-label" style="font-size:0.85rem;">
+                                <label class="checkbox-label" style="font-size:0.88rem;">
                                     <input type="checkbox" th:field="*{targetDevices}" th:value="${dev.type}">
                                     <span th:text="${dev.name}">iPhone</span>
                                 </label>

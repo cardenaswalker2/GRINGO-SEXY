@@ -7,6 +7,9 @@
 <div class="ambient-glow"></div>
 <div class="ambient-glow-bottom"></div>
 
+<!-- Top Social Community Header (PRIORITY 1) -->
+<div th:replace="~{fragments/navbar :: top-social}"></div>
+
 <!-- Top Navigation -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -21,7 +24,7 @@
                 <!-- Left Editorial Text -->
                 <div class="hero-content">
                     <div class="hero-badge">
-                        <span style="width:6px; height:6px; border-radius:50%; background:var(--primary); display:inline-block;"></span>
+                        <span style="width:7px; height:7px; border-radius:50%; background:var(--primary); display:inline-block;"></span>
                         PLATAFORMA MÓVIL DE ÉLITE
                     </div>
 
@@ -30,7 +33,7 @@
                     </h1>
 
                     <p class="hero-description">
-                        Personaliza, optimiza y lleva el rendimiento de tu smartphone al siguiente nivel.
+                        Personaliza, optimiza y lleva el rendimiento de tu smartphone al siguiente nivel con calibraciones exclusivas.
                     </p>
 
                     <div class="hero-actions">
@@ -39,6 +42,20 @@
                         </a>
                         <a th:href="@{/#funciones}" class="btn btn-secondary btn-lg btn-pill">
                             Explorar funciones
+                        </a>
+                    </div>
+
+                    <!-- Direct Fast-Access Social Links inside Hero -->
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:20px;">
+                        <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Síguenos en:</span>
+                        <a th:href="${socialTiktok != null ? socialTiktok : 'https://www.tiktok.com/@7gringo_'}" target="_blank" rel="noopener noreferrer" class="social-pill tiktok" title="TikTok Oficial">
+                            <i class="fab fa-tiktok"></i> TikTok
+                        </a>
+                        <a th:href="${socialInstagram != null ? socialInstagram : 'https://www.instagram.com/7gringo.sex?stkn=MTVnMXRnamg4eXBoCA%3D%3D&utm_source=qr'}" target="_blank" rel="noopener noreferrer" class="social-pill instagram" title="Instagram Oficial">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                        <a th:href="${socialDiscord != null ? socialDiscord : 'https://discord.gg/cks2QZKEr'}" target="_blank" rel="noopener noreferrer" class="social-pill discord" title="Servidor Discord">
+                            <i class="fab fa-discord"></i> Discord
                         </a>
                     </div>
                 </div>
@@ -51,24 +68,24 @@
                     <div class="hero-floating-badge badge-float-1">
                         <div class="floating-icon"><i class="fas fa-bolt"></i></div>
                         <div>
-                            <div style="font-size:0.85rem; font-weight:700; color:#ffffff;">Rendimiento optimizado</div>
-                            <div style="font-size:0.75rem; color:var(--text-dim);">120 FPS Estables</div>
+                            <div style="font-size:0.88rem; font-weight:800; color:var(--text-main);">Rendimiento optimizado</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">120 FPS Estables</div>
                         </div>
                     </div>
 
                     <div class="hero-floating-badge badge-float-2">
-                        <div class="floating-icon" style="color:var(--accent-pink); background:rgba(236,72,153,0.15);"><i class="fas fa-battery-full"></i></div>
+                        <div class="floating-icon" style="color:var(--accent-rose); background:#ffe4e6;"><i class="fas fa-battery-full"></i></div>
                         <div>
-                            <div style="font-size:0.85rem; font-weight:700; color:#ffffff;">Mayor duración</div>
-                            <div style="font-size:0.75rem; color:var(--text-dim);">Gestión térmica</div>
+                            <div style="font-size:0.88rem; font-weight:800; color:var(--text-main);">Mayor duración</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Gestión térmica</div>
                         </div>
                     </div>
 
                     <div class="hero-floating-badge badge-float-3">
-                        <div class="floating-icon" style="color:var(--accent-cyan); background:rgba(6,182,212,0.15);"><i class="fas fa-shield-alt"></i></div>
+                        <div class="floating-icon" style="color:var(--accent-cyan); background:#e0f2fe;"><i class="fas fa-shield-alt"></i></div>
                         <div>
-                            <div style="font-size:0.85rem; font-weight:700; color:#ffffff;">Tu privacidad primero</div>
-                            <div style="font-size:0.75rem; color:var(--text-dim);">Sin telemetría</div>
+                            <div style="font-size:0.88rem; font-weight:800; color:var(--text-main);">Tu privacidad primero</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Sin telemetría</div>
                         </div>
                     </div>
                 </div>
@@ -181,16 +198,16 @@
 
                 <!-- Middle: Visual Mockup -->
                 <div class="compatibility-visual" style="text-align:center;">
-                    <img th:src="@{/images/devices-mockup.png}" alt="Samsung, Motorola, Xiaomi, Realme & iPhone Game Settings" style="width:100%; max-width:440px; border-radius:var(--radius-lg); box-shadow:0 15px 40px rgba(0,0,0,0.8);">
+                    <img th:src="@{/images/devices-mockup.png}" alt="Samsung, Motorola, Xiaomi, Realme & iPhone Game Settings" style="width:100%; max-width:440px; border-radius:var(--radius-lg); box-shadow:0 15px 35px rgba(45,30,20,0.12);">
                 </div>
 
                 <!-- Right: Device Capabilities & Action -->
                 <div>
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-                        <i id="compatDeviceIcon" class="fas fa-mobile-alt" style="font-size:1.4rem; color:var(--primary);"></i>
-                        <strong id="compatDeviceTitle" style="font-size:1.2rem; color:#ffffff;">Samsung Galaxy</strong>
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                        <i id="compatDeviceIcon" class="fas fa-mobile-alt" style="font-size:1.5rem; color:var(--primary);"></i>
+                        <strong id="compatDeviceTitle" style="font-size:1.25rem; color:var(--text-main); font-weight:800;">Samsung Galaxy</strong>
                     </div>
-                    <p id="compatDeviceSubtitle" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px; line-height:1.6;">
+                    <p id="compatDeviceSubtitle" style="font-size:0.92rem; color:var(--text-muted); margin-bottom:20px; line-height:1.6;">
                         Calibración especial One UI, DPI recomendado y Game Booster Plus optimizado para máxima tasa de refresco táctil.
                     </p>
 
@@ -209,7 +226,7 @@
                         </div>
                     </div>
 
-                    <a th:href="@{/register}" class="btn btn-primary btn-block btn-pill" style="box-shadow: 0 6px 20px rgba(244,63,94,0.35); text-align:center;">
+                    <a th:href="@{/register}" class="btn btn-primary btn-block btn-pill" style="box-shadow: 0 6px 20px rgba(242,85,56,0.35); text-align:center;">
                         Obtener para mi dispositivo <i class="fas fa-arrow-right" style="font-size:0.8rem;"></i>
                     </a>
                 </div>
@@ -271,14 +288,14 @@
         <div class="container">
             <div class="cta-banner-card">
                 <div class="cta-banner-info">
-                    <div class="section-tag" style="color:#fb7185;">TU DISPOSITIVO, TU CONTROL</div>
-                    <h3 style="color:#ffffff;">Lleva tu dispositivo<br><span class="text-gradient">más lejos</span></h3>
-                    <p style="color:var(--text-muted); font-size:0.95rem; margin-top:8px;">
+                    <div class="section-tag" style="color:var(--primary);">TU DISPOSITIVO, TU CONTROL</div>
+                    <h3 style="color:var(--text-main);">Lleva tu dispositivo<br><span class="text-gradient">más lejos</span></h3>
+                    <p style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">
                         • Únete a miles de usuarios que ya están optimizando su experiencia móvil con GRINGO SEXY.
                     </p>
                 </div>
 
-                <a th:href="@{/register}" class="btn btn-primary btn-lg btn-pill" style="box-shadow: 0 10px 30px rgba(244,63,94,0.45);">
+                <a th:href="@{/register}" class="btn btn-primary btn-lg btn-pill" style="box-shadow: 0 8px 25px rgba(242,85,56,0.4);">
                     Comenzar ahora <i class="fas fa-arrow-right" style="font-size:0.85rem;"></i>
                 </a>
             </div>

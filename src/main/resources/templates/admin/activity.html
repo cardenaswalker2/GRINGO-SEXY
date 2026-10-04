@@ -16,8 +16,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Registro de Auditoría</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Trazabilidad completa de acciones y seguridad</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Registro de Auditoría</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Trazabilidad completa de acciones y seguridad</p>
                 </div>
             </div>
         </div>
@@ -47,9 +47,9 @@
                                     <span class="badge badge-info" th:text="${l.action}">ACTION</span>
                                 </td>
                                 <td>
-                                    <strong style="color:#ffffff;" th:text="${l.username != null ? l.username : 'Sistema'}">Usuario</strong>
+                                    <strong style="color:var(--text-main); font-weight:800;" th:text="${l.username != null ? l.username : 'Sistema'}">Usuario</strong>
                                 </td>
-                                <td th:text="${l.description}">Descripción</td>
+                                <td style="color:var(--text-secondary);" th:text="${l.description}">Descripción</td>
                                 <td style="font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--text-dim);" th:text="${l.ipAddress != null ? l.ipAddress : '127.0.0.1'}">127.0.0.1</td>
                             </tr>
                         </tbody>

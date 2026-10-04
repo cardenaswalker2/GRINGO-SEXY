@@ -1,5 +1,6 @@
 /* ===================================================================
    GRINGO SEXY — Comprehensive Responsive Engine
+   Warm, Modern, Clean Light Interface
    Tested & Tailored for:
    - Ultra-Wide / Desktop: 1920px, 1440px, 1366px
    - Tablets & Small Laptops: 1024px, 768px
@@ -46,7 +47,7 @@ html, body {
 @media (max-width: 1024px) {
     .modules-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 20px;
     }
 
     .compatibility-box {
@@ -113,13 +114,14 @@ html, body {
         left: -100%;
         width: 100%;
         height: calc(100vh - var(--header-height));
-        background: var(--bg-surface-elevated);
+        background: #ffffff;
         flex-direction: column;
         align-items: flex-start;
         padding: 30px 24px;
         gap: 20px;
         transition: left var(--trans-smooth);
         border-bottom: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-lg);
         z-index: 999;
         overflow-y: auto;
     }
@@ -145,7 +147,7 @@ html, body {
     /* Hero Section */
     .hero-wrapper {
         grid-template-columns: 1fr;
-        padding: 40px 0 30px;
+        padding: 30px 0 20px;
         text-align: center;
         gap: 32px;
     }
@@ -160,7 +162,7 @@ html, body {
 
     .hero-description {
         margin: 0 auto 24px;
-        font-size: 0.95rem;
+        font-size: 0.98rem;
     }
 
     .hero-actions {
@@ -218,7 +220,8 @@ html, body {
         height: 100vh !important;
         z-index: 10000 !important;
         transition: left var(--trans-smooth) !important;
-        box-shadow: 15px 0 40px rgba(0, 0, 0, 0.9) !important;
+        box-shadow: 15px 0 40px rgba(45, 30, 20, 0.25) !important;
+        background: #ffffff !important;
     }
 
     .app-sidebar.open {
@@ -229,8 +232,8 @@ html, body {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
+        background: rgba(30, 27, 24, 0.5);
+        backdrop-filter: blur(4px);
         z-index: 9999;
     }
 
@@ -304,6 +307,18 @@ html, body {
         gap: 20px;
     }
 
+    /* Social top bar responsive stack */
+    .social-top-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .social-pill-group {
+        justify-content: center;
+    }
+
     /* All inline style grids in Admin become single column */
     div[style*="grid-template-columns"] {
         display: flex !important;
@@ -347,25 +362,25 @@ html, body {
     /* Stats Grid */
     .stats-grid {
         grid-template-columns: 1fr 1fr !important;
-        gap: 12px !important;
+        gap: 14px !important;
         margin-bottom: 24px !important;
     }
 
     .stat-card {
-        padding: 16px !important;
+        padding: 18px !important;
         flex-direction: column-reverse !important;
         align-items: flex-start !important;
         gap: 12px !important;
     }
 
     .stat-info h3 {
-        font-size: 1.4rem !important;
+        font-size: 1.45rem !important;
     }
 
     .stat-icon {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 1.1rem !important;
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1.15rem !important;
     }
 
     /* User Categories Grid in Dashboard */
@@ -375,12 +390,12 @@ html, body {
     }
 
     .category-card {
-        padding: 20px !important;
+        padding: 22px !important;
     }
 
     /* Content Cards */
     .content-card {
-        padding: 18px !important;
+        padding: 20px !important;
     }
 
     .content-meta {
@@ -396,7 +411,7 @@ html, body {
 
     /* Auth Cards */
     .auth-card {
-        padding: 28px 20px !important;
+        padding: 30px 22px !important;
         border-radius: var(--radius-lg) !important;
         width: 100% !important;
     }
@@ -406,9 +421,7 @@ html, body {
         gap: 8px !important;
     }
 
-    /* ===============================================================
-       ADMIN MODALS (Full responsive behavior)
-       =============================================================== */
+    /* Admin Modals */
     .modal-backdrop {
         padding: 12px !important;
         align-items: center !important;
@@ -426,17 +439,17 @@ html, body {
     }
 
     .modal-body {
-        padding: 18px 16px !important;
+        padding: 20px 16px !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
     }
 
     .modal-header {
-        padding: 16px !important;
+        padding: 18px 16px !important;
     }
 
     .modal-footer {
-        padding: 12px 16px !important;
+        padding: 14px 16px !important;
         flex-direction: column-reverse !important;
         gap: 8px !important;
     }
@@ -445,9 +458,7 @@ html, body {
         width: 100% !important;
     }
 
-    /* ===============================================================
-       ADMIN & SYSTEM TABLES (Controlled internal swipe, 0px body overflow)
-       =============================================================== */
+    /* Tables */
     .table-responsive {
         margin: 0 !important;
         border-radius: var(--radius-md) !important;
@@ -525,8 +536,8 @@ html, body {
     }
 
     .hero-badge {
-        font-size: 0.68rem !important;
-        padding: 4px 10px !important;
+        font-size: 0.7rem !important;
+        padding: 4px 12px !important;
     }
 
     .hero-actions .btn {
@@ -540,8 +551,8 @@ html, body {
 
     .highlight-item {
         justify-content: flex-start !important;
-        padding: 6px 12px !important;
-        background: rgba(255, 255, 255, 0.02) !important;
+        padding: 8px 14px !important;
+        background: var(--bg-surface-warm) !important;
         border-radius: var(--radius-sm) !important;
     }
 
@@ -554,7 +565,7 @@ html, body {
     }
 
     .app-topbar {
-        padding: 12px 10px !important;
+        padding: 12px 12px !important;
         flex-direction: column !important;
         align-items: flex-start !important;
         gap: 10px !important;
@@ -575,15 +586,15 @@ html, body {
     }
 
     .app-topbar h2 {
-        font-size: 1.05rem !important;
+        font-size: 1.1rem !important;
     }
 
     .app-page-body {
-        padding: 14px 10px !important;
+        padding: 16px 12px !important;
     }
 
     .glass-card {
-        padding: 18px 14px !important;
+        padding: 20px 16px !important;
         border-radius: var(--radius-md) !important;
     }
 
@@ -610,25 +621,25 @@ html, body {
    ------------------------------------------------------------------- */
 @media (max-width: 340px) {
     .hero-title-main {
-        font-size: 1.9rem !important;
+        font-size: 1.95rem !important;
     }
 
     .section-title {
-        font-size: 1.4rem !important;
+        font-size: 1.45rem !important;
     }
 
     .site-logo {
-        font-size: 1.05rem !important;
+        font-size: 1.1rem !important;
     }
 
     .auth-card {
-        padding: 18px 12px !important;
+        padding: 20px 14px !important;
     }
 
     .page-btn {
-        min-width: 28px !important;
-        height: 28px !important;
-        padding: 0 4px !important;
+        min-width: 30px !important;
+        height: 30px !important;
+        padding: 0 6px !important;
         font-size: 0.75rem !important;
     }
 }

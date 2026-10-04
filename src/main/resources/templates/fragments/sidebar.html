@@ -58,8 +58,8 @@
         <!-- Admin Shortcut if authorized -->
         <li sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="sidebar-section-title">Administración</li>
         <li sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')">
-            <a th:href="@{/admin}" class="sidebar-link" style="color:#fb7185;">
-                <i class="fas fa-lock"></i>
+            <a th:href="@{/admin}" class="sidebar-link" style="color:var(--primary); font-weight:700;">
+                <i class="fas fa-shield-alt"></i>
                 <span>Panel Administrativo</span>
             </a>
         </li>
@@ -77,7 +77,7 @@
             </div>
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="btn btn-secondary btn-sm" title="Cerrar sesión" style="padding:6px 8px;">
-                    <i class="fas fa-power-off" style="color:#f43f5e;"></i>
+                    <i class="fas fa-power-off" style="color:var(--primary);"></i>
                 </button>
             </form>
         </div>
@@ -86,7 +86,7 @@
 
 <!-- Admin Sidebar Fragment -->
 <aside th:fragment="admin-sidebar(activePage)" class="app-sidebar" id="appSidebar">
-    <div class="sidebar-header" style="background: rgba(244,63,94,0.08); border-bottom: 1px solid rgba(244,63,94,0.2);">
+    <div class="sidebar-header" style="background: var(--primary-light); border-bottom: 1px solid rgba(242,85,56,0.2);">
         <a th:href="@{/admin}" class="site-logo">
             <i class="fas fa-shield-halved" style="color:var(--primary);"></i>
             <span>ADMIN <span class="text-gradient">GS</span></span>
@@ -146,7 +146,7 @@
 
         <li class="sidebar-section-title">Vista de Usuario</li>
         <li>
-            <a th:href="@{/dashboard}" class="sidebar-link" style="color:var(--accent-cyan);">
+            <a th:href="@{/dashboard}" class="sidebar-link" style="color:var(--primary); font-weight:700;">
                 <i class="fas fa-arrow-left"></i>
                 <span>Regresar al Dashboard</span>
             </a>
@@ -164,7 +164,7 @@
             </div>
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="btn btn-secondary btn-sm" title="Cerrar sesión" style="padding:6px 8px;">
-                    <i class="fas fa-power-off" style="color:#f43f5e;"></i>
+                    <i class="fas fa-power-off" style="color:var(--primary);"></i>
                 </button>
             </form>
         </div>

@@ -16,19 +16,19 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Configuración de Plataforma</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Variables del entorno y enlaces centralizados</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Configuración de Plataforma</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Variables del entorno y enlaces centralizados</p>
                 </div>
             </div>
         </div>
 
-        <div class="app-page-body" style="max-width: 800px;">
+        <div class="app-page-body" style="max-width: 820px;">
             <div class="glass-card" style="margin-bottom:24px;">
-                <h3 style="font-size:1.15rem; margin-bottom:16px;">
+                <h3 style="font-size:1.2rem; font-weight:800; margin-bottom:16px; color:var(--text-main);">
                     <i class="fas fa-share-alt" style="color:var(--primary); margin-right:8px;"></i> Enlaces de Redes Sociales Centralizados
                 </h3>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
-                    Estos enlaces se configuran mediante el archivo <code>application.properties</code> o variables de entorno en <code>.env</code>.
+                <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px;">
+                    Estos enlaces se configuran mediante el archivo <code>application.properties</code> o variables de entorno en Render/producción.
                 </p>
 
                 <div style="display:flex; flex-direction:column; gap:14px;">
@@ -37,7 +37,7 @@
                         <input type="text" class="form-control" th:value="${socialDiscord}" readonly>
                     </div>
                     <div>
-                        <label class="form-label" style="font-size:0.85rem;"><i class="fab fa-tiktok" style="color:#fe2c55;"></i> TikTok URL</label>
+                        <label class="form-label" style="font-size:0.85rem;"><i class="fab fa-tiktok" style="color:#000000;"></i> TikTok URL</label>
                         <input type="text" class="form-control" th:value="${socialTiktok}" readonly>
                     </div>
                     <div>
@@ -52,25 +52,25 @@
             </div>
 
             <div class="glass-card">
-                <h3 style="font-size:1.15rem; margin-bottom:12px;">
+                <h3 style="font-size:1.2rem; font-weight:800; margin-bottom:12px; color:var(--text-main);">
                     <i class="fas fa-server" style="color:var(--accent-emerald); margin-right:8px;"></i> Estado del Stack Tecnológico
                 </h3>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:0.88rem;">
-                    <div style="background:var(--bg-surface); padding:12px; border-radius:var(--radius-sm);">
-                        <span style="color:var(--text-dim);">Backend Framework:</span>
-                        <div style="font-weight:700; color:#ffffff;">Spring Boot 3.2.5 (Java 17)</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; font-size:0.9rem;">
+                    <div style="background:var(--bg-surface-warm); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <span style="color:var(--text-muted); font-size:0.82rem;">Backend Framework:</span>
+                        <div style="font-weight:800; color:var(--text-main);">Spring Boot 3.2.5 (Java 17)</div>
                     </div>
-                    <div style="background:var(--bg-surface); padding:12px; border-radius:var(--radius-sm);">
-                        <span style="color:var(--text-dim);">Base de Datos:</span>
-                        <div style="font-weight:700; color:#ffffff;">Spring Data MongoDB</div>
+                    <div style="background:var(--bg-surface-warm); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <span style="color:var(--text-muted); font-size:0.82rem;">Base de Datos:</span>
+                        <div style="font-weight:800; color:var(--text-main);">Spring Data MongoDB</div>
                     </div>
-                    <div style="background:var(--bg-surface); padding:12px; border-radius:var(--radius-sm);">
-                        <span style="color:var(--text-dim);">Seguridad:</span>
-                        <div style="font-weight:700; color:#ffffff;">Spring Security + BCrypt 12</div>
+                    <div style="background:var(--bg-surface-warm); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <span style="color:var(--text-muted); font-size:0.82rem;">Seguridad:</span>
+                        <div style="font-weight:800; color:var(--text-main);">Spring Security + BCrypt 12</div>
                     </div>
-                    <div style="background:var(--bg-surface); padding:12px; border-radius:var(--radius-sm);">
-                        <span style="color:var(--text-dim);">Motor de Vistas:</span>
-                        <div style="font-weight:700; color:#ffffff;">Thymeleaf 3 + Vanilla JS</div>
+                    <div style="background:var(--bg-surface-warm); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <span style="color:var(--text-muted); font-size:0.82rem;">Motor de Vistas:</span>
+                        <div style="font-weight:800; color:var(--text-main);">Thymeleaf 3 + Vanilla JS</div>
                     </div>
                 </div>
             </div>

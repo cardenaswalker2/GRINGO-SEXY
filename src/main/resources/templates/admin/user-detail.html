@@ -14,8 +14,8 @@
             <div style="display:flex; align-items:center; gap:16px;">
                 <a th:href="@{/admin/users}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver a Usuarios</a>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;" th:text="${'Administrar: ' + user.fullName}">Detalle Usuario</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);" th:text="${'@' + user.username + ' • ' + user.email}">@usuario</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);" th:text="${'Administrar: ' + user.fullName}">Detalle Usuario</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);" th:text="${'@' + user.username + ' • ' + user.email}">@usuario</p>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div style="display:grid; grid-template-columns: 1fr 1.4fr; gap:24px;">
                 <!-- User Core Settings Form -->
                 <div class="glass-card">
-                    <h3 style="font-size:1.15rem; margin-bottom:20px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
+                    <h3 style="font-size:1.2rem; font-weight:800; margin-bottom:20px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px; color:var(--text-main);">
                         <i class="fas fa-id-card" style="color:var(--primary); margin-right:6px;"></i> Datos & Estado
                     </h3>
 
@@ -64,27 +64,27 @@
 
                 <!-- Granular Permissions Matrix Form -->
                 <div class="glass-card">
-                    <h3 style="font-size:1.15rem; margin-bottom:12px;">
+                    <h3 style="font-size:1.2rem; font-weight:800; margin-bottom:12px; color:var(--text-main);">
                         <i class="fas fa-key" style="color:var(--accent-cyan); margin-right:6px;"></i> Matriz de Permisos Individuales
                     </h3>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
+                    <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px;">
                         Habilita o deshabilita el acceso individual a cada uno de los módulos de la plataforma para este usuario.
                     </p>
 
                     <form th:action="@{'/admin/users/' + ${user.id} + '/permissions'}" th:object="${permissionRequest}" method="post">
                         <div class="permissions-grid" style="grid-template-columns: 1fr;">
                             <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-sliders-h" style="color:var(--primary); margin-right:6px;"></i> Modificaciones</span>
+                                <span style="font-weight:700; font-size:0.92rem; color:var(--text-main);"><i class="fas fa-sliders-h" style="color:var(--primary); margin-right:6px;"></i> Modificaciones</span>
                                 <input type="checkbox" th:field="*{modifications}" style="accent-color:var(--primary); width:18px; height:18px;">
                             </label>
 
                             <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-bullseye" style="color:var(--primary); margin-right:6px;"></i> Sensibilidades</span>
+                                <span style="font-weight:700; font-size:0.92rem; color:var(--text-main);"><i class="fas fa-bullseye" style="color:var(--primary); margin-right:6px;"></i> Sensibilidades</span>
                                 <input type="checkbox" th:field="*{sensitivities}" style="accent-color:var(--primary); width:18px; height:18px;">
                             </label>
 
                             <label class="permission-toggle-item">
-                                <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-bolt" style="color:var(--primary); margin-right:6px;"></i> Optimizaciones</span>
+                                <span style="font-weight:700; font-size:0.92rem; color:var(--text-main);"><i class="fas fa-bolt" style="color:var(--primary); margin-right:6px;"></i> Optimizaciones</span>
                                 <input type="checkbox" th:field="*{optimizations}" style="accent-color:var(--primary); width:18px; height:18px;">
                             </label>
                         </div>

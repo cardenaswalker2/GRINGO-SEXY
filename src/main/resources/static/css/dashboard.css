@@ -1,16 +1,17 @@
 /* ===================================================================
    GRINGO SEXY — Dashboard & Admin Layout CSS
+   Warm, Modern, Clean Light Interface
    =================================================================== */
 
 .app-layout {
     display: flex;
     min-height: 100vh;
-    background: var(--bg-dark);
+    background: var(--bg-base);
 }
 
 .app-sidebar {
     width: var(--sidebar-width);
-    background: var(--bg-surface);
+    background: #ffffff;
     border-right: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
@@ -19,6 +20,7 @@
     bottom: 0;
     left: 0;
     z-index: 50;
+    box-shadow: var(--shadow-xs);
 }
 
 .sidebar-header {
@@ -27,6 +29,7 @@
     align-items: center;
     padding: 0 24px;
     border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface-warm);
 }
 
 .sidebar-nav {
@@ -41,11 +44,11 @@
 
 .sidebar-section-title {
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.1px;
     color: var(--text-dim);
-    padding: 12px 12px 6px;
+    padding: 14px 12px 6px;
 }
 
 .sidebar-link {
@@ -54,7 +57,7 @@
     gap: 12px;
     padding: 11px 14px;
     border-radius: var(--radius-md);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: 0.92rem;
     font-weight: 600;
     transition: all var(--trans-fast);
@@ -69,7 +72,7 @@
 }
 
 .sidebar-link:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-surface-warm);
     color: var(--text-main);
 }
 
@@ -78,9 +81,9 @@
 }
 
 .sidebar-link.active {
-    background: rgba(244, 63, 94, 0.12);
-    color: #ffffff;
-    border: 1px solid rgba(244, 63, 94, 0.3);
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid rgba(242, 85, 56, 0.25);
 }
 
 .sidebar-link.active i {
@@ -90,7 +93,7 @@
 .sidebar-footer {
     padding: 16px;
     border-top: 1px solid var(--border-subtle);
-    background: var(--bg-surface-elevated);
+    background: var(--bg-surface-warm);
 }
 
 .user-mini-card {
@@ -100,16 +103,17 @@
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: var(--radius-full);
     background: var(--gradient-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 800;
     color: #ffffff;
     font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(242, 85, 56, 0.3);
 }
 
 .user-meta {
@@ -118,7 +122,7 @@
 }
 
 .user-meta-name {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--text-main);
     white-space: nowrap;
@@ -127,8 +131,8 @@
 }
 
 .user-meta-role {
-    font-size: 0.75rem;
-    color: var(--text-dim);
+    font-size: 0.76rem;
+    color: var(--text-muted);
 }
 
 /* App Main Content Area */
@@ -142,8 +146,8 @@
 
 .app-topbar {
     height: var(--header-height);
-    background: rgba(8, 10, 16, 0.8);
-    backdrop-filter: var(--glass-blur);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
@@ -152,6 +156,7 @@
     position: sticky;
     top: 0;
     z-index: 40;
+    box-shadow: var(--shadow-xs);
 }
 
 .app-page-body {
@@ -168,37 +173,46 @@
 }
 
 .stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
+    background: #ffffff;
+    border: 1px solid var(--border-card);
     border-radius: var(--radius-lg);
     padding: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--shadow-sm);
+    transition: transform var(--trans-fast);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
 .stat-info h3 {
-    font-size: 1.8rem;
+    font-size: 1.85rem;
     font-weight: 800;
     margin-bottom: 4px;
+    color: var(--text-main);
 }
 
 .stat-info p {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     color: var(--text-muted);
+    font-weight: 600;
 }
 
 .stat-icon {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     border-radius: var(--radius-md);
-    background: rgba(244, 63, 94, 0.1);
+    background: var(--primary-light);
     color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.4rem;
+    border: 1px solid rgba(242, 85, 56, 0.2);
 }
 
 /* Category Dashboard Grid */
@@ -209,16 +223,17 @@
 }
 
 .category-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
+    background: #ffffff;
+    border: 1px solid var(--border-card);
     border-radius: var(--radius-lg);
-    padding: 28px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: all var(--trans-normal);
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 
 .category-card::before {
@@ -227,7 +242,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 4px;
     background: var(--gradient-primary);
     opacity: 0;
     transition: opacity var(--trans-fast);
@@ -235,8 +250,8 @@
 
 .category-card:hover {
     transform: translateY(-4px);
-    border-color: var(--border-highlight);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
 }
 
 .category-card:hover::before {
@@ -247,39 +262,43 @@
     width: 56px;
     height: 56px;
     border-radius: var(--radius-md);
-    background: rgba(244, 63, 94, 0.1);
+    background: var(--primary-light);
     color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     margin-bottom: 20px;
+    border: 1px solid rgba(242, 85, 56, 0.2);
 }
 
 .category-card h3 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     margin-bottom: 10px;
+    color: var(--text-main);
 }
 
 .category-card p {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     margin-bottom: 24px;
     flex: 1;
+    color: var(--text-muted);
 }
 
 /* Content List Card */
 .content-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background: #ffffff;
+    border: 1px solid var(--border-card);
     border-radius: var(--radius-lg);
-    padding: 24px;
+    padding: 26px;
     margin-bottom: 20px;
     transition: all var(--trans-fast);
+    box-shadow: var(--shadow-xs);
 }
 
 .content-card:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: var(--bg-surface-elevated);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
 }
 
 .content-meta {
@@ -300,7 +319,7 @@
 }
 
 .permission-toggle-item {
-    background: var(--bg-surface);
+    background: var(--bg-surface-warm);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     padding: 16px;

@@ -16,8 +16,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Gestión de Categorías</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Módulos disponibles en la plataforma</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Gestión de Categorías</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Módulos disponibles en la plataforma</p>
                 </div>
             </div>
 
@@ -44,13 +44,13 @@
                         <tbody>
                             <tr th:each="c : ${categories}">
                                 <td>
-                                    <div style="width:38px; height:38px; border-radius:var(--radius-sm); background:rgba(244,63,94,0.1); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+                                    <div style="width:38px; height:38px; border-radius:var(--radius-sm); background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.2rem; border:1px solid rgba(242,85,56,0.2);">
                                         <i th:class="${c.iconClass}"></i>
                                     </div>
                                 </td>
-                                <td><strong style="color:#ffffff; font-size:0.95rem;" th:text="${c.name}">Sensibilidades</strong></td>
+                                <td><strong style="color:var(--text-main); font-size:0.95rem; font-weight:800;" th:text="${c.name}">Sensibilidades</strong></td>
                                 <td style="font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--accent-cyan);" th:text="${c.slug}">sensibilidades</td>
-                                <td style="color:var(--text-muted); font-size:0.85rem;" th:text="${c.description}">Descripción</td>
+                                <td style="color:var(--text-secondary); font-size:0.88rem;" th:text="${c.description}">Descripción</td>
                                 <td th:text="${c.sortOrder}">1</td>
                                 <td>
                                     <span th:if="${c.active}" class="badge badge-success">Activo</span>
@@ -75,7 +75,7 @@
                                         <!-- Toggle Status -->
                                         <form th:action="@{'/admin/categories/toggle/' + ${c.id}}" method="post" style="display:inline;">
                                             <button type="submit" class="btn btn-secondary btn-sm" th:title="${c.active ? 'Desactivar' : 'Activar'}">
-                                                <i class="fas" th:classappend="${c.active ? 'fa-toggle-on' : 'fa-toggle-off'}" th:style="${c.active ? 'color:#34d399;' : 'color:var(--text-dim);'}"></i>
+                                                <i class="fas" th:classappend="${c.active ? 'fa-toggle-on' : 'fa-toggle-off'}" th:style="${c.active ? 'color:#059669;' : 'color:var(--text-dim);'}"></i>
                                             </button>
                                         </form>
 
@@ -100,7 +100,7 @@
 <div class="modal-backdrop" id="categoryModal">
     <div class="modal-dialog">
         <div class="modal-header">
-            <h3 id="categoryModalTitle" style="font-size:1.15rem; font-weight:700;">Añadir Nueva Categoría</h3>
+            <h3 id="categoryModalTitle" style="font-size:1.15rem; font-weight:800; color:var(--text-main);">Añadir Nueva Categoría</h3>
             <button type="button" class="btn-close" data-modal-close>&times;</button>
         </div>
         <form th:action="@{/admin/categories/save}" method="post">

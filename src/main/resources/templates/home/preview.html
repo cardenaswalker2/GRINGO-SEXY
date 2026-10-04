@@ -7,20 +7,23 @@
 <div class="ambient-glow"></div>
 <div class="ambient-glow-bottom"></div>
 
+<!-- Top Social Bar (PRIORITY 1) -->
+<div th:replace="~{fragments/navbar :: top-social}"></div>
+
 <!-- Top Navigation -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main style="padding: 40px 0 80px;">
     <div class="container" style="max-width: 960px;">
         <!-- Header Banner -->
-        <div class="glass-card" style="margin-bottom: 32px; padding: 36px 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; border-color: rgba(244,63,94,0.3);">
+        <div class="glass-card" style="margin-bottom: 32px; padding: 36px 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; border-color: rgba(242,85,56,0.25);">
             <div style="display: flex; align-items: center; gap: 20px;">
-                <div class="category-icon-box" style="margin-bottom: 0; width: 70px; height: 70px; font-size: 2rem; background: linear-gradient(135deg, rgba(244,63,94,0.2), rgba(225,29,72,0.1)); border: 1px solid rgba(244,63,94,0.4); color: var(--primary); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg);">
+                <div class="category-icon-box" style="margin-bottom: 0; width: 68px; height: 68px; font-size: 2rem;">
                     <i th:class="${category.iconClass}"></i>
                 </div>
                 <div>
-                    <div class="hero-badge" style="margin-bottom: 8px;">VISTA PREVIA DEL MÓDULO</div>
-                    <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 6px; line-height: 1.2;" th:text="${category.name}">Modificaciones</h1>
+                    <div class="section-tag" style="margin-bottom: 8px;">VISTA PREVIA DEL MÓDULO</div>
+                    <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 6px; line-height: 1.2; color:var(--text-main);" th:text="${category.name}">Modificaciones</h1>
                     <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;" th:text="${category.description}">Personaliza tu sistema y saca el máximo provecho de tu procesador y opciones ocultas.</p>
                 </div>
             </div>
@@ -33,11 +36,11 @@
         </div>
 
         <!-- Preview Notice Card -->
-        <div class="glass-card" style="padding: 20px 24px; margin-bottom: 30px; background: rgba(15, 23, 42, 0.7); border-left: 4px solid var(--primary); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+        <div class="glass-card" style="padding: 20px 24px; margin-bottom: 30px; background: #fffcf9; border-left: 4px solid var(--primary); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
             <div style="display: flex; align-items: center; gap: 14px;">
                 <i class="fas fa-info-circle" style="color: var(--primary); font-size: 1.5rem;"></i>
                 <div>
-                    <strong style="color: #ffffff; font-size: 0.95rem; display: block;">Estás explorando la versión de demostración</strong>
+                    <strong style="color: var(--text-main); font-size: 0.95rem; display: block;">Estás explorando la versión de demostración</strong>
                     <span style="color: var(--text-muted); font-size: 0.85rem;">Puedes leer los resúmenes y configuraciones base. Para obtener los valores exactos y soporte personal, regístrate y activa tu membresía.</span>
                 </div>
             </div>
@@ -48,7 +51,7 @@
 
         <!-- Contents / Demos List -->
         <div style="margin-bottom: 40px;">
-            <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color:var(--text-main);">
                 <i class="fas fa-layer-group" style="color: var(--primary);"></i> Contenidos y Calibraciones en este Módulo
             </h3>
 
@@ -57,39 +60,39 @@
             </div>
 
             <div th:unless="${contents.empty}">
-                <div th:each="item : ${contents}" class="content-card" style="background: rgba(18, 24, 38, 0.6); margin-bottom: 20px; padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+                <div th:each="item : ${contents}" class="content-card" style="margin-bottom: 20px;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; flex-wrap: wrap;">
                         <div>
                             <span class="badge badge-primary" style="margin-bottom: 8px; display: inline-block;" th:if="${item.applyToAllDevices}">Universal (Android & iOS)</span>
                             <span class="badge badge-info" style="margin-bottom: 8px; display: inline-block;" th:unless="${item.applyToAllDevices}">Configuración Especial por Marca</span>
-                            <h2 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 6px;" th:text="${item.title}">Título</h2>
+                            <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;" th:text="${item.title}">Título</h2>
                         </div>
-                        <span class="badge" style="background: rgba(244,63,94,0.15); color: #fb7185; border: 1px solid rgba(244,63,94,0.3);">
+                        <span class="badge badge-primary">
                             <i class="fas fa-lock" style="font-size: 0.75rem;"></i> Acceso VIP
                         </span>
                     </div>
 
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;" th:text="${item.summary}">
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;" th:text="${item.summary}">
                         Resumen del contenido.
                     </p>
 
                     <!-- Preview Blurred/Protected Box -->
-                    <div style="background: rgba(0,0,0,0.4); border: 1px dashed rgba(244,63,94,0.3); border-radius: var(--radius-md); padding: 20px; position: relative; overflow: hidden; text-align: center;">
-                        <div style="filter: blur(4px); opacity: 0.35; user-select: none; pointer-events: none; text-align: left; font-size: 0.9rem; line-height: 1.7; color: #94a3b8;">
+                    <div style="background: #faf6f0; border: 1px dashed rgba(242,85,56,0.35); border-radius: var(--radius-md); padding: 20px; position: relative; overflow: hidden; text-align: center;">
+                        <div style="filter: blur(4px); opacity: 0.4; user-select: none; pointer-events: none; text-align: left; font-size: 0.9rem; line-height: 1.7; color: #64748b;">
                             1. Ajustes del Desarrollador > Escala de Animaciones a 0.0x / Desactivadas.<br>
                             2. Calibración del Driver de Gráficos del Sistema asignado a 120 FPS.<br>
                             3. DPI exacto de respuesta táctil milimétrica y optimización de sensibilidad de disparo a la cabeza...
                         </div>
 
-                        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(10, 15, 29, 0.75); padding: 16px;">
-                            <div style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 10px;">
+                        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.88); padding: 16px;">
+                            <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;">
                                 🔒 Crea tu cuenta y actívala para ver los pasos completos y el video tutorial
                             </div>
                             <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
                                 <a th:href="@{/register}" class="btn btn-primary btn-sm btn-pill">
                                     <i class="fas fa-user-plus"></i> Registrarme Ahora
                                 </a>
-                                <a th:href="${whatsappDirectUrl}" target="_blank" class="btn btn-sm" style="background: #25d366; color: #ffffff; border-radius: var(--radius-full); font-weight: 600;">
+                                <a th:href="${whatsappDirectUrl}" target="_blank" class="btn btn-sm" style="background: #25d366; color: #ffffff; border-radius: var(--radius-full); font-weight: 700;">
                                     <i class="fab fa-whatsapp"></i> Hablar con Admin
                                 </a>
                             </div>
@@ -100,28 +103,28 @@
         </div>
 
         <!-- How It Works Flow Strip -->
-        <div class="glass-card" style="padding: 32px 24px; text-align: center; border-color: rgba(37,211,102,0.3); background: rgba(18, 24, 38, 0.75);">
-            <h3 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">¿Cómo obtener acceso completo?</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 550px; margin: 0 auto 28px;">
+        <div class="glass-card" style="padding: 36px 28px; text-align: center; border-color: rgba(37,211,102,0.3); background: #ffffff;">
+            <h3 style="font-size: 1.45rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">¿Cómo obtener acceso completo?</h3>
+            <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 550px; margin: 0 auto 28px;">
                 El proceso es rápido y guiado paso a paso con activación directa de nuestro administrador:
             </p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; text-align: left; margin-bottom: 30px;">
-                <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--primary); margin-bottom: 8px;">01</div>
-                    <strong style="color: #ffffff; display: block; margin-bottom: 6px;">Crea tu Usuario</strong>
+                <div style="background: var(--bg-surface-warm); padding: 22px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.5rem; font-weight: 900; color: var(--primary); margin-bottom: 8px;">01</div>
+                    <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Crea tu Usuario</strong>
                     <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Regístrate con tu correo y selecciona tu dispositivo móvil (Samsung, Moto, Xiaomi, Realme o iPhone).</p>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-                    <div style="font-size: 1.4rem; font-weight: 900; color: #25d366; margin-bottom: 8px;">02</div>
-                    <strong style="color: #ffffff; display: block; margin-bottom: 6px;">Escribe por WhatsApp</strong>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Manda mensaje directo al <strong style="color: #ffffff;" th:text="${whatsappNumberDisplay}">+1 (239) 245-0044</strong> para confirmar tu pago.</p>
+                <div style="background: var(--bg-surface-warm); padding: 22px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.5rem; font-weight: 900; color: #16a34a; margin-bottom: 8px;">02</div>
+                    <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Escribe por WhatsApp</strong>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Manda mensaje directo al <strong style="color: var(--text-main);" th:text="${whatsappNumberDisplay}">+1 (239) 245-0044</strong> para confirmar tu pago.</p>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--accent-cyan); margin-bottom: 8px;">03</div>
-                    <strong style="color: #ffffff; display: block; margin-bottom: 6px;">Activación Inmediata</strong>
+                <div style="background: var(--bg-surface-warm); padding: 22px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.5rem; font-weight: 900; color: var(--accent-cyan); margin-bottom: 8px;">03</div>
+                    <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Activación Inmediata</strong>
                     <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">El admin aprueba tu usuario y podrás entrar a ver todos los videos, guías y tutoriales sin límites.</p>
                 </div>
             </div>

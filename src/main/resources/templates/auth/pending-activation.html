@@ -4,25 +4,26 @@
 <body>
 
 <div class="ambient-glow"></div>
+<div th:replace="~{fragments/navbar :: top-social}"></div>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="auth-wrapper" style="padding: 40px 16px;">
-    <div class="auth-card" style="text-align: center; max-width: 580px; padding: 36px 28px;">
-        <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(37, 211, 102, 0.15); color: #25d366; display: inline-flex; align-items: center; justify-content: center; font-size: 2.6rem; margin-bottom: 24px; box-shadow: 0 0 30px rgba(37, 211, 102, 0.25);">
+    <div class="auth-card" style="text-align: center; max-width: 580px; padding: 40px 32px;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: #ecfdf5; color: #16a34a; display: inline-flex; align-items: center; justify-content: center; font-size: 2.6rem; margin-bottom: 24px; box-shadow: 0 6px 20px rgba(22, 163, 74, 0.2);">
             <i class="fab fa-whatsapp"></i>
         </div>
 
-        <h2 class="auth-title" style="font-size: 1.75rem; margin-bottom: 8px;">¡Registro Completado con Éxito!</h2>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5;">
-            Tu cuenta <strong style="color: #ffffff;" th:text="${'@' + username}">@usuario</strong> ha sido creada. Para habilitar tu acceso total a los módulos exclusivos de <strong>Modificaciones, Sensibilidades y Optimizaciones</strong>, completa tu suscripción.
+        <h2 class="auth-title" style="font-size: 1.75rem; margin-bottom: 8px; color:var(--text-main);">¡Registro Completado con Éxito!</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6;">
+            Tu cuenta <strong style="color: var(--primary);" th:text="${'@' + username}">@usuario</strong> ha sido creada. Para habilitar tu acceso total a los módulos exclusivos de <strong>Modificaciones, Sensibilidades y Optimizaciones</strong>, completa tu suscripción.
         </p>
 
         <!-- Steps Guide -->
-        <div class="glass-card" style="padding: 20px; text-align: left; margin-bottom: 28px; border-color: rgba(37, 211, 102, 0.25); background: rgba(18, 24, 38, 0.7);">
-            <div style="font-weight: 700; color: #ffffff; margin-bottom: 14px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+        <div class="glass-card" style="padding: 24px; text-align: left; margin-bottom: 28px; border-color: rgba(37, 211, 102, 0.3); background: #f0fdf4;">
+            <div style="font-weight: 800; color: #15803d; margin-bottom: 14px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-lock" style="color: var(--primary);"></i> Pasos para activar tu cuenta:
             </div>
-            <ol style="margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 0.88rem; line-height: 1.7;">
+            <ol style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.75;">
                 <li>Haz clic en el botón verde de abajo para abrir nuestro <strong>WhatsApp oficial</strong>.</li>
                 <li>Envía el mensaje con tu usuario para confirmar tu método de pago preferido.</li>
                 <li>Una vez confirmado tu pago, el administrador <strong>activará tu cuenta de inmediato</strong>.</li>
@@ -31,15 +32,15 @@
 
         <!-- WhatsApp Action Button -->
         <div style="margin-bottom: 20px;">
-            <a th:href="${whatsappUrl}" target="_blank" class="btn btn-lg btn-block" style="background: #25d366; color: #ffffff; font-weight: 700; font-size: 1.05rem; padding: 14px 20px; border-radius: var(--radius-full); box-shadow: 0 6px 24px rgba(37, 211, 102, 0.35); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s;">
+            <a th:href="${whatsappUrl}" target="_blank" class="btn btn-lg btn-block" style="background: #25d366; color: #ffffff !important; font-weight: 800; font-size: 1.05rem; padding: 15px 22px; border-radius: var(--radius-full); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s;">
                 <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i> Contactar por WhatsApp y Activar
             </a>
-            <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 10px;">
-                Atención directa al: <strong style="color: #ffffff;" th:text="${whatsappNumberDisplay}">+1 (239) 245-0044</strong>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; font-weight:600;">
+                Atención directa al: <strong style="color: var(--text-main);" th:text="${whatsappNumberDisplay}">+1 (239) 245-0044</strong>
             </div>
         </div>
 
-        <div style="border-top: 1px solid var(--border-subtle); padding-top: 20px; margin-top: 20px; display: flex; justify-content: center; gap: 16px;">
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 20px; margin-top: 20px; display: flex; justify-content: center; gap: 16px; flex-wrap:wrap;">
             <a th:href="@{/login}" class="btn btn-secondary btn-sm">
                 <i class="fas fa-sign-in-alt"></i> Ya pagué, ir a Iniciar Sesión
             </a>

@@ -16,8 +16,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800;">Gestión de Contenido Móvil</h2>
-                    <p style="font-size:0.82rem; color:var(--text-dim);">Artículos, sensibilidades, scripts y configuraciones por dispositivo</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Gestión de Contenido Móvil</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Artículos, sensibilidades, scripts y configuraciones por dispositivo</p>
                 </div>
             </div>
 
@@ -30,15 +30,15 @@
 
         <div class="app-page-body">
             <!-- Filter Bar -->
-            <div class="glass-card" style="margin-bottom:24px; padding:20px;">
-                <form th:action="@{/admin/content}" method="get" style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:12px; align-items:end;">
+            <div class="glass-card" style="margin-bottom:24px; padding:22px;">
+                <form th:action="@{/admin/content}" method="get" style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:14px; align-items:end;">
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Buscar por Título o Contenido</label>
+                        <label class="form-label" style="font-size:0.82rem;">Buscar por Título o Contenido</label>
                         <input type="text" name="search" th:value="${search}" class="form-control" placeholder="Escribe para buscar...">
                     </div>
 
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Categoría</label>
+                        <label class="form-label" style="font-size:0.82rem;">Categoría</label>
                         <select name="category" class="form-select">
                             <option value="">Todas las Categorías</option>
                             <option th:each="cat : ${categories}" th:value="${cat.code}" th:text="${cat.name}" th:selected="${cat.code == selectedCategory}"></option>
@@ -46,7 +46,7 @@
                     </div>
 
                     <div>
-                        <label class="form-label" style="font-size:0.8rem;">Dispositivo</label>
+                        <label class="form-label" style="font-size:0.82rem;">Dispositivo</label>
                         <select name="deviceType" class="form-select">
                             <option value="">Todos los Dispositivos</option>
                             <option th:each="dev : ${devices}" th:value="${dev.type}" th:text="${dev.name}" th:selected="${dev.type == selectedDevice}"></option>
@@ -82,7 +82,7 @@
                             </tr>
                             <tr th:each="c : ${contentsPage.content}">
                                 <td>
-                                    <div style="font-weight:700; color:#ffffff;" th:text="${c.title}">Título del Contenido</div>
+                                    <div style="font-weight:800; color:var(--text-main);" th:text="${c.title}">Título del Contenido</div>
                                     <div style="font-size:0.8rem; color:var(--text-dim);" th:text="${c.slug}">slug-url</div>
                                 </td>
                                 <td>
