@@ -102,6 +102,13 @@ html, body {
    ------------------------------------------------------------------- */
 @media (max-width: 900px) {
     /* Header Navigation Drawer */
+    .site-header {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: rgba(251, 249, 246, 0.98) !important;
+    }
+
     .hamburger-btn {
         display: inline-flex !important;
         align-items: center;

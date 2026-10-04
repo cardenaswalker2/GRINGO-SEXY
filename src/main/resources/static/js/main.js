@@ -21,6 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // Close mobile menu automatically when clicking any link
+        const navItemLinks = mobileNavLinks.querySelectorAll('a');
+        navItemLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (mobileNavLinks.classList.contains('active')) {
+                    mobileNavLinks.classList.remove('active');
+                    const icon = hamburgerBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            });
+        });
     }
 
     // 2. Dashboard / Admin Sidebar Toggle for Mobile
