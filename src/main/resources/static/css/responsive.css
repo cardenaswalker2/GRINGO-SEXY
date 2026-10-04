@@ -134,8 +134,9 @@ html, body {
         display: none !important;
     }
 
-    .nav-links .nav-actions-mobile {
-        display: flex;
+    .nav-links .nav-actions-mobile,
+    li.nav-actions-mobile {
+        display: flex !important;
         flex-direction: column;
         width: 100%;
         gap: 12px;

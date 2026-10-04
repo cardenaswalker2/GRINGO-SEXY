@@ -46,14 +46,14 @@
             <li><a th:href="@{/#redes}" class="nav-link">Redes Sociales</a></li>
             <li><a th:href="@{/support}" class="nav-link">Soporte</a></li>
 
-            <!-- Mobile actions inside drawer -->
-            <div class="nav-actions-mobile" sec:authorize="isAnonymous()">
+            <!-- Mobile actions inside drawer (Only visible on mobile) -->
+            <li class="nav-actions-mobile" sec:authorize="isAnonymous()">
                 <a th:href="@{/login}" class="btn btn-secondary btn-block">Iniciar sesión</a>
                 <a th:href="@{/register}" class="btn btn-primary btn-block">Comenzar ahora <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="nav-actions-mobile" sec:authorize="isAuthenticated()">
+            </li>
+            <li class="nav-actions-mobile" sec:authorize="isAuthenticated()">
                 <a th:href="@{/dashboard}" class="btn btn-primary btn-block">Mi Dashboard</a>
-            </div>
+            </li>
         </ul>
 
         <div class="nav-actions" sec:authorize="isAnonymous()">

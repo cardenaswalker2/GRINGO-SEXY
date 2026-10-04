@@ -353,6 +353,11 @@ code, pre {
     cursor: pointer;
 }
 
+/* Mobile actions hidden on desktop */
+.nav-actions-mobile {
+    display: none !important;
+}
+
 /* ===================================================================
    TOP SOCIAL MEDIA BAR (PRIORITY 1)
    =================================================================== */
