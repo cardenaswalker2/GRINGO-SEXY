@@ -624,29 +624,98 @@ html, body {
 }
 
 /* -------------------------------------------------------------------
-   6. EXTRA SMALL SMARTPHONES (<= 340px / 320px)
+   7. VIDEO GALLERY & THEATER PLAYER RESPONSIVE RULES
    ------------------------------------------------------------------- */
-@media (max-width: 340px) {
-    .hero-title-main {
-        font-size: 1.95rem !important;
+@media (max-width: 1024px) {
+    .video-catalog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 18px !important;
     }
 
-    .section-title {
+    .theater-body {
+        grid-template-columns: 1fr !important;
+        overflow-y: auto !important;
+    }
+
+    .theater-player-col {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .theater-playlist-col {
+        max-height: 320px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .category-hero-card {
+        padding: 20px 18px !important;
+    }
+
+    .category-hero-left {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+    }
+
+    .category-hero-icon {
+        width: 52px !important;
+        height: 52px !important;
+        font-size: 1.5rem !important;
+    }
+
+    .category-hero-title {
         font-size: 1.45rem !important;
     }
 
-    .site-logo {
-        font-size: 1.1rem !important;
+    .catalog-toolbar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
     }
 
-    .auth-card {
-        padding: 20px 14px !important;
+    .catalog-search-box {
+        width: 100% !important;
     }
 
-    .page-btn {
-        min-width: 30px !important;
-        height: 30px !important;
-        padding: 0 6px !important;
-        font-size: 0.75rem !important;
+    .catalog-filter-tabs {
+        width: 100% !important;
+        overflow-x: auto !important;
+        padding-bottom: 4px !important;
+    }
+
+    .video-catalog-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .theater-modal-backdrop {
+        padding: 8px !important;
+    }
+
+    .theater-modal-window {
+        max-height: 96vh !important;
+        border-radius: var(--radius-md) !important;
+    }
+
+    .theater-header {
+        padding: 12px 16px !important;
+    }
+
+    .theater-video-footer {
+        padding: 14px 16px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+    }
+
+    .theater-nav-controls {
+        width: 100% !important;
+        justify-content: flex-end !important;
+    }
+
+    .theater-video-container video {
+        max-height: 280px !important;
     }
 }
+

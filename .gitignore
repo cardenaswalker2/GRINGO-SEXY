@@ -32,7 +32,6 @@ target/
 ### Environment / Sensitive ###
 .env
 *.log
-*.MOV
-*.mov
+/*.mp4
 !src/main/resources/static/videos/*.mp4
 

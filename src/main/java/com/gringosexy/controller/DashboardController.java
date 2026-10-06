@@ -85,6 +85,9 @@ public class DashboardController {
             throw new UnauthorizedException("No tienes permiso para acceder a este contenido.");
         }
 
+        ContentCategory categoryEnum = ContentCategory.fromSlug(categorySlug);
+        Category category = (categoryEnum != null) ? categoryService.getByCode(categoryEnum) : null;
+
         Content content = contentService.findBySlug(contentSlug);
 
         // Verify device compatibility
@@ -92,8 +95,14 @@ public class DashboardController {
             throw new UnauthorizedException("Este contenido no está optimizado para tu dispositivo registrado (" + user.getDeviceType().getDisplayName() + ").");
         }
 
+        List<Content> relatedContents = (categoryEnum != null)
+                ? contentService.getContentsForUserCategory(user, categoryEnum)
+                : List.of();
+
         model.addAttribute("currentUser", user);
+        model.addAttribute("category", category);
         model.addAttribute("content", content);
+        model.addAttribute("relatedContents", relatedContents);
         model.addAttribute("pageTitle", content.getTitle() + " — GRINGO SEXY");
         return "dashboard/content-detail";
     }
