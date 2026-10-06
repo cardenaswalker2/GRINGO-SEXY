@@ -226,10 +226,12 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void initDefaultContents() {
-        // 1. Delete legacy contents with invalid categories or obsolete text-only guides
+        // 1. Delete legacy contents: remove mockup wallpapers, placeholder texts, and guides without real media
         List<Content> all = contentRepository.findAll();
         for (Content c : all) {
-            if (c.getCategory() == null || ContentCategory.fromSlug(c.getCategory().getSlug()) == null) {
+            boolean isLegacyInvalidCat = (c.getCategory() == null || ContentCategory.fromSlug(c.getCategory().getSlug()) == null);
+            boolean isMockupOrNoMedia = (c.getSlug() != null && (c.getSlug().contains("wallpapers") || c.getSlug().contains("cyberpunk") || c.getSlug().contains("estetica") || ( (c.getVideoUrl() == null || c.getVideoUrl().isEmpty()) && (c.getImageUrl() == null || c.getImageUrl().isEmpty()) )));
+            if (isLegacyInvalidCat || isMockupOrNoMedia) {
                 contentRepository.delete(c);
             }
         }
