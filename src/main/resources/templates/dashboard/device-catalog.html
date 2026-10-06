@@ -119,6 +119,8 @@
                      th:classappend="${item.videoUrl != null and !item.videoUrl.empty ? 'has-video-item' : 'guide-only-item'}"
                      th:data-title="${item.title}"
                      th:data-slug="${item.slug}"
+                     th:data-category-slug="${item.category != null ? item.category.slug : 'sensibilidades'}"
+                     th:data-category-name="${item.category != null ? item.category.displayName : 'Sensibilidades'}"
                      th:data-category="${item.category != null ? item.category.name() : ''}"
                      th:data-video="${item.videoUrl != null ? item.videoUrl : ''}"
                      th:data-has-video="${item.videoUrl != null and !item.videoUrl.empty}"
@@ -126,9 +128,10 @@
                      th:data-index="${itemStat.index}">
 
                     <!-- Thumbnail / Video Preview Box -->
-                    <div class="video-card-thumb-wrap" 
+                    <div class="video-card-thumb-wrap btn-play-theater" 
                          th:if="${item.videoUrl != null and !item.videoUrl.empty}"
-                         th:onclick="'openTheaterModal(' + ${itemStat.index} + ')'"
+                         th:data-index="${itemStat.index}"
+                         style="cursor:pointer;"
                          title="Clic para reproducir video">
                         
                         <!-- Direct HTML5 video preview frame if MP4/MOV -->
@@ -209,8 +212,8 @@
                         <div class="video-card-actions">
                             <button type="button" 
                                     th:if="${item.videoUrl != null and !item.videoUrl.empty}"
-                                    class="btn btn-primary btn-sm"
-                                    th:onclick="'openTheaterModal(' + ${itemStat.index} + ')'"
+                                    class="btn btn-primary btn-sm btn-play-theater"
+                                    th:data-index="${itemStat.index}"
                                     style="box-shadow: 0 4px 12px rgba(242,85,56,0.3);">
                                 <i class="fas fa-play"></i> Reproducir Video
                             </button>
@@ -228,9 +231,9 @@
 </div>
 
 <!-- ===================================================================
-     INTERACTIVE THEATER PLAYER & PLAYLIST MODAL (100% RESPONSIVE)
+     INTERACTIVE THEATER PLAYER & PLAYLIST MODAL
      =================================================================== -->
-<div class="theater-modal-backdrop" id="theaterModalBackdrop" onclick="handleBackdropClick(event)">
+<div class="theater-modal-backdrop" id="theaterModalBackdrop">
     <div class="theater-modal-window" id="theaterModalWindow">
         <!-- Theater Header Bar -->
         <div class="theater-header">
@@ -241,7 +244,7 @@
                 </div>
             </div>
             <div class="theater-header-actions">
-                <button type="button" class="theater-close-btn" onclick="closeTheaterModal()" title="Cerrar reproductor (ESC)">
+                <button type="button" class="theater-close-btn" id="theaterCloseBtn" title="Cerrar reproductor (ESC)">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -271,10 +274,10 @@
                     </div>
 
                     <div class="theater-nav-controls">
-                        <button type="button" class="theater-nav-btn" id="theaterPrevBtn" onclick="navigateTheater(-1)" title="Video anterior">
+                        <button type="button" class="theater-nav-btn" id="theaterPrevBtn" title="Video anterior">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <button type="button" class="theater-nav-btn" id="theaterNextBtn" onclick="navigateTheater(1)" title="Siguiente video">
+                        <button type="button" class="theater-nav-btn" id="theaterNextBtn" title="Siguiente video">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
@@ -297,7 +300,7 @@
                     <div th:each="item, itemStat : ${contents}" 
                          class="playlist-item" 
                          th:id="'playlistItem-' + ${itemStat.index}"
-                         th:onclick="'switchTheaterVideo(' + ${itemStat.index} + ')'"
+                         th:data-index="${itemStat.index}"
                          th:data-has-video="${item.videoUrl != null and !item.videoUrl.empty}">
                         <div class="playlist-item-status-icon">
                             <i class="fas fa-play" th:if="${item.videoUrl != null and !item.videoUrl.empty}"></i>
@@ -330,234 +333,277 @@
 <div th:replace="~{fragments/navbar :: alerts}"></div>
 <div th:replace="~{fragments/navbar :: scripts}"></div>
 
-<!-- JavaScript for Gallery Filters & Interactive Theater Player -->
-<script th:inline="javascript">
-/*<![CDATA[*/
-    const deviceName = /*[[${device.name}]]*/ 'iPhone';
-    const catalogItems = [
-        /*[# th:each="item, itemStat : ${contents}"]*/
-        {
-            index: /*[[${itemStat.index}]]*/ 0,
-            title: /*[[${item.title}]]*/ '',
-            slug: /*[[${item.slug}]]*/ '',
-            categorySlug: /*[[${item.category != null ? item.category.slug : 'sensibilidades'}]]*/ 'sensibilidades',
-            categoryName: /*[[${item.category != null ? item.category.displayName : 'Ajustes'}]]*/ 'Sensibilidades',
-            categoryEnum: /*[[${item.category != null ? item.category.name() : ''}]]*/ 'SENSITIVITIES',
-            videoUrl: /*[[${item.videoUrl != null ? item.videoUrl : ''}]]*/ '',
-            hasVideo: /*[[${item.videoUrl != null and !item.videoUrl.empty}]]*/ false,
-            summary: /*[[${item.summary}]]*/ ''
-        }/*[# th:if="${!itemStat.last}"], [/]*/
-        /*[/]*/
-    ];
+<!-- Robust Vanilla JavaScript for Device Catalog Theater Player and Filters -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentTheaterIndex = 0;
 
-    let currentTheaterIndex = 0;
+        function getCatalogItems() {
+            const cards = document.querySelectorAll('.video-card-premium');
+            const items = [];
+            cards.forEach((card, idx) => {
+                items.push({
+                    index: idx,
+                    title: card.getAttribute('data-title') || '',
+                    slug: card.getAttribute('data-slug') || '',
+                    videoUrl: card.getAttribute('data-video') || '',
+                    hasVideo: card.getAttribute('data-has-video') === 'true',
+                    categorySlug: card.getAttribute('data-category-slug') || 'sensibilidades',
+                    categoryName: card.getAttribute('data-category-name') || 'Sensibilidades',
+                    summary: card.getAttribute('data-summary') || ''
+                });
+            });
+            return items;
+        }
 
-    // Filter Tabs
-    document.querySelectorAll('.catalog-filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.catalog-filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const filter = btn.getAttribute('data-filter');
-            filterCatalog(filter, document.getElementById('catalogSearchInput').value);
+        // Global opener function
+        window.openTheaterModal = function(index) {
+            const items = getCatalogItems();
+            if (!items || items.length === 0) return;
+
+            let targetIndex = parseInt(index, 10);
+            if (isNaN(targetIndex) || targetIndex < 0 || targetIndex >= items.length) {
+                targetIndex = 0;
+            }
+
+            // If selected item has no video, pick first that does
+            if (!items[targetIndex].hasVideo) {
+                const firstWithVideo = items.findIndex(i => i.hasVideo);
+                if (firstWithVideo !== -1) {
+                    targetIndex = firstWithVideo;
+                }
+            }
+
+            currentTheaterIndex = targetIndex;
+            loadTheaterVideo(items[currentTheaterIndex], items);
+
+            const modal = document.getElementById('theaterModalBackdrop');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeTheaterModal = function() {
+            const modal = document.getElementById('theaterModalBackdrop');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+            document.body.style.overflow = '';
+
+            const video = document.getElementById('theaterVideoElement');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+            const iframe = document.getElementById('theaterIframeElement');
+            if (iframe) {
+                iframe.src = '';
+                iframe.style.display = 'none';
+            }
+        };
+
+        function loadTheaterVideo(item, items) {
+            if (!item) return;
+
+            const videoElement = document.getElementById('theaterVideoElement');
+            const iframeElement = document.getElementById('theaterIframeElement');
+            const videoSource = document.getElementById('theaterVideoSource');
+            const titleDisplay = document.getElementById('theaterLessonTitleDisplay');
+            const detailLink = document.getElementById('theaterDetailLink');
+            const catTag = document.getElementById('theaterLessonCategoryTag');
+            const prevBtn = document.getElementById('theaterPrevBtn');
+            const nextBtn = document.getElementById('theaterNextBtn');
+
+            if (titleDisplay) titleDisplay.textContent = item.title;
+            if (catTag) catTag.innerHTML = '<span>' + item.categoryName + '</span> • <span>VIDEO OFICIAL</span>';
+            if (detailLink) detailLink.href = '/content/' + item.categorySlug + '/' + item.slug;
+
+            // Highlight playlist item
+            document.querySelectorAll('.playlist-item').forEach((el, idx) => {
+                if (idx === item.index) {
+                    el.classList.add('active');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+
+            // Prev / Next button state
+            let hasPrev = false;
+            for (let i = item.index - 1; i >= 0; i--) {
+                if (items[i] && items[i].hasVideo) { hasPrev = true; break; }
+            }
+            let hasNext = false;
+            for (let i = item.index + 1; i < items.length; i++) {
+                if (items[i] && items[i].hasVideo) { hasNext = true; break; }
+            }
+
+            if (prevBtn) prevBtn.disabled = !hasPrev;
+            if (nextBtn) nextBtn.disabled = !hasNext;
+
+            if (!item.videoUrl || item.videoUrl.trim() === '') {
+                return;
+            }
+
+            const isYoutube = item.videoUrl.includes('youtube.com') || item.videoUrl.includes('youtu.be');
+            if (isYoutube) {
+                if (videoElement) {
+                    videoElement.pause();
+                    videoElement.style.display = 'none';
+                }
+                if (iframeElement) {
+                    let embedUrl = item.videoUrl;
+                    if (embedUrl.includes('watch?v=')) {
+                        embedUrl = embedUrl.replace('watch?v=', 'embed/');
+                    } else if (embedUrl.includes('youtu.be/')) {
+                        const vidId = embedUrl.split('youtu.be/')[1].split('?')[0];
+                        embedUrl = 'https://www.youtube.com/embed/' + vidId + '?autoplay=1';
+                    }
+                    iframeElement.src = embedUrl;
+                    iframeElement.style.display = 'block';
+                }
+            } else {
+                if (iframeElement) {
+                    iframeElement.src = '';
+                    iframeElement.style.display = 'none';
+                }
+                if (videoElement && videoSource) {
+                    videoElement.style.display = 'block';
+                    videoSource.src = item.videoUrl;
+                    videoElement.load();
+                    videoElement.play().catch(e => console.log('Autoplay handled by user interaction'));
+                }
+            }
+        }
+
+        // Attach click listeners to cards and buttons
+        document.addEventListener('click', (e) => {
+            const playTrigger = e.target.closest('.btn-play-theater');
+            if (playTrigger) {
+                e.preventDefault();
+                e.stopPropagation();
+                const index = playTrigger.getAttribute('data-index');
+                window.openTheaterModal(index);
+                return;
+            }
+
+            const closeBtn = e.target.closest('#theaterCloseBtn');
+            if (closeBtn) {
+                window.closeTheaterModal();
+                return;
+            }
+
+            const backdrop = e.target.closest('#theaterModalBackdrop');
+            if (e.target.id === 'theaterModalBackdrop') {
+                window.closeTheaterModal();
+                return;
+            }
+
+            const playlistItem = e.target.closest('.playlist-item');
+            if (playlistItem) {
+                const idx = parseInt(playlistItem.getAttribute('data-index') || '0', 10);
+                const items = getCatalogItems();
+                if (items[idx]) {
+                    if (items[idx].hasVideo) {
+                        currentTheaterIndex = idx;
+                        loadTheaterVideo(items[idx], items);
+                    } else {
+                        window.location.href = '/content/' + items[idx].categorySlug + '/' + items[idx].slug;
+                    }
+                }
+                return;
+            }
+
+            const prevBtn = e.target.closest('#theaterPrevBtn');
+            if (prevBtn) {
+                const items = getCatalogItems();
+                for (let i = currentTheaterIndex - 1; i >= 0; i--) {
+                    if (items[i] && items[i].hasVideo) {
+                        currentTheaterIndex = i;
+                        loadTheaterVideo(items[i], items);
+                        break;
+                    }
+                }
+                return;
+            }
+
+            const nextBtn = e.target.closest('#theaterNextBtn');
+            if (nextBtn) {
+                const items = getCatalogItems();
+                for (let i = currentTheaterIndex + 1; i < items.length; i++) {
+                    if (items[i] && items[i].hasVideo) {
+                        currentTheaterIndex = i;
+                        loadTheaterVideo(items[i], items);
+                        break;
+                    }
+                }
+                return;
+            }
+        });
+
+        // Filter Tabs
+        document.querySelectorAll('.catalog-filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.catalog-filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                filterCatalog(filter, document.getElementById('catalogSearchInput') ? document.getElementById('catalogSearchInput').value : '');
+            });
+        });
+
+        // Search Input
+        const searchInput = document.getElementById('catalogSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const activeTab = document.querySelector('.catalog-filter-btn.active');
+                const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+                filterCatalog(filter, e.target.value);
+            });
+        }
+
+        function filterCatalog(filterType, searchQuery) {
+            const query = (searchQuery || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.video-card-premium');
+
+            cards.forEach(card => {
+                const title = (card.getAttribute('data-title') || '').toLowerCase();
+                const summary = (card.getAttribute('data-summary') || '').toLowerCase();
+                const hasVideo = card.getAttribute('data-has-video') === 'true';
+                const catEnum = card.getAttribute('data-category') || '';
+
+                let matchesFilter = true;
+                if (filterType === 'video') {
+                    matchesFilter = hasVideo;
+                } else if (filterType !== 'all') {
+                    matchesFilter = (catEnum === filterType);
+                }
+
+                let matchesSearch = true;
+                if (query && !title.includes(query) && !summary.includes(query)) {
+                    matchesSearch = false;
+                }
+
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('theaterModalBackdrop');
+            if (modal && modal.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    window.closeTheaterModal();
+                }
+            }
         });
     });
-
-    // Search Input
-    const searchInput = document.getElementById('catalogSearchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const activeTab = document.querySelector('.catalog-filter-btn.active');
-            const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
-            filterCatalog(filter, e.target.value);
-        });
-    }
-
-    function filterCatalog(filter, searchText) {
-        const query = (searchText || '').toLowerCase().trim();
-        const cards = document.querySelectorAll('.video-card-premium');
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-            const title = (card.getAttribute('data-title') || '').toLowerCase();
-            const summary = (card.getAttribute('data-summary') || '').toLowerCase();
-            const hasVideo = card.getAttribute('data-has-video') === 'true';
-            const catEnum = card.getAttribute('data-category') || '';
-
-            let matchesFilter = true;
-            if (filter === 'video') {
-                matchesFilter = hasVideo;
-            } else if (filter !== 'all') {
-                matchesFilter = (catEnum === filter);
-            }
-
-            let matchesSearch = true;
-            if (query.length > 0) {
-                matchesSearch = title.includes(query) || summary.includes(query);
-            }
-
-            if (matchesFilter && matchesSearch) {
-                card.style.display = 'flex';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    // Theater Modal Functions
-    function openTheaterModal(index) {
-        if (!catalogItems || catalogItems.length === 0) return;
-        
-        let targetIndex = index;
-        if (targetIndex < 0 || targetIndex >= catalogItems.length) targetIndex = 0;
-
-        // If selected item has no video, find first item that does
-        if (!catalogItems[targetIndex].hasVideo) {
-            const firstVideoIndex = catalogItems.findIndex(i => i.hasVideo);
-            if (firstVideoIndex !== -1) {
-                targetIndex = firstVideoIndex;
-            }
-        }
-
-        currentTheaterIndex = targetIndex;
-        loadTheaterVideo(currentTheaterIndex);
-
-        const modal = document.getElementById('theaterModalBackdrop');
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeTheaterModal() {
-        const modal = document.getElementById('theaterModalBackdrop');
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-
-        // Stop video playback
-        const videoEl = document.getElementById('theaterVideoElement');
-        if (videoEl) {
-            videoEl.pause();
-            videoEl.currentTime = 0;
-        }
-        const iframeEl = document.getElementById('theaterIframeElement');
-        if (iframeEl) {
-            iframeEl.src = '';
-            iframeEl.style.display = 'none';
-        }
-    }
-
-    function handleBackdropClick(e) {
-        if (e.target.id === 'theaterModalBackdrop') {
-            closeTheaterModal();
-        }
-    }
-
-    function switchTheaterVideo(index) {
-        if (index < 0 || index >= catalogItems.length) return;
-        const item = catalogItems[index];
-        if (!item.hasVideo) {
-            window.location.href = '/content/' + item.categorySlug + '/' + item.slug;
-            return;
-        }
-        currentTheaterIndex = index;
-        loadTheaterVideo(currentTheaterIndex);
-    }
-
-    function navigateTheater(direction) {
-        let newIndex = currentTheaterIndex + direction;
-        // Skip items without video
-        while (newIndex >= 0 && newIndex < catalogItems.length && !catalogItems[newIndex].hasVideo) {
-            newIndex += direction;
-        }
-
-        if (newIndex >= 0 && newIndex < catalogItems.length && catalogItems[newIndex].hasVideo) {
-            currentTheaterIndex = newIndex;
-            loadTheaterVideo(currentTheaterIndex);
-        }
-    }
-
-    function loadTheaterVideo(index) {
-        if (index < 0 || index >= catalogItems.length) return;
-        const item = catalogItems[index];
-
-        const videoEl = document.getElementById('theaterVideoElement');
-        const videoSrc = document.getElementById('theaterVideoSource');
-        const iframeEl = document.getElementById('theaterIframeElement');
-        const titleEl = document.getElementById('theaterLessonTitleDisplay');
-        const catTagEl = document.getElementById('theaterLessonCategoryTag');
-        const detailLink = document.getElementById('theaterDetailLink');
-        const prevBtn = document.getElementById('theaterPrevBtn');
-        const nextBtn = document.getElementById('theaterNextBtn');
-
-        titleEl.textContent = item.title;
-        catTagEl.innerHTML = '<span>' + deviceName + '</span> • <span>' + item.categoryName + '</span>';
-        detailLink.href = '/content/' + item.categorySlug + '/' + item.slug;
-
-        // Active state in playlist
-        document.querySelectorAll('.playlist-item').forEach((p, idx) => {
-            if (idx === index) {
-                p.classList.add('active');
-                p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } else {
-                p.classList.remove('active');
-            }
-        });
-
-        // Prev/Next Button state
-        let hasPrev = false;
-        for (let i = index - 1; i >= 0; i--) {
-            if (catalogItems[i].hasVideo) { hasPrev = true; break; }
-        }
-        let hasNext = false;
-        for (let i = index + 1; i < catalogItems.length; i++) {
-            if (catalogItems[i].hasVideo) { hasNext = true; break; }
-        }
-
-        prevBtn.disabled = !hasPrev;
-        nextBtn.disabled = !hasNext;
-
-        if (!item.videoUrl) {
-            return;
-        }
-
-        // Check if YouTube
-        if (item.videoUrl.includes('youtube.com') || item.videoUrl.includes('youtu.be')) {
-            let embedUrl = item.videoUrl;
-            if (item.videoUrl.includes('watch?v=')) {
-                const videoId = item.videoUrl.split('watch?v=')[1].split('&')[0];
-                embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
-            } else if (item.videoUrl.includes('youtu.be/')) {
-                const videoId = item.videoUrl.split('youtu.be/')[1].split('?')[0];
-                embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
-            }
-            videoEl.style.display = 'none';
-            videoEl.pause();
-            iframeEl.style.display = 'block';
-            iframeEl.src = embedUrl;
-        } else {
-            // Direct HTML5 video
-            iframeEl.style.display = 'none';
-            iframeEl.src = '';
-            videoEl.style.display = 'block';
-            videoSrc.src = item.videoUrl;
-            videoEl.load();
-            videoEl.play().catch(e => console.log('Autoplay handled by browser:', e));
-        }
-    }
-
-    // Keyboard navigation (ESC to close, Left/Right arrow keys)
-    document.addEventListener('keydown', (e) => {
-        const modal = document.getElementById('theaterModalBackdrop');
-        if (modal && modal.classList.contains('active')) {
-            if (e.key === 'Escape') {
-                closeTheaterModal();
-            } else if (e.key === 'ArrowLeft') {
-                navigateTheater(-1);
-            } else if (e.key === 'ArrowRight') {
-                navigateTheater(1);
-            }
-        }
-    });
-/*]]>*/
 </script>
 
 </body>

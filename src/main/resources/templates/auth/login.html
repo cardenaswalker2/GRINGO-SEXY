@@ -18,6 +18,15 @@
             <p class="auth-subtitle">Ingresa tus credenciales para acceder a tus configuraciones</p>
         </div>
 
+        <!-- Dynamic Loading Feedback Box -->
+        <div id="loginLoadingBox" style="display:none; align-items:center; gap:12px; background: rgba(242,85,56,0.1); border: 1px solid rgba(242,85,56,0.3); padding: 14px 16px; border-radius: var(--radius-md); margin-bottom: 20px; animation: pulseGlow 1.5s infinite;">
+            <i class="fas fa-circle-notch fa-spin" style="font-size:1.3rem; color:var(--primary);"></i>
+            <div>
+                <div style="font-size:0.88rem; font-weight:800; color:var(--text-main);">Iniciando sesión...</div>
+                <div style="font-size:0.78rem; color:var(--text-secondary);">Validando credenciales y conectando con el servidor</div>
+            </div>
+        </div>
+
         <form th:action="@{/login}" method="post" id="loginForm">
             <div class="form-group">
                 <label class="form-label" for="username">
@@ -42,7 +51,8 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitLoginBtn">
-                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                <span id="btnIcon"><i class="fas fa-sign-in-alt"></i></span>
+                <span id="btnText">Iniciar Sesión</span>
             </button>
         </form>
 
@@ -60,6 +70,35 @@
 
 <div th:replace="~{fragments/navbar :: footer}"></div>
 <div th:replace="~{fragments/navbar :: scripts}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitLoginBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const loadingBox = document.getElementById('loginLoadingBox');
+
+        if (loginForm && submitBtn) {
+            loginForm.addEventListener('submit', (e) => {
+                // Visual feedback immediately
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.9';
+                submitBtn.style.cursor = 'wait';
+                
+                if (btnIcon) {
+                    btnIcon.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+                }
+                if (btnText) {
+                    btnText.textContent = 'Iniciando sesión... Espera un momento';
+                }
+                if (loadingBox) {
+                    loadingBox.style.display = 'flex';
+                }
+            });
+        }
+    });
+</script>
 
 </body>
 </html>
