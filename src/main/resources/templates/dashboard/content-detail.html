@@ -86,9 +86,12 @@
                 <!-- Main Guide Article Column -->
                 <article class="glass-card" style="padding: 38px 32px; background: #ffffff;">
                     <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center;">
-                        <span class="badge badge-primary" th:text="${content.category.displayName}">Sensibilidades</span>
-                        <span class="badge badge-success" th:unless="${content.applyToAllDevices}">
-                            <i th:class="${currentUser.deviceType.iconClass}"></i> Exclusivo para <span th:text="${currentUser.deviceType.displayName}">iPhone</span>
+                        <span class="badge badge-primary" th:text="${content.category != null ? content.category.displayName : 'Configuración'}">Sensibilidades</span>
+                        <span class="badge badge-success" th:if="${isDeviceCompatible and !content.applyToAllDevices}">
+                            <i th:class="${currentUser.deviceType.iconClass}"></i> Optimizado para tu dispositivo
+                        </span>
+                        <span class="badge badge-warning" th:if="${!isDeviceCompatible and !content.applyToAllDevices}">
+                            <i class="fas fa-info-circle"></i> Guía optimizada para otra marca
                         </span>
                         <span class="badge badge-info" th:if="${content.applyToAllDevices}">Compatible con todos los modelos</span>
                         <span class="badge badge-warning" th:if="${content.videoUrl != null and !content.videoUrl.empty}">

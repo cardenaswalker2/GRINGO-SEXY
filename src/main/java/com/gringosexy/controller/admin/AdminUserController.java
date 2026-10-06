@@ -6,6 +6,7 @@ import com.gringosexy.enums.Role;
 import com.gringosexy.enums.UserStatus;
 import com.gringosexy.model.User;
 import com.gringosexy.service.DeviceService;
+import com.gringosexy.service.SupportService;
 import com.gringosexy.service.UserService;
 import com.gringosexy.util.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,11 +30,16 @@ public class AdminUserController {
 
     private final UserService userService;
     private final DeviceService deviceService;
+    private final SupportService supportService;
     private final SecurityUtils securityUtils;
 
-    public AdminUserController(UserService userService, DeviceService deviceService, SecurityUtils securityUtils) {
+    public AdminUserController(UserService userService,
+                               DeviceService deviceService,
+                               SupportService supportService,
+                               SecurityUtils securityUtils) {
         this.userService = userService;
         this.deviceService = deviceService;
+        this.supportService = supportService;
         this.securityUtils = securityUtils;
     }
 
@@ -74,6 +80,7 @@ public class AdminUserController {
         model.addAttribute("devices", deviceService.getAllDevices());
         model.addAttribute("statuses", UserStatus.values());
         model.addAttribute("roles", Role.values());
+        model.addAttribute("tickets", supportService.getUserTickets(user.getId()));
         model.addAttribute("permissionRequest", PermissionUpdateRequest.fromUserPermissions(user.getPermissions()));
         model.addAttribute("pageTitle", "Detalle de Usuario: " + user.getUsername() + " — GRINGO SEXY");
         return "admin/user-detail";

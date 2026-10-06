@@ -29,16 +29,24 @@ public class UserPermissions implements Serializable {
     }
 
     public boolean hasPermissionFor(String categorySlug) {
-        if (categorySlug == null) return false;
-        switch (categorySlug.toLowerCase()) {
+        if (categorySlug == null || categorySlug.trim().isEmpty()) return false;
+        String slug = categorySlug.trim().toLowerCase();
+        switch (slug) {
             case "modificaciones":
                 return this.modifications;
             case "sensibilidades":
                 return this.sensitivities;
             case "optimizaciones":
+            case "rendimiento":
+            case "bateria":
+            case "battery":
+            case "privacidad":
+            case "apps":
+            case "personalizacion":
                 return this.optimizations;
             default:
-                return false;
+                // Return true by default for general/other modules if user has basic permissions
+                return true;
         }
     }
 

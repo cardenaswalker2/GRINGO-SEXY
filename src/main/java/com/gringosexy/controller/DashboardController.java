@@ -150,11 +150,7 @@ public class DashboardController {
         Category category = (categoryEnum != null) ? categoryService.getByCode(categoryEnum) : null;
 
         Content content = contentService.findBySlug(contentSlug);
-
-        // Verify device compatibility
-        if (!content.isAvailableFor(user.getDeviceType()) && !user.isAdmin()) {
-            throw new UnauthorizedException("Este contenido no está optimizado para tu dispositivo registrado (" + user.getDeviceType().getDisplayName() + ").");
-        }
+        boolean isDeviceCompatible = content.isAvailableFor(user.getDeviceType()) || user.isAdmin();
 
         List<Content> relatedContents = (categoryEnum != null)
                 ? contentService.getContentsForUserCategory(user, categoryEnum)
@@ -164,6 +160,7 @@ public class DashboardController {
         model.addAttribute("category", category);
         model.addAttribute("content", content);
         model.addAttribute("relatedContents", relatedContents);
+        model.addAttribute("isDeviceCompatible", isDeviceCompatible);
         model.addAttribute("pageTitle", content.getTitle() + " — GRINGO SEXY");
         return "dashboard/content-detail";
     }
