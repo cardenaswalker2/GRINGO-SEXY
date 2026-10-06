@@ -10,6 +10,7 @@ public class DeviceCatalogCardDto {
     private String description;
     private String iconClass;
     private long videoCount;
+    private long photoCount;
     private long totalCount;
     private boolean userDevice;
 
@@ -17,13 +18,14 @@ public class DeviceCatalogCardDto {
     }
 
     public DeviceCatalogCardDto(DeviceType deviceType, String slug, String name, String description,
-                                String iconClass, long videoCount, long totalCount, boolean userDevice) {
+                                String iconClass, long videoCount, long photoCount, long totalCount, boolean userDevice) {
         this.deviceType = deviceType;
         this.slug = slug;
         this.name = name;
         this.description = description;
         this.iconClass = iconClass;
         this.videoCount = videoCount;
+        this.photoCount = photoCount;
         this.totalCount = totalCount;
         this.userDevice = userDevice;
     }
@@ -74,6 +76,14 @@ public class DeviceCatalogCardDto {
 
     public void setVideoCount(long videoCount) {
         this.videoCount = videoCount;
+    }
+
+    public long getPhotoCount() {
+        return photoCount;
+    }
+
+    public void setPhotoCount(long photoCount) {
+        this.photoCount = photoCount;
     }
 
     public long getTotalCount() {

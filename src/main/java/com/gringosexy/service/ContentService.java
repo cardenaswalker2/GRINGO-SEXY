@@ -28,6 +28,8 @@ public interface ContentService {
 
     long countActiveVideosByDevice(DeviceType deviceType);
 
+    long countActivePhotosByDevice(DeviceType deviceType);
+
     long countActiveContentsByDevice(DeviceType deviceType);
 
     Content toggleActive(String id, String ipAddress);

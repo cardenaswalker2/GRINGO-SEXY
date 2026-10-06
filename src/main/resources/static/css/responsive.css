@@ -871,10 +871,40 @@ html, body {
         text-align: center !important;
     }
 
-    /* Sensi Photo Grid Mobile Rules */
+    /* Sensi Photo Grid & Lightbox Mobile Rules */
     .sensi-photo-grid {
         grid-template-columns: 1fr !important;
         gap: 14px !important;
+    }
+
+    .photo-lightbox-modal {
+        padding: 8px !important;
+    }
+
+    .photo-lightbox-card {
+        max-height: calc(100vh - 16px) !important;
+        border-radius: var(--radius-lg) !important;
+    }
+
+    .photo-lightbox-header {
+        padding: 12px 14px !important;
+    }
+
+    .photo-lightbox-header h4 {
+        font-size: 0.95rem !important;
+    }
+
+    .photo-lightbox-body {
+        padding: 8px !important;
+        max-height: calc(100vh - 120px) !important;
+    }
+
+    .photo-lightbox-image {
+        max-height: 65vh !important;
+    }
+
+    .photo-lightbox-footer {
+        padding: 10px 14px !important;
     }
 }
 
@@ -890,6 +920,27 @@ html, body {
 
     .sensi-photo-meta {
         font-size: 0.72rem !important;
+    }
+
+    .device-media-stats-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .device-hero-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .catalog-filter-btn {
+        padding: 6px 10px !important;
+        font-size: 0.78rem !important;
+    }
+
+    .video-card-content {
+        padding: 14px !important;
     }
 }
 

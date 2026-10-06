@@ -31,6 +31,9 @@ public interface ContentRepository extends MongoRepository<Content, String> {
     @Query(value = "{ 'active': true, 'videoUrl': { $ne: null, $ne: '' }, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", count = true)
     long countActiveVideosByDevice(DeviceType deviceType);
 
+    @Query(value = "{ 'active': true, 'imageUrl': { $ne: null, $ne: '' }, 'videoUrl': { $in: [null, ''] }, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", count = true)
+    long countActivePhotosByDevice(DeviceType deviceType);
+
     @Query(value = "{ 'active': true, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", count = true)
     long countActiveContentsByDevice(DeviceType deviceType);
 

@@ -8,7 +8,7 @@
 
 <div class="app-layout">
     <!-- User Sidebar -->
-    <div th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar(${'device-' + deviceType.name().toLowerCase()})}"></div>
 
     <!-- Main Content Area -->
     <div class="app-main-content">
@@ -19,8 +19,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);" th:text="${'Catálogo de Videos — ' + device.name}">Catálogo iPhone</h2>
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Calibraciones, sensibilidades y guías para tu dispositivo</p>
+                    <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);" th:text="${'Contenido • ' + device.name}">Contenido iPhone</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Galería de Videos HD y Fotos de Calibración</p>
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
                     <span style="font-size:0.85rem; font-weight:700; color:var(--text-main);" th:text="${device.name}">iPhone</span>
                 </div>
                 <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                    <i class="fas fa-arrow-left"></i> Cambiar Dispositivo
                 </a>
             </div>
         </div>
@@ -49,14 +49,14 @@
                                 <span th:text="${device.name + ' OFICIAL'}">iPhone OFICIAL</span>
                             </span>
                             <span class="badge badge-success">
-                                <i class="fas fa-check-circle"></i> Calibración GS 2026
+                                <i class="fas fa-check-circle"></i> Calibración Verificada
                             </span>
                             <span th:if="${currentUser.deviceType == deviceType}" class="badge badge-info">
                                 <i class="fas fa-user-check"></i> Tu Dispositivo Registrado
                             </span>
                         </div>
-                        <h1 class="device-hero-title" th:text="${'Biblioteca de Videos & Ajustes: ' + device.name}">Biblioteca de Videos</h1>
-                        <p class="device-hero-desc" th:text="${device.description != null and !device.description.empty ? device.description : 'Configuraciones de DPI, sensibilidades milimétricas y optimizaciones de rendimiento certificadas.'}">
+                        <h1 class="device-hero-title" th:text="${'Videos y Fotos: ' + device.name}">Videos y Fotos: iPhone</h1>
+                        <p class="device-hero-desc" th:text="${device.description != null and !device.description.empty ? device.description : 'Accede a las calibraciones en video HD y capturas fotográficas de sensibilidad para tu teléfono.'}">
                             Ajustes probados y optimizados para el mejor rendimiento en juegos competitivos.
                         </p>
                     </div>
@@ -68,8 +68,8 @@
                         <span class="stat-label">Videos HD</span>
                     </div>
                     <div class="device-stat-pill">
-                        <span class="stat-num" th:text="${contents.size()}">0</span>
-                        <span class="stat-label">Total Lecciones</span>
+                        <span class="stat-num" th:text="${photoCount}">0</span>
+                        <span class="stat-label">Fotos / Capturas</span>
                     </div>
                 </div>
             </div>
@@ -78,25 +78,19 @@
             <div class="catalog-toolbar" th:unless="${contents.empty}">
                 <div class="catalog-filter-tabs">
                     <button class="catalog-filter-btn active" data-filter="all">
-                        <i class="fas fa-th-large"></i> Todos (<span th:text="${contents.size()}">0</span>)
+                        <i class="fas fa-th-large"></i> Todo el Contenido (<span th:text="${contents.size()}">0</span>)
                     </button>
-                    <button class="catalog-filter-btn" data-filter="video">
-                        <i class="fas fa-play-circle"></i> Solo Videos (<span th:text="${videoCount}">0</span>)
+                    <button class="catalog-filter-btn" data-filter="video" th:if="${videoCount > 0}">
+                        <i class="fas fa-play-circle"></i> 🎥 Solo Videos (<span th:text="${videoCount}">0</span>)
                     </button>
-                    <button class="catalog-filter-btn" data-filter="SENSITIVITIES">
-                        <i class="fas fa-bullseye"></i> Sensibilidades
-                    </button>
-                    <button class="catalog-filter-btn" data-filter="MODIFICATIONS">
-                        <i class="fas fa-sliders-h"></i> Modificaciones
-                    </button>
-                    <button class="catalog-filter-btn" data-filter="OPTIMIZATIONS">
-                        <i class="fas fa-bolt"></i> Optimizaciones
+                    <button class="catalog-filter-btn" data-filter="photo" th:if="${photoCount > 0}">
+                        <i class="fas fa-image"></i> 🖼️ Solo Fotos (<span th:text="${photoCount}">0</span>)
                     </button>
                 </div>
 
                 <div class="catalog-search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="catalogSearchInput" placeholder="Buscar video o ajuste..." aria-label="Buscar en catálogo">
+                    <input type="text" id="catalogSearchInput" placeholder="Buscar por título..." aria-label="Buscar en catálogo">
                 </div>
             </div>
 
@@ -105,36 +99,36 @@
                 <div class="empty-icon-box">
                     <i class="fas fa-film"></i>
                 </div>
-                <h3>No hay videos disponibles todavía</h3>
-                <p>Actualmente no hay videos o configuraciones publicadas para <strong th:text="${device.name}">este dispositivo</strong>. Nuestro equipo añadirá nuevo contenido muy pronto.</p>
+                <h3>No hay contenido disponible todavía</h3>
+                <p>Actualmente no hay videos o fotos publicadas para <strong th:text="${device.name}">este dispositivo</strong>. El administrador agregará nuevo material multimedia muy pronto.</p>
                 <a th:href="@{/dashboard}" class="btn btn-primary">
                     <i class="fas fa-arrow-left"></i> Explorar Otros Dispositivos
                 </a>
             </div>
 
-            <!-- Modern Video & Content Gallery Grid -->
+            <!-- Modern Video & Photo Cards Grid -->
             <div th:unless="${contents.empty}" class="video-catalog-grid" id="videoCatalogGrid">
                 <div th:each="item, itemStat : ${contents}" 
                      class="video-card-premium" 
-                     th:classappend="${item.videoUrl != null and !item.videoUrl.empty ? 'has-video-item' : 'guide-only-item'}"
+                     th:classappend="${item.videoUrl != null and !item.videoUrl.empty ? 'media-video-card' : 'media-photo-card'}"
+                     th:data-type="${item.videoUrl != null and !item.videoUrl.empty ? 'video' : 'photo'}"
                      th:data-title="${item.title}"
                      th:data-slug="${item.slug}"
-                     th:data-category-slug="${item.category != null ? item.category.slug : 'sensibilidades'}"
-                     th:data-category-name="${item.category != null ? item.category.displayName : 'Sensibilidades'}"
-                     th:data-category="${item.category != null ? item.category.name() : ''}"
                      th:data-video="${item.videoUrl != null ? item.videoUrl : ''}"
+                     th:data-image="${item.imageUrl != null ? item.imageUrl : ''}"
                      th:data-has-video="${item.videoUrl != null and !item.videoUrl.empty}"
+                     th:data-has-image="${item.imageUrl != null and !item.imageUrl.empty}"
                      th:data-summary="${item.summary}"
                      th:data-index="${itemStat.index}">
 
-                    <!-- Thumbnail / Video Preview Box -->
+                    <!-- 1. CASO VIDEO: Video Preview / Thumbnail Box -->
                     <div class="video-card-thumb-wrap btn-play-theater" 
                          th:if="${item.videoUrl != null and !item.videoUrl.empty}"
                          th:data-index="${itemStat.index}"
                          style="cursor:pointer;"
                          title="Clic para reproducir video">
                         
-                        <!-- Direct HTML5 video preview frame if MP4/MOV -->
+                        <!-- Direct HTML5 video preview frame -->
                         <video class="thumb-preview-video" 
                                th:unless="${#strings.contains(item.videoUrl, 'youtube.com') or #strings.contains(item.videoUrl, 'youtu.be')}"
                                muted playsinline preload="metadata">
@@ -158,74 +152,127 @@
                                 <i th:class="${device.iconClass}"></i>
                                 <span th:text="${device.name}">iPhone</span>
                             </span>
-                            <span class="badge badge-success" th:if="${item.applyToAllDevices}">Universal</span>
                         </div>
 
                         <!-- Bottom-Right Duration Badge -->
                         <div class="video-thumb-badge-bottom-right">
-                            <i class="fas fa-film"></i> <span>HD 1080p</span>
+                            <i class="fas fa-video"></i> <span>VIDEO HD</span>
                         </div>
                     </div>
 
-                    <!-- Guide-only thumbnail fallback -->
-                    <div class="video-card-thumb-wrap" 
+                    <!-- 2. CASO FOTO: Photo Thumbnail Box -->
+                    <div class="video-card-thumb-wrap btn-open-lightbox" 
                          th:unless="${item.videoUrl != null and !item.videoUrl.empty}"
-                         style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
-                        <div class="video-card-thumb-placeholder">
-                            <i class="fas fa-file-alt" style="font-size:2.8rem; color:var(--primary);"></i>
-                            <span style="font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.7); text-transform:uppercase; letter-spacing:1px;">Guía Técnica</span>
+                         th:data-img="${item.imageUrl}"
+                         th:data-title="${item.title}"
+                         style="cursor:pointer;"
+                         title="Clic para ver foto en pantalla completa">
+                        
+                        <img th:if="${item.imageUrl != null and !item.imageUrl.empty}"
+                             th:src="${item.imageUrl}" 
+                             th:alt="${item.title}"
+                             class="thumb-preview-img"
+                             loading="lazy">
+
+                        <div th:unless="${item.imageUrl != null and !item.imageUrl.empty}" 
+                             class="video-card-thumb-placeholder" 
+                             style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                            <i class="fas fa-image" style="font-size:2.8rem; color:#ffffff;"></i>
+                            <span style="font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.9); text-transform:uppercase; letter-spacing:1px; margin-top:8px;">Foto de Ajustes</span>
                         </div>
+
+                        <!-- Zoom Indicator Overlay -->
+                        <div class="video-thumb-play-btn" style="background:rgba(2,132,199,0.9);">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+
+                        <!-- Top-Left Badges -->
                         <div class="video-thumb-badge-top-left">
-                            <span class="badge badge-info">
-                                <i class="fas fa-book"></i> Guía Detallada
+                            <span class="badge badge-info" style="box-shadow:0 2px 8px rgba(0,0,0,0.4); background:#0284c7; color:#fff;">
+                                <i th:class="${device.iconClass}"></i>
+                                <span th:text="${device.name}">iPhone</span>
                             </span>
+                        </div>
+
+                        <!-- Bottom-Right Badge -->
+                        <div class="video-thumb-badge-bottom-right" style="background:rgba(2,132,199,0.9);">
+                            <i class="fas fa-camera"></i> <span>FOTO HD</span>
                         </div>
                     </div>
 
                     <!-- Card Body Content -->
                     <div class="video-card-content">
                         <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
-                            <span class="badge badge-secondary" style="font-size:0.72rem; text-transform:uppercase;" th:text="${item.category != null ? item.category.displayName : 'Ajustes'}">Sensibilidades</span>
-                            <span style="font-size:0.75rem; font-weight:700; color:var(--primary);">
-                                Lección <span th:text="${itemStat.count}">1</span>
+                            <span th:if="${item.videoUrl != null and !item.videoUrl.empty}" class="badge badge-primary" style="font-size:0.72rem;">
+                                <i class="fas fa-video"></i> VIDEO
+                            </span>
+                            <span th:unless="${item.videoUrl != null and !item.videoUrl.empty}" class="badge badge-info" style="font-size:0.72rem; background:#e0f2fe; color:#0369a1;">
+                                <i class="fas fa-image"></i> FOTO
+                            </span>
+
+                            <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">
+                                #<span th:text="${itemStat.count}">1</span>
                             </span>
                         </div>
 
-                        <h3 class="video-card-title">
-                            <a th:href="@{'/content/' + ${item.category != null ? item.category.slug : 'sensibilidades'} + '/' + ${item.slug}}" th:text="${item.title}">
-                                Título de la Lección
-                            </a>
+                        <h3 class="video-card-title" th:text="${item.title}">
+                            Título del Contenido
                         </h3>
 
                         <p class="video-card-desc" th:text="${item.summary}">
-                            Resumen y descripción de la configuración milimétrica.
+                            Descripción y calibración específica para el dispositivo.
                         </p>
-
-                        <!-- Feature Chips -->
-                        <div class="video-card-tags">
-                            <span class="video-card-tag"><i class="fas fa-bolt" style="color:var(--accent-amber);"></i> 120 FPS</span>
-                            <span class="video-card-tag"><i class="fas fa-bullseye" style="color:var(--primary);"></i> DPI Pro</span>
-                            <span class="video-card-tag"><i class="fas fa-check" style="color:#10b981;"></i> Verificado</span>
-                        </div>
 
                         <!-- Card Action Buttons -->
                         <div class="video-card-actions">
+                            <!-- Action for Video -->
                             <button type="button" 
                                     th:if="${item.videoUrl != null and !item.videoUrl.empty}"
-                                    class="btn btn-primary btn-sm btn-play-theater"
+                                    class="btn btn-primary btn-play-theater"
                                     th:data-index="${itemStat.index}"
-                                    style="box-shadow: 0 4px 12px rgba(242,85,56,0.3);">
+                                    style="width:100%; justify-content:center; box-shadow: 0 4px 12px rgba(242,85,56,0.3);">
                                 <i class="fas fa-play"></i> Reproducir Video
                             </button>
-                            <a th:href="@{'/content/' + ${item.category != null ? item.category.slug : 'sensibilidades'} + '/' + ${item.slug}}" 
-                               class="btn btn-secondary btn-sm"
-                               th:style="${item.videoUrl == null or item.videoUrl.empty ? 'width:100%; justify-content:center;' : ''}">
-                                <span>Ver Guía</span> <i class="fas fa-chevron-right"></i>
-                            </a>
+
+                            <!-- Action for Photo -->
+                            <button type="button" 
+                                    th:unless="${item.videoUrl != null and !item.videoUrl.empty}"
+                                    class="btn btn-primary btn-open-lightbox"
+                                    th:data-img="${item.imageUrl}"
+                                    th:data-title="${item.title}"
+                                    style="width:100%; justify-content:center; background:#0284c7; border-color:#0284c7; box-shadow: 0 4px 12px rgba(2,132,199,0.3);">
+                                <i class="fas fa-expand"></i> Ver Foto Completa
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================================
+     FULLSCREEN PHOTO LIGHTBOX MODAL
+     =================================================================== -->
+<div class="photo-lightbox-modal" id="photoLightboxModal">
+    <div class="photo-lightbox-card">
+        <div class="photo-lightbox-header">
+            <div class="photo-lightbox-title-wrap">
+                <i class="fas fa-image" style="color:#0284c7; font-size:1.2rem;"></i>
+                <h4 id="photoLightboxTitle" style="margin:0; font-size:1.05rem; font-weight:800; color:var(--text-main); word-break:break-word;">Captura de Sensibilidad</h4>
+            </div>
+            <button type="button" class="theater-close-btn" id="photoLightboxCloseBtn" title="Cerrar visor de foto (ESC)" style="color:var(--text-main);">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="photo-lightbox-body">
+            <img id="photoLightboxImg" src="" alt="Captura de sensibilidad" class="photo-lightbox-image">
+        </div>
+        <div class="photo-lightbox-footer">
+            <span style="font-size:0.85rem; color:var(--text-muted);">
+                <i class="fas fa-info-circle"></i> Captura en alta resolución. Aplica estos valores exactos en tus ajustes de juego.
+            </span>
+            <button type="button" class="btn btn-secondary btn-sm" id="photoLightboxCloseBottomBtn">Cerrar</button>
         </div>
     </div>
 </div>
@@ -288,42 +335,31 @@
             <div class="theater-playlist-col">
                 <div class="playlist-header">
                     <div class="playlist-header-text">
-                        <h4 th:text="${'Lecciones de ' + device.name}">Módulos</h4>
-                        <p id="playlistCounterText"><span th:text="${contents.size()}">0</span> lecciones disponibles</p>
+                        <h4 th:text="${'Videos de ' + device.name}">Videos</h4>
+                        <p id="playlistCounterText"><span th:text="${videoCount}">0</span> videos disponibles</p>
                     </div>
                     <div class="playlist-progress-badge">
-                        <i class="fas fa-fire-alt"></i> 100% PRO
+                        <i class="fas fa-video"></i> HD 1080p
                     </div>
                 </div>
 
                 <div class="playlist-items-list" id="theaterPlaylistList">
                     <div th:each="item, itemStat : ${contents}" 
+                         th:if="${item.videoUrl != null and !item.videoUrl.empty}"
                          class="playlist-item" 
                          th:id="'playlistItem-' + ${itemStat.index}"
                          th:data-index="${itemStat.index}"
-                         th:data-has-video="${item.videoUrl != null and !item.videoUrl.empty}">
+                         th:data-has-video="true">
                         <div class="playlist-item-status-icon">
-                            <i class="fas fa-play" th:if="${item.videoUrl != null and !item.videoUrl.empty}"></i>
-                            <i class="fas fa-book" th:unless="${item.videoUrl != null and !item.videoUrl.empty}"></i>
+                            <i class="fas fa-play"></i>
                         </div>
                         <div class="playlist-item-details">
-                            <div class="playlist-item-title" th:text="${item.title}">Título de la Lección</div>
+                            <div class="playlist-item-title" th:text="${item.title}">Título del Video</div>
                             <div class="playlist-item-time">
-                                <span th:if="${item.videoUrl != null and !item.videoUrl.empty}">
-                                    <i class="far fa-clock"></i> Video HD
-                                </span>
-                                <span th:unless="${item.videoUrl != null and !item.videoUrl.empty}">
-                                    <i class="far fa-file-alt"></i> Guía Escrita
-                                </span>
+                                <span><i class="far fa-clock"></i> Video HD</span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="playlist-footer-actions">
-                    <a id="theaterDetailLink" href="#" class="btn btn-secondary btn-sm" style="width:100%; justify-content:center;">
-                        <i class="fas fa-external-link-alt"></i> Ver Guía Completa de este Módulo
-                    </a>
                 </div>
             </div>
         </div>
@@ -333,7 +369,7 @@
 <div th:replace="~{fragments/navbar :: alerts}"></div>
 <div th:replace="~{fragments/navbar :: scripts}"></div>
 
-<!-- Robust Vanilla JavaScript for Device Catalog Theater Player and Filters -->
+<!-- Robust Vanilla JavaScript for Device Catalog Theater Player, Photo Lightbox and Filters -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         let currentTheaterIndex = 0;
@@ -344,19 +380,42 @@
             cards.forEach((card, idx) => {
                 items.push({
                     index: idx,
+                    type: card.getAttribute('data-type') || 'video',
                     title: card.getAttribute('data-title') || '',
                     slug: card.getAttribute('data-slug') || '',
                     videoUrl: card.getAttribute('data-video') || '',
+                    imageUrl: card.getAttribute('data-image') || '',
                     hasVideo: card.getAttribute('data-has-video') === 'true',
-                    categorySlug: card.getAttribute('data-category-slug') || 'sensibilidades',
-                    categoryName: card.getAttribute('data-category-name') || 'Sensibilidades',
+                    hasImage: card.getAttribute('data-has-image') === 'true',
                     summary: card.getAttribute('data-summary') || ''
                 });
             });
             return items;
         }
 
-        // Global opener function
+        // --- PHOTO LIGHTBOX HANDLERS ---
+        window.openPhotoModal = function(imgUrl, title) {
+            if (!imgUrl) return;
+            const modal = document.getElementById('photoLightboxModal');
+            const img = document.getElementById('photoLightboxImg');
+            const titleEl = document.getElementById('photoLightboxTitle');
+            if (img) img.src = imgUrl;
+            if (titleEl) titleEl.textContent = title || 'Captura de Sensibilidad';
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closePhotoModal = function() {
+            const modal = document.getElementById('photoLightboxModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+            document.body.style.overflow = '';
+        };
+
+        // --- VIDEO THEATER MODAL HANDLERS ---
         window.openTheaterModal = function(index) {
             const items = getCatalogItems();
             if (!items || items.length === 0) return;
@@ -366,8 +425,12 @@
                 targetIndex = 0;
             }
 
-            // If selected item has no video, pick first that does
+            // If chosen item is a photo, forward to photo viewer
             if (!items[targetIndex].hasVideo) {
+                if (items[targetIndex].hasImage) {
+                    window.openPhotoModal(items[targetIndex].imageUrl, items[targetIndex].title);
+                    return;
+                }
                 const firstWithVideo = items.findIndex(i => i.hasVideo);
                 if (firstWithVideo !== -1) {
                     targetIndex = firstWithVideo;
@@ -412,18 +475,17 @@
             const iframeElement = document.getElementById('theaterIframeElement');
             const videoSource = document.getElementById('theaterVideoSource');
             const titleDisplay = document.getElementById('theaterLessonTitleDisplay');
-            const detailLink = document.getElementById('theaterDetailLink');
             const catTag = document.getElementById('theaterLessonCategoryTag');
             const prevBtn = document.getElementById('theaterPrevBtn');
             const nextBtn = document.getElementById('theaterNextBtn');
 
             if (titleDisplay) titleDisplay.textContent = item.title;
-            if (catTag) catTag.innerHTML = '<span>' + item.categoryName + '</span> • <span>VIDEO OFICIAL</span>';
-            if (detailLink) detailLink.href = '/content/' + item.categorySlug + '/' + item.slug;
+            if (catTag) catTag.innerHTML = '<span>VIDEO OFICIAL</span>';
 
             // Highlight playlist item
-            document.querySelectorAll('.playlist-item').forEach((el, idx) => {
-                if (idx === item.index) {
+            document.querySelectorAll('.playlist-item').forEach((el) => {
+                const pIdx = parseInt(el.getAttribute('data-index') || '-1', 10);
+                if (pIdx === item.index) {
                     el.classList.add('active');
                     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
@@ -479,8 +541,26 @@
             }
         }
 
-        // Attach click listeners to cards and buttons
+        // Attach global click listeners
         document.addEventListener('click', (e) => {
+            // Lightbox trigger
+            const photoTrigger = e.target.closest('.btn-open-lightbox');
+            if (photoTrigger) {
+                e.preventDefault();
+                e.stopPropagation();
+                const img = photoTrigger.getAttribute('data-img');
+                const title = photoTrigger.getAttribute('data-title');
+                window.openPhotoModal(img, title);
+                return;
+            }
+
+            // Close lightbox
+            if (e.target.closest('#photoLightboxCloseBtn') || e.target.closest('#photoLightboxCloseBottomBtn') || e.target.id === 'photoLightboxModal') {
+                window.closePhotoModal();
+                return;
+            }
+
+            // Video Play Trigger
             const playTrigger = e.target.closest('.btn-play-theater');
             if (playTrigger) {
                 e.preventDefault();
@@ -490,33 +570,25 @@
                 return;
             }
 
-            const closeBtn = e.target.closest('#theaterCloseBtn');
-            if (closeBtn) {
+            // Close Theater
+            if (e.target.closest('#theaterCloseBtn') || e.target.id === 'theaterModalBackdrop') {
                 window.closeTheaterModal();
                 return;
             }
 
-            const backdrop = e.target.closest('#theaterModalBackdrop');
-            if (e.target.id === 'theaterModalBackdrop') {
-                window.closeTheaterModal();
-                return;
-            }
-
+            // Playlist Click
             const playlistItem = e.target.closest('.playlist-item');
             if (playlistItem) {
                 const idx = parseInt(playlistItem.getAttribute('data-index') || '0', 10);
                 const items = getCatalogItems();
-                if (items[idx]) {
-                    if (items[idx].hasVideo) {
-                        currentTheaterIndex = idx;
-                        loadTheaterVideo(items[idx], items);
-                    } else {
-                        window.location.href = '/content/' + items[idx].categorySlug + '/' + items[idx].slug;
-                    }
+                if (items[idx] && items[idx].hasVideo) {
+                    currentTheaterIndex = idx;
+                    loadTheaterVideo(items[idx], items);
                 }
                 return;
             }
 
+            // Theater Next / Prev
             const prevBtn = e.target.closest('#theaterPrevBtn');
             if (prevBtn) {
                 const items = getCatalogItems();
@@ -571,14 +643,13 @@
             cards.forEach(card => {
                 const title = (card.getAttribute('data-title') || '').toLowerCase();
                 const summary = (card.getAttribute('data-summary') || '').toLowerCase();
-                const hasVideo = card.getAttribute('data-has-video') === 'true';
-                const catEnum = card.getAttribute('data-category') || '';
+                const type = card.getAttribute('data-type') || 'video';
 
                 let matchesFilter = true;
                 if (filterType === 'video') {
-                    matchesFilter = hasVideo;
-                } else if (filterType !== 'all') {
-                    matchesFilter = (catEnum === filterType);
+                    matchesFilter = (type === 'video');
+                } else if (filterType === 'photo') {
+                    matchesFilter = (type === 'photo');
                 }
 
                 let matchesSearch = true;
@@ -596,11 +667,9 @@
 
         // Keyboard controls
         document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('theaterModalBackdrop');
-            if (modal && modal.classList.contains('active')) {
-                if (e.key === 'Escape') {
-                    window.closeTheaterModal();
-                }
+            if (e.key === 'Escape') {
+                window.closeTheaterModal();
+                window.closePhotoModal();
             }
         });
     });
@@ -608,3 +677,4 @@
 
 </body>
 </html>
+

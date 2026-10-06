@@ -157,6 +157,14 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public long countActivePhotosByDevice(DeviceType deviceType) {
+        if (deviceType == null) {
+            return 0;
+        }
+        return contentRepository.countActivePhotosByDevice(deviceType);
+    }
+
+    @Override
     public long countActiveContentsByDevice(DeviceType deviceType) {
         if (deviceType == null) {
             return 0;
@@ -218,7 +226,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void initDefaultContents() {
-        // 1. Delete legacy contents with invalid categories
+        // 1. Delete legacy contents with invalid categories or obsolete text-only guides
         List<Content> all = contentRepository.findAll();
         for (Content c : all) {
             if (c.getCategory() == null || ContentCategory.fromSlug(c.getCategory().getSlug()) == null) {
@@ -226,145 +234,213 @@ public class ContentServiceImpl implements ContentService {
             }
         }
 
-        log.info("Ensuring curated video contents & configurations for iPhone and all devices...");
+        log.info("Ensuring curated video and photo contents for all mobile devices...");
 
         Set<DeviceType> iosOnly = Set.of(DeviceType.IPHONE);
         Set<DeviceType> samsungOnly = Set.of(DeviceType.SAMSUNG);
         Set<DeviceType> motoOnly = Set.of(DeviceType.MOTOROLA);
+        Set<DeviceType> xiaomiOnly = Set.of(DeviceType.XIAOMI);
 
-        // 1. iPhone Sensi Baja v1 (Video)
-        upsertContent(
+        // ==========================================
+        // 1. IPHONE VIDEOS
+        // ==========================================
+        upsertMediaContent(
                 "iphone-config-sensi-baja-v1",
                 "CONFIG & SENSI BAJA COMPLETA - IPHONE v1",
-                "Calibración de baja sensibilidad para iPhone. Máxima estabilidad en miras telescópicas, suavizado de jitter y control preciso de retroceso.",
-                "### 📱 Configuración & Sensibilidad Baja Completa — iPhone (v1)\n\nCalibración ideal para jugadores que buscan estabilidad absoluta en miras de precisión y cero temblor en pantalla:\n\n#### 1. ⚙️ Ajustes del Sistema iOS\n* Ve a **Ajustes > Accesibilidad > Tocar > AssistiveTouch**:\n  - Activa AssistiveTouch.\n  - **Sensibilidad del seguimiento**: 35% - 40% (deslizador hacia la tortuga).\n  - **Acciones personalizadas**: Tocar dos veces: *Ninguno*.\n* Ve a **Control del Puntero**:\n  - **Velocidad de desplazamiento**: 60%.\n  - **Tamaño del puntero**: Medio.\n  - **Color**: Ninguno o Blanco.\n\n#### 2. 🎯 Switch Control (Control por Botón)\n* Ve a **Ajustes > Accesibilidad > Control por botón**:\n  - **Ciclos**: 4\n  - **Tiempo de exploración automática**: 0.05s\n  - **Modo de cursor**: Refinado\n  - **Presión de cursor refinado**: 85 DPI\n\n#### 3. 🔥 Sensibilidad dentro del Juego (Free Fire / COD Mobile)\n* **General**: 78\n* **Mira de Punto Rojo**: 72\n* **Mira 2X**: 68\n* **Mira 4X**: 62\n* **Francotirador (AWM)**: 35\n* **Cámara 360**: 60\n\n> 💡 **Consejo Pro**: Mantén la pantalla limpia y utiliza un protector mate o cerámico para optimizar el deslizamiento táctil.",
+                "Calibración de baja sensibilidad para iPhone. Máxima estabilidad en miras telescópicas y control preciso de retroceso.",
+                "Calibración de precisión para iPhone.",
                 ContentCategory.SENSITIVITIES,
                 iosOnly,
                 false,
                 "/videos/iphone-confi-sensi-baja-v1.mp4",
+                null,
                 1
         );
 
-        // 2. iPhone Sensi Media v1 (Video)
-        upsertContent(
+        upsertMediaContent(
                 "iphone-config-sensi-media-v1",
                 "CONFIG & SENSI MEDIA COMPLETA - IPHONE v1",
                 "Calibración balanceada para iPhone. Equilibrio perfecto entre agilidad de giro 360° y levantamiento suave de mira.",
-                "### 📱 Configuración & Sensibilidad Media Completa — iPhone (v1)\n\nAjuste balanceado para jugadores agresivos y de soporte con respuesta táctil fluida:\n\n#### 1. ⚙️ Ajustes del Sistema iOS\n* Ve a **Ajustes > Accesibilidad > Tocar > AssistiveTouch**:\n  - **Sensibilidad del seguimiento**: 70% (3/4 hacia la liebre).\n  - **Tolerancia al movimiento**: Media.\n* Ve a **Control del Puntero**:\n  - **Velocidad de desplazamiento**: 85%.\n  - **Ocultar puntero automáticamente**: 2.0s.\n\n#### 2. 🎯 Switch Control (Control por Botón)\n* Ve a **Ajustes > Accesibilidad > Control por botón**:\n  - **Ciclos**: 8\n  - **Modo de cursor**: Refinado\n  - **Presión de cursor refinado**: 105 DPI\n\n#### 3. 🔥 Sensibilidad dentro del Juego\n* **General**: 92\n* **Mira de Punto Rojo**: 88\n* **Mira 2X**: 84\n* **Mira 4X**: 80\n* **Francotirador**: 45\n* **Cámara 360**: 80",
+                "Calibración balanceada para iPhone.",
                 ContentCategory.SENSITIVITIES,
                 iosOnly,
                 false,
                 "/videos/iphone-confi-sensi-media-v1.mp4",
+                null,
                 2
         );
 
-        // 3. iPhone Sensi Media v2 (Video - OLED & 120Hz)
-        upsertContent(
+        upsertMediaContent(
                 "iphone-config-sensi-media-v2",
                 "CONFIG & SENSI MEDIA COMPLETA - IPHONE v2 (OLED & 120Hz)",
                 "Calibración media avanzada v2 optimizada para pantallas Super Retina XDR y ProMotion 120Hz (iPhone 12 al 16 Pro Max).",
-                "### 📱 Configuración & Sensibilidad Media Avanzada — iPhone (v2)\n\nDiseñada específicamente para dispositivos iPhone con paneles OLED de alta tasa de muestreo táctil:\n\n#### 1. ⚙️ Ajustes del Sistema iOS\n* Ve a **Ajustes > Accesibilidad > Tocar > AssistiveTouch**:\n  - **Sensibilidad del seguimiento**: 80% (hacia la liebre).\n  - **Tolerancia al movimiento**: Mínima (para respuesta instantánea).\n* Ve a **Pantalla y brillo**:\n  - **Frecuencia de cuadros**: Asegúrate de tener ProMotion activado (120Hz).\n\n#### 2. 🎯 Switch Control (Control por Botón)\n* Ve a **Ajustes > Accesibilidad > Control por botón**:\n  - **Ciclos**: 10\n  - **Modo de cursor**: Refinado\n  - **Presión de cursor refinado**: 115 DPI\n\n#### 3. 🔥 Sensibilidad dentro del Juego\n* **General**: 95\n* **Mira de Punto Rojo**: 91\n* **Mira 2X**: 88\n* **Mira 4X**: 84\n* **Francotirador**: 48\n* **Cámara 360**: 90",
+                "Calibración 120Hz para iPhone Pro / Pro Max.",
                 ContentCategory.SENSITIVITIES,
                 iosOnly,
                 false,
                 "/videos/iphone-confi-sensi-media-v2.mp4",
+                null,
                 3
         );
 
-        // 4. iPhone Sensi Alta v4 / Pro (Includes 4 Sensitivity Presets & Visual Calibration Captures)
-        upsertContent(
-                "sensibilidad-competitiva-ios-pro",
-                "CONFIG & SENSI ALTA COMPLETA - IPHONE v4 (PRO)",
-                "Configuración milimétrica de máxima velocidad, respuesta 3D/Haptic Touch instantánea, puntero a 120 DPI y 4 calibraciones in-game certificadas con capturas.",
-                "### 📱 Configuración & Sensibilidad Alta Completa — iPhone v4 (PRO)\n\nCalibración extrema utilizada por jugadores profesionales en torneos competitivos para levantamiento rápido de mira, control de dispersión y cero temblor.\n\n---\n\n#### ⚙️ 1. Ajustes del Sistema iOS (AssistiveTouch & Puntero)\n1. Ve a **Ajustes > Accesibilidad > Tocar > AssistiveTouch**:\n   - **Sensibilidad del seguimiento**: 100% (Deslizador completamente hacia la liebre 🐇).\n   - **Tolerancia al movimiento**: Mínima (0px) para respuesta táctil inmediata.\n2. Ve a **Control del puntero**:\n   - **Velocidad de desplazamiento**: 120% (Máxima aceleración).\n   - **Tamaño del puntero**: Mínimo.\n   - **Color**: Ninguno / Blanco.\n3. Ve a **Control por botón (Switch Control)**:\n   - **Ciclos**: 10\n   - **Modo de cursor**: Refinado\n   - **Presión de cursor refinado**: 120 DPI.\n\n---\n\n#### 🎯 2. Presets Oficiales de Sensibilidad In-Game (Free Fire)\n\nA continuación tienes los **4 Presets Milimétricos** calibrados según tu estilo de combate y armas preferidas:\n\n##### 🔹 Preset A — Modo Competitivo Pro (Miras Rápidas 200%)\n* **General**: 178\n* **Mira de Punto Rojo**: 178\n* **Mira 2X**: 200\n* **Mira 4X**: 200\n* **Mira Francotirador**: 150\n* **Botón de Cámara 360°**: 150\n\n##### 🔹 Preset B — Modo AWM & Francotirador Precisión\n* **General**: 190\n* **Mira de Punto Rojo**: 50\n* **Mira 2X**: 100\n* **Mira 4X**: 100\n* **Mira AWM**: 20\n* **Botón de Cámara Libre**: 88\n\n##### 🔹 Preset C — Modo Control de Dispersión (Equilibrado)\n* **General**: 69\n* **Punto Rojo (Red Dot)**: 45\n* **Mira 2X (2x Scope)**: 70\n* **Mira 4X (4x Scope)**: 100\n* **Sniper Scope**: 0\n* **Free Camera Button**: 0\n\n##### 🔹 Preset D — Modo Universal Clásico\n* **General**: 44\n* **Mira de Punto Rojo**: 67\n* **Mira 2X**: 67\n* **Mira 4X**: 67\n* **Mira Francotirador**: 67\n* **Botón de Cámara 360°**: 67\n\n---\n\n#### 📸 3. Galería de Capturas de Pantalla Oficiales\n*Revisa la galería fotográfica a continuación para comparar y aplicar los valores exactos en tu panel de ajustes del juego:*",
+        // ==========================================
+        // 2. IPHONE FOTOS (4 Sensibility Presets)
+        // ==========================================
+        upsertMediaContent(
+                "iphone-sensi-preset-universal-clasico",
+                "SENSI IPHONE - MODO UNIVERSAL CLÁSICO (FOTO HD)",
+                "Captura oficial del Preset D: General 44, Punto Rojo 67, Mira 2X 67, Mira 4X 67, Francotirador 67.",
+                "Valores exactos: General: 44, Red Dot: 67, 2X: 67, 4X: 67, Sniper: 67, Cámara: 67.",
                 ContentCategory.SENSITIVITIES,
                 iosOnly,
                 false,
                 null,
+                "/images/sensibilidad-iphone-1.jpg",
                 4
         );
 
-        // 5. Samsung Sensi Alta v1 (Video)
-        upsertContent(
+        upsertMediaContent(
+                "iphone-sensi-preset-awm-precision",
+                "SENSI IPHONE - AWM & FRANCOTIRADOR PRECISIÓN (FOTO HD)",
+                "Captura oficial del Preset B: General 190, Punto Rojo 50, Mira 2X 100, Mira 4X 100, AWM 20.",
+                "Valores exactos: General: 190, Red Dot: 50, 2X: 100, 4X: 100, AWM: 20, Cámara: 88.",
+                ContentCategory.SENSITIVITIES,
+                iosOnly,
+                false,
+                null,
+                "/images/sensibilidad-iphone-2.jpg",
+                5
+        );
+
+        upsertMediaContent(
+                "iphone-sensi-preset-competitivo-pro",
+                "SENSI IPHONE - MODO COMPETITIVO PRO 200% (FOTO HD)",
+                "Captura oficial del Preset A: General 178, Punto Rojo 178, Mira 2X 200, Mira 4X 200, Francotirador 150.",
+                "Valores exactos: General: 178, Red Dot: 178, 2X: 200, 4X: 200, Sniper: 150, Cámara: 150.",
+                ContentCategory.SENSITIVITIES,
+                iosOnly,
+                false,
+                null,
+                "/images/sensibilidad-iphone-3.jpg",
+                6
+        );
+
+        upsertMediaContent(
+                "iphone-sensi-preset-control-dispersion",
+                "SENSI IPHONE - CONTROL DE DISPERSIÓN (FOTO HD)",
+                "Captura oficial del Preset C: General 69, Red Dot 45, 2x Scope 70, 4x Scope 100, Sniper Scope 0.",
+                "Valores exactos: General: 69, Red Dot: 45, 2X: 70, 4X: 100, Sniper: 0, Free Camera: 0.",
+                ContentCategory.SENSITIVITIES,
+                iosOnly,
+                false,
+                null,
+                "/images/sensibilidad-iphone-4.jpg",
+                7
+        );
+
+        // ==========================================
+        // 3. SAMSUNG GALAXY VIDEOS & FOTOS
+        // ==========================================
+        upsertMediaContent(
                 "samsung-confi-sensi-alta-v1",
                 "CONFIG & SENSI ALTA COMPLETA - SAMSUNG GALAXY v1",
                 "Ajuste de DPI perfecto para Samsung Galaxy One UI con Game Booster Plus y frecuencia de muestreo táctil aumentada.",
-                "### 📱 Pasos para Samsung Galaxy:\n\n1. Activa **Opciones de desarrollador** (7 toques en Número de compilación).\n2. Modifica el **Ancho mínimo (DPI)** a **580** (para serie A) o **640** (para serie S / Ultra).\n3. Ve a **Ajustes > Administración general > Ratón y panel táctil**:\n   - Velocidad del puntero: Rápido (al máximo).\n   - Velocidad de desplazamiento de rueda: Rápido.\n4. Abre **Game Plugins > Game Booster Plus**:\n   - Modo: Máximo rendimiento de FPS (100% calidad, 100% brillo máx).\n5. En Juego: General 99, Punto Rojo 94, Mira 2X 90, Mira 4X 85.",
+                "Ajustes de DPI y Game Booster Plus para Samsung Galaxy.",
                 ContentCategory.SENSITIVITIES,
                 samsungOnly,
                 false,
                 "/videos/samsung-confi-sensi-alta-v1.mp4",
-                5
+                null,
+                8
         );
 
-        // 6. Motorola Sensi Alta v1 (Video)
-        upsertContent(
+        upsertMediaContent(
+                "samsung-sensi-captura-oneui-pro",
+                "SENSI SAMSUNG GALAXY - ONE UI 6.0 PRO (FOTO HD)",
+                "Captura fotográfica de calibración para Samsung Galaxy S21/S22/S23/S24 y Serie A (A54/A34).",
+                "Valores de sensibilidad para Samsung Galaxy en resolución nativa.",
+                ContentCategory.SENSITIVITIES,
+                samsungOnly,
+                false,
+                null,
+                "/images/sensibilidad-iphone-1.jpg",
+                9
+        );
+
+        // ==========================================
+        // 4. MOTOROLA VIDEOS & FOTOS
+        // ==========================================
+        upsertMediaContent(
                 "motorola-confi-sensi-alta-v1",
                 "CONFIG & SENSI ALTA COMPLETA - MOTOROLA v1",
                 "Calibración de DPI y sensibilidad pura para Motorola Moto Edge y serie G con Moto Gametime optimizado.",
-                "### 📱 Pasos para Motorola Moto Series:\n\n1. Abre **Ajustes > Sistema > Opciones para desarrolladores**.\n2. Establece el **Ancho más pequeño (DPI)** en **596 DPI**.\n3. En **Moto Gametime**: activa Modo Alto Rendimiento y Bloqueo de Toques Involuntarios.\n4. En Juego: General 97, Punto Rojo 93, Mira 2X 89, Mira 4X 86.",
+                "Calibración Moto Gametime y DPI para Motorola.",
                 ContentCategory.SENSITIVITIES,
                 motoOnly,
                 false,
                 "/videos/motorola-confi-sensi-alta-v1.mp4",
-                6
+                null,
+                10
         );
 
-        // 7. Xiaomi / POCO Sensi HyperOS (Video)
-        Set<DeviceType> xiaomiOnly = Set.of(DeviceType.XIAOMI);
-        upsertContent(
+        upsertMediaContent(
+                "motorola-sensi-captura-gametime-pro",
+                "SENSI MOTOROLA - MOTO GAMETIME 144HZ (FOTO HD)",
+                "Captura de sensibilidad milimétrica optimizada para pantallas OLED de 144Hz de Motorola Edge.",
+                "Ajuste táctil y sensibilidad en pantalla para Motorola.",
+                ContentCategory.SENSITIVITIES,
+                motoOnly,
+                false,
+                null,
+                "/images/sensibilidad-iphone-2.jpg",
+                11
+        );
+
+        // ==========================================
+        // 5. XIAOMI / POCO VIDEOS & FOTOS
+        // ==========================================
+        upsertMediaContent(
                 "xiaomi-hyperos-game-turbo-v1",
                 "CONFIG & SENSI ALTA COMPLETA - XIAOMI / POCO (HyperOS & Game Turbo)",
                 "Calibración de respuesta táctil a 480Hz, Game Turbo y optimización de DPI para MIUI e HyperOS.",
-                "### 📱 Pasos para Xiaomi / Redmi / POCO:\n\n1. Ve a **Ajustes > Ajustes adicionales > Opciones de desarrollador**.\n2. Establece el **Ancho más pequeño (DPI)** en **600 DPI** o **640 DPI** (POCO X3/X6 Pro/F5).\n3. Desactiva la **Optimización MIUI / HyperOS** sólo si experimentas caídas de frames.\n4. Abre **Seguridad > Game Turbo**:\n   - Ajustes adicionales > Free Fire / Tu juego:\n   - Respuesta táctil: 100% (Deslizador al máximo).\n   - Sensibilidad a toques continuos: 100%.\n   - Área resistente al tacto: Ninguna (Ningún borde).\n5. En Juego: General 98, Punto Rojo 94, Mira 2X 90, Mira 4X 86.",
+                "Optimización de Game Turbo y 480Hz táctil para Xiaomi y POCO.",
                 ContentCategory.SENSITIVITIES,
                 xiaomiOnly,
                 false,
                 "/videos/modificacionx.mp4",
-                7
+                null,
+                12
         );
 
-        // 8. Modificaciones con Video (Buffer 16M)
-        upsertContent(
-                "ajustes-secretos-desarrollador-buffer-16m",
-                "Ajustes Secretos del Desarrollador y Registro del Sistema (Buffer 16M)",
-                "Elimina el stuttering y el retardo de cuadros ajustando el tamaño del búfer de registro y las capas de depuración GPU.",
-                "### 🛠️ Parámetros recomendados:\n\n- **Tamaño de búfer de registro (Logger Buffer Size)**: 16M (Máxima reducción de lag y latencia táctil).\n- **Controlador de gráficos (Game Driver)**: Selecciona tus juegos favoritos y asígnalos a 'Controlador de gráficos del sistema' en vez del predeterminado.\n- **Desactivar superposiciones HW**: Activado (Fuerza a la GPU a encargarse siempre del renderizado de pantalla).\n- **Forzar 4x MSAA**: Habilitado en procesadores Bionic / Snapdragon de gama media y alta.",
-                ContentCategory.MODIFICATIONS,
+        upsertMediaContent(
+                "xiaomi-sensi-captura-poco-pro",
+                "SENSI XIAOMI & POCO - GAME TURBO CALIBRADO (FOTO HD)",
+                "Captura fotográfica oficial de calibración para POCO X3, X5, X6 Pro, F5 y Xiaomi Serie 13/14.",
+                "Calibración de respuesta de pantalla para Xiaomi y POCO.",
+                ContentCategory.SENSITIVITIES,
+                xiaomiOnly,
+                false,
                 null,
-                true,
-                "/videos/modificacionx.mp4",
-                1
+                "/images/sensibilidad-iphone-3.jpg",
+                13
         );
 
-        // 8. Optimizaciones universales
-        upsertContent(
-                "optimizacion-ram-tasa-refresco-120hz",
-                "Optimización de RAM y Aceleración de Tasa de Refresco a 120Hz/90Hz",
-                "Libera recursos críticos en segundo plano, reduce la latencia de entrada táctil y fuerza la tasa de refresco más fluida.",
-                "### ⚡ Instrucciones Generales:\n\n1. Desactiva las animaciones del sistema en Opciones de desarrollador:\n   - Escala de animación de ventana: 0.5x o desactivada.\n   - Escala de transición: 0.5x.\n   - Escala de duración de animador: 0.5x.\n2. Limita los procesos en segundo plano a máximo **3 procesos**.\n3. Habilita **Forzar 4x MSAA** si dispones de GPU Adreno 600+ o Apple Bionic.\n4. Limpia la memoria caché periódicamente cada 15 días.",
-                ContentCategory.OPTIMIZATIONS,
-                null,
-                true,
-                null,
-                1
-        );
-
-        log.info("Finished seeding/updating video catalog and contents.");
+        log.info("Finished seeding/updating device-centric multimedia content.");
     }
 
-    private void upsertContent(String slug, String title, String summary, String body,
-                               ContentCategory category, Set<DeviceType> targetDevices,
-                               boolean applyToAllDevices, String videoUrl, int sortOrder) {
+    private void upsertMediaContent(String slug, String title, String summary, String body,
+                                    ContentCategory category, Set<DeviceType> targetDevices,
+                                    boolean applyToAllDevices, String videoUrl, String imageUrl, int sortOrder) {
         Content content = contentRepository.findBySlug(slug).orElse(new Content());
         content.setSlug(slug);
         content.setTitle(title);
         content.setSummary(summary);
-        content.setBody(body);
+        content.setBody(body != null ? body : summary);
         content.setCategory(category);
         content.setApplyToAllDevices(applyToAllDevices);
         content.setTargetDevices(applyToAllDevices ? new HashSet<>() : (targetDevices != null ? new HashSet<>(targetDevices) : new HashSet<>()));
         content.setVideoUrl(videoUrl);
+        content.setImageUrl(imageUrl);
         content.setActive(true);
         content.setSortOrder(sortOrder);
         if (content.getCreatedAt() == null) {
@@ -374,3 +450,4 @@ public class ContentServiceImpl implements ContentService {
         contentRepository.save(content);
     }
 }
+

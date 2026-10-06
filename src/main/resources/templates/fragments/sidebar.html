@@ -17,27 +17,33 @@
         <li>
             <a th:href="@{/dashboard}" class="sidebar-link" th:classappend="${activePage == 'dashboard' ? 'active' : ''}">
                 <i class="fas fa-th-large"></i>
-                <span>Dashboard</span>
+                <span>Biblioteca Principal</span>
             </a>
         </li>
 
-        <li class="sidebar-section-title">Categorías Móviles</li>
+        <li class="sidebar-section-title">Dispositivos & Marcas</li>
         <li>
-            <a th:href="@{/content/modificaciones}" class="sidebar-link" th:classappend="${activePage == 'modificaciones' ? 'active' : ''}">
-                <i class="fas fa-sliders-h"></i>
-                <span>Modificaciones</span>
+            <a th:href="@{/devices/iphone}" class="sidebar-link" th:classappend="${activePage == 'device-iphone' ? 'active' : ''}">
+                <i class="fab fa-apple"></i>
+                <span>iPhone</span>
             </a>
         </li>
         <li>
-            <a th:href="@{/content/sensibilidades}" class="sidebar-link" th:classappend="${activePage == 'sensibilidades' ? 'active' : ''}">
-                <i class="fas fa-bullseye"></i>
-                <span>Sensibilidades</span>
+            <a th:href="@{/devices/samsung}" class="sidebar-link" th:classappend="${activePage == 'device-samsung' ? 'active' : ''}">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Samsung</span>
             </a>
         </li>
         <li>
-            <a th:href="@{/content/optimizaciones}" class="sidebar-link" th:classappend="${activePage == 'optimizaciones' ? 'active' : ''}">
+            <a th:href="@{/devices/xiaomi}" class="sidebar-link" th:classappend="${activePage == 'device-xiaomi' ? 'active' : ''}">
                 <i class="fas fa-bolt"></i>
-                <span>Optimizaciones</span>
+                <span>Xiaomi / POCO</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/devices/motorola}" class="sidebar-link" th:classappend="${activePage == 'device-motorola' ? 'active' : ''}">
+                <i class="fas fa-shield-alt"></i>
+                <span>Motorola</span>
             </a>
         </li>
 

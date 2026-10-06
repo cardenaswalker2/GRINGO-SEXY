@@ -49,19 +49,31 @@
                         <div class="form-text-error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="videoUrl">
-                            <i class="fas fa-video" style="color:var(--primary);"></i> Archivo o Enlace del Video (Opcional)
-                        </label>
-                        <input type="text" id="videoUrl" th:field="*{videoUrl}" class="form-control" placeholder="ej. /videos/iphone-confi-sensi-baja-v1.mp4 o https://www.youtube.com/watch?v=...">
-                        <small style="color:var(--text-muted); font-size:0.8rem; display:block; margin-top:4px;">
-                            Puedes colocar una ruta local en <code>/videos/nombre-archivo.mp4</code> o un enlace de YouTube / CDN.
-                        </small>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="videoUrl">
+                                <i class="fas fa-video" style="color:var(--primary);"></i> Enlace o Ruta de Video (Opcional)
+                            </label>
+                            <input type="text" id="videoUrl" th:field="*{videoUrl}" class="form-control" placeholder="ej. /videos/iphone-confi-sensi-baja-v1.mp4">
+                            <small style="color:var(--text-muted); font-size:0.78rem; display:block; margin-top:4px;">
+                                Ruta local en <code>/videos/archivo.mp4</code> o enlace YouTube.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="imageUrl">
+                                <i class="fas fa-image" style="color:#0284c7;"></i> Enlace o Ruta de Foto / Captura (Opcional)
+                            </label>
+                            <input type="text" id="imageUrl" th:field="*{imageUrl}" class="form-control" placeholder="ej. /images/sensibilidad-iphone-1.jpg">
+                            <small style="color:var(--text-muted); font-size:0.78rem; display:block; margin-top:4px;">
+                                Ruta local en <code>/images/captura.jpg</code> o URL CDN.
+                            </small>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="body">Instrucciones & Pasos Detallados</label>
-                        <textarea id="body" th:field="*{body}" class="form-control" rows="8" placeholder="Escribe aquí los pasos detallados, valores de DPI, velocidad de puntero, configuraciones en el juego..." required></textarea>
+                        <label class="form-label" for="body">Instrucciones & Notas Técnicas (Opcional)</label>
+                        <textarea id="body" th:field="*{body}" class="form-control" rows="5" placeholder="Valores de sensibilidad, notas de calibración o detalles de la captura..." required></textarea>
                         <div class="form-text-error" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>
                     </div>
 

@@ -56,6 +56,7 @@ public class DashboardController {
             DeviceType type = dev.getType();
             if (type != null && type != DeviceType.OTHER) {
                 long videoCount = contentService.countActiveVideosByDevice(type);
+                long photoCount = contentService.countActivePhotosByDevice(type);
                 long totalCount = contentService.countActiveContentsByDevice(type);
                 boolean isUserDevice = (user.getDeviceType() == type);
 
@@ -66,6 +67,7 @@ public class DashboardController {
                         dev.getDescription(),
                         dev.getIconClass(),
                         videoCount,
+                        photoCount,
                         totalCount,
                         isUserDevice
                 ));
@@ -75,7 +77,7 @@ public class DashboardController {
         model.addAttribute("currentUser", user);
         model.addAttribute("categories", allCategories);
         model.addAttribute("deviceCards", deviceCards);
-        model.addAttribute("pageTitle", "Panel de Usuario — GRINGO SEXY");
+        model.addAttribute("pageTitle", "Biblioteca de Contenido por Dispositivo — GRINGO SEXY");
         return "dashboard/index";
     }
 
@@ -98,14 +100,16 @@ public class DashboardController {
 
         List<Content> contents = contentService.getContentsForDevice(deviceType);
         long videoCount = contents.stream().filter(c -> c.getVideoUrl() != null && !c.getVideoUrl().trim().isEmpty()).count();
+        long photoCount = contents.stream().filter(c -> (c.getVideoUrl() == null || c.getVideoUrl().trim().isEmpty()) && (c.getImageUrl() != null && !c.getImageUrl().trim().isEmpty())).count();
 
         model.addAttribute("currentUser", user);
         model.addAttribute("device", device);
         model.addAttribute("deviceType", deviceType);
         model.addAttribute("contents", contents);
         model.addAttribute("videoCount", videoCount);
+        model.addAttribute("photoCount", photoCount);
         model.addAttribute("categories", categoryService.getActiveCategories());
-        model.addAttribute("pageTitle", "Catálogo de Videos — " + device.getName() + " — GRINGO SEXY");
+        model.addAttribute("pageTitle", "Contenido Multimedia • " + device.getName() + " — GRINGO SEXY");
         return "dashboard/device-catalog";
     }
 
