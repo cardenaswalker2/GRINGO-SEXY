@@ -20,11 +20,11 @@
                 </button>
                 <div>
                     <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Panel Principal</h2>
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Optimización y Modificaciones Móviles</p>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Optimización, Videos y Modificaciones Móviles</p>
                 </div>
             </div>
 
-            <div style="display:flex; align-items:center; gap:16px;">
+            <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
                 <div class="glass-card" style="padding:6px 14px; border-radius:var(--radius-full); display:flex; align-items:center; gap:8px;">
                     <i th:class="${currentUser.deviceType.iconClass}" style="color:var(--primary);"></i>
                     <span style="font-size:0.85rem; font-weight:700; color:var(--text-main);" th:text="${currentUser.deviceType.displayName}">iPhone</span>
@@ -44,13 +44,13 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
                     <div>
                         <div style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:8px;">
-                            <i class="fas fa-bolt"></i> Sistema Calibrado
+                            <i class="fas fa-bolt"></i> Sistema Calibrado 2026
                         </div>
                         <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px; color:var(--text-main);">
                             ¡Hola, <span th:text="${currentUser.fullName}">Usuario</span>! 👋
                         </h1>
                         <p style="color: var(--text-secondary); max-width: 600px; font-size:0.95rem;">
-                            Tu dispositivo registrado es <strong style="color:var(--text-main);" th:text="${currentUser.deviceType.displayName}">iPhone</strong>. Todas las sensibilidades, parámetros de DPI y guías técnicas están filtradas automáticamente para tu modelo.
+                            Tu dispositivo registrado es <strong style="color:var(--text-main);" th:text="${currentUser.deviceType.displayName}">iPhone</strong>. Explora abajo el catálogo de videos por marca o entra a tus módulos autorizados.
                         </p>
                     </div>
                     <div>
@@ -61,10 +61,71 @@
                 </div>
             </div>
 
-            <!-- Categories Grid -->
+            <!-- ===================================================================
+                 SECTION 1: BIBLIOTECA / CATÁLOGO DE VIDEOS POR DISPOSITIVO
+                 =================================================================== -->
             <div style="margin-bottom: 24px;">
-                <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; color:var(--text-main);">Tus Módulos Autorizados</h3>
-                <p style="font-size: 0.92rem; color: var(--text-muted);">Selecciona una categoría para explorar configuraciones, comandos y archivos.</p>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <div style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:4px;">
+                            <i class="fas fa-film"></i> Catálogo Multimedia
+                        </div>
+                        <h3 style="font-size: 1.45rem; font-weight: 800; margin-bottom: 4px; color:var(--text-main);">Videos y Ajustes por Dispositivo</h3>
+                        <p style="font-size: 0.92rem; color: var(--text-muted);">Selecciona una marca para abrir su galería oficial de videos HD y calibraciones.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="device-catalog-grid" style="margin-bottom: 40px;">
+                <div th:each="card : ${deviceCards}" 
+                     class="device-catalog-card"
+                     th:classappend="${card.userDevice ? 'is-user-brand' : ''}">
+                    
+                    <div class="device-card-top">
+                        <div class="device-icon-wrapper">
+                            <i th:class="${card.iconClass}"></i>
+                        </div>
+                        <div class="device-card-badges">
+                            <span th:if="${card.userDevice}" class="badge badge-primary">
+                                <i class="fas fa-check-circle"></i> Tu Dispositivo
+                            </span>
+                            <span th:if="${card.videoCount > 0}" class="badge badge-success">
+                                <i class="fas fa-play-circle"></i> HD Video
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="device-card-body">
+                        <h3 class="device-card-name" th:text="${card.name}">iPhone</h3>
+                        <p class="device-card-desc" th:text="${card.description}">Apple iOS Devices (11 al 16 Pro Max)</p>
+                    </div>
+
+                    <div class="device-card-footer">
+                        <div class="device-counter-box" th:if="${card.videoCount > 0}">
+                            <i class="fas fa-video" style="color:var(--primary);"></i>
+                            <span>Videos disponibles: <strong th:text="${card.videoCount}">0</strong></span>
+                        </div>
+                        <div class="device-counter-box empty-state" th:unless="${card.videoCount > 0}">
+                            <i class="fas fa-info-circle" style="color:var(--text-muted);"></i>
+                            <span>No hay videos disponibles todavía</span>
+                        </div>
+
+                        <a th:href="@{'/devices/' + ${card.slug}}" class="btn btn-primary btn-block">
+                            <span>Ver contenido</span> <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 SECTION 2: MÓDULOS AUTORIZADOS POR CATEGORÍA
+                 =================================================================== -->
+            <div style="margin-bottom: 24px;">
+                <div style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:4px;">
+                    <i class="fas fa-th-large"></i> Módulos Técnicos
+                </div>
+                <h3 style="font-size: 1.45rem; font-weight: 800; margin-bottom: 4px; color:var(--text-main);">Tus Módulos Autorizados</h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted);">Configuraciones especializadas según tu nivel de acceso asignado.</p>
             </div>
 
             <div class="categories-grid">
@@ -76,7 +137,7 @@
                         <h3 th:text="${cat.name}">Sensibilidades</h3>
                         <p th:text="${cat.description}">Configuraciones de puntero, DPI y respuesta táctil para máxima precisión.</p>
                     </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px; flex-wrap:wrap; gap:10px;">
                         <span class="badge badge-success"><i class="fas fa-unlock"></i> Desbloqueado</span>
                         <a th:href="@{'/content/' + ${cat.slug}}" class="btn btn-primary btn-sm">
                             Abrir Módulo <i class="fas fa-arrow-right"></i>

@@ -24,6 +24,14 @@ public interface ContentService {
 
     List<Content> getContentsForUserCategory(User user, ContentCategory category);
 
+    List<Content> getContentsForDevice(DeviceType deviceType);
+
+    long countActiveVideosByDevice(DeviceType deviceType);
+
+    long countActiveContentsByDevice(DeviceType deviceType);
+
+    Content toggleActive(String id, String ipAddress);
+
     Page<Content> searchContents(String query, ContentCategory category, DeviceType deviceType, Pageable pageable);
 
     void initDefaultContents();

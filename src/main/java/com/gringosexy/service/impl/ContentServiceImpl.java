@@ -141,6 +141,46 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public List<Content> getContentsForDevice(DeviceType deviceType) {
+        if (deviceType == null) {
+            return contentRepository.findAll();
+        }
+        return contentRepository.findAllActiveByDevice(deviceType);
+    }
+
+    @Override
+    public long countActiveVideosByDevice(DeviceType deviceType) {
+        if (deviceType == null) {
+            return 0;
+        }
+        return contentRepository.countActiveVideosByDevice(deviceType);
+    }
+
+    @Override
+    public long countActiveContentsByDevice(DeviceType deviceType) {
+        if (deviceType == null) {
+            return 0;
+        }
+        return contentRepository.countActiveContentsByDevice(deviceType);
+    }
+
+    @Override
+    public Content toggleActive(String id, String ipAddress) {
+        Content content = findById(id);
+        content.setActive(!content.isActive());
+        content.setUpdatedAt(Instant.now());
+        Content saved = contentRepository.save(content);
+        activityLogService.log(
+                "Admin",
+                "Admin",
+                "CONTENT_TOGGLE_ACTIVE",
+                (saved.isActive() ? "Activó" : "Desactivó") + " el contenido: " + saved.getTitle(),
+                ipAddress
+        );
+        return saved;
+    }
+
+    @Override
     public Page<Content> searchContents(String queryStr, ContentCategory category, DeviceType deviceType, Pageable pageable) {
         Query query = new Query();
         List<Criteria> criteriaList = new ArrayList<>();
@@ -270,7 +310,21 @@ public class ContentServiceImpl implements ContentService {
                 6
         );
 
-        // 7. Modificaciones con Video (Buffer 16M)
+        // 7. Xiaomi / POCO Sensi HyperOS (Video)
+        Set<DeviceType> xiaomiOnly = Set.of(DeviceType.XIAOMI);
+        upsertContent(
+                "xiaomi-hyperos-game-turbo-v1",
+                "CONFIG & SENSI ALTA COMPLETA - XIAOMI / POCO (HyperOS & Game Turbo)",
+                "Calibración de respuesta táctil a 480Hz, Game Turbo y optimización de DPI para MIUI e HyperOS.",
+                "### 📱 Pasos para Xiaomi / Redmi / POCO:\n\n1. Ve a **Ajustes > Ajustes adicionales > Opciones de desarrollador**.\n2. Establece el **Ancho más pequeño (DPI)** en **600 DPI** o **640 DPI** (POCO X3/X6 Pro/F5).\n3. Desactiva la **Optimización MIUI / HyperOS** sólo si experimentas caídas de frames.\n4. Abre **Seguridad > Game Turbo**:\n   - Ajustes adicionales > Free Fire / Tu juego:\n   - Respuesta táctil: 100% (Deslizador al máximo).\n   - Sensibilidad a toques continuos: 100%.\n   - Área resistente al tacto: Ninguna (Ningún borde).\n5. En Juego: General 98, Punto Rojo 94, Mira 2X 90, Mira 4X 86.",
+                ContentCategory.SENSITIVITIES,
+                xiaomiOnly,
+                false,
+                "/videos/modificacionx.mp4",
+                7
+        );
+
+        // 8. Modificaciones con Video (Buffer 16M)
         upsertContent(
                 "ajustes-secretos-desarrollador-buffer-16m",
                 "Ajustes Secretos del Desarrollador y Registro del Sistema (Buffer 16M)",

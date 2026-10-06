@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/admin/content")
+@RequestMapping({"/admin/content", "/admin/videos"})
 public class AdminContentController {
 
     private final ContentService contentService;
@@ -61,7 +61,7 @@ public class AdminContentController {
         model.addAttribute("selectedDevice", deviceType);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("devices", deviceService.getAllDevices());
-        model.addAttribute("pageTitle", "Gestión de Contenido — GRINGO SEXY");
+        model.addAttribute("pageTitle", "Gestión de Videos y Contenido — GRINGO SEXY");
         return "admin/content";
     }
 
@@ -74,7 +74,7 @@ public class AdminContentController {
         model.addAttribute("categories", categoryService.getActiveCategories());
         model.addAttribute("devices", deviceService.getActiveDevices());
         model.addAttribute("isNew", true);
-        model.addAttribute("pageTitle", "Crear Nuevo Contenido — GRINGO SEXY");
+        model.addAttribute("pageTitle", "Crear Nuevo Video / Contenido — GRINGO SEXY");
         return "admin/content-form";
     }
 
@@ -94,7 +94,7 @@ public class AdminContentController {
         String adminUsername = securityUtils.getCurrentUser().map(User::getUsername).orElse("Admin");
         String clientIp = SecurityUtils.getClientIp(request);
         contentService.createContent(contentRequest, adminUsername, clientIp);
-        redirectAttributes.addFlashAttribute("successMessage", "¡Contenido creado exitosamente!");
+        redirectAttributes.addFlashAttribute("successMessage", "¡Video / Contenido creado exitosamente!");
         return "redirect:/admin/content";
     }
 
@@ -122,7 +122,7 @@ public class AdminContentController {
         model.addAttribute("categories", categoryService.getActiveCategories());
         model.addAttribute("devices", deviceService.getActiveDevices());
         model.addAttribute("isNew", false);
-        model.addAttribute("pageTitle", "Editar Contenido: " + content.getTitle());
+        model.addAttribute("pageTitle", "Editar Video / Contenido: " + content.getTitle());
         return "admin/content-form";
     }
 
@@ -143,7 +143,18 @@ public class AdminContentController {
 
         String clientIp = SecurityUtils.getClientIp(request);
         contentService.updateContent(id, contentRequest, clientIp);
-        redirectAttributes.addFlashAttribute("successMessage", "¡Contenido actualizado correctamente!");
+        redirectAttributes.addFlashAttribute("successMessage", "¡Video / Contenido actualizado correctamente!");
+        return "redirect:/admin/content";
+    }
+
+    @PostMapping("/{id}/toggle")
+    public String toggleContent(@PathVariable("id") String id,
+                                HttpServletRequest request,
+                                RedirectAttributes redirectAttributes) {
+        String clientIp = SecurityUtils.getClientIp(request);
+        Content toggled = contentService.toggleActive(id, clientIp);
+        redirectAttributes.addFlashAttribute("successMessage", 
+                "El contenido '" + toggled.getTitle() + "' ahora está " + (toggled.isActive() ? "ACTIVO" : "INACTIVO") + ".");
         return "redirect:/admin/content";
     }
 

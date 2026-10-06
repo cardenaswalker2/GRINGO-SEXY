@@ -624,9 +624,14 @@ html, body {
 }
 
 /* -------------------------------------------------------------------
-   7. VIDEO GALLERY & THEATER PLAYER RESPONSIVE RULES
+   7. VIDEO GALLERY, DEVICE CATALOG & THEATER PLAYER RESPONSIVE RULES
    ------------------------------------------------------------------- */
 @media (max-width: 1024px) {
+    .device-catalog-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+    }
+
     .video-catalog-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
         gap: 18px !important;
@@ -648,6 +653,49 @@ html, body {
 }
 
 @media (max-width: 768px) {
+    .device-catalog-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .device-hero-card {
+        padding: 22px 18px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+    }
+
+    .device-hero-content {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+    }
+
+    .device-hero-icon-box {
+        width: 56px !important;
+        height: 56px !important;
+        font-size: 1.8rem !important;
+    }
+
+    .device-hero-title {
+        font-size: 1.45rem !important;
+    }
+
+    .device-hero-stats {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+
+    .device-stat-pill {
+        padding: 10px 14px !important;
+    }
+
+    .device-stat-pill .stat-num {
+        font-size: 1.35rem !important;
+    }
+
     .category-hero-card {
         padding: 20px 18px !important;
     }
@@ -682,6 +730,14 @@ html, body {
         width: 100% !important;
         overflow-x: auto !important;
         padding-bottom: 4px !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    .catalog-filter-btn {
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
     }
 
     .video-catalog-grid {
@@ -689,33 +745,110 @@ html, body {
         gap: 16px !important;
     }
 
+    /* THEATER MODAL MOBILE RESILIENCE (Eliminates cutoffs / Screenshot 1 Fix) */
     .theater-modal-backdrop {
-        padding: 8px !important;
+        padding: 6px !important;
+        align-items: flex-start !important;
+        padding-top: max(10px, env(safe-area-inset-top)) !important;
     }
 
     .theater-modal-window {
-        max-height: 96vh !important;
-        border-radius: var(--radius-md) !important;
+        max-height: calc(100vh - 20px) !important;
+        height: auto !important;
+        border-radius: var(--radius-lg) !important;
     }
 
     .theater-header {
-        padding: 12px 16px !important;
+        padding: 12px 14px !important;
+    }
+
+    .theater-header-title h3 {
+        font-size: 0.95rem !important;
+    }
+
+    .theater-video-container {
+        min-height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+        max-height: 38vh !important;
+    }
+
+    .theater-video-container video {
+        max-height: 38vh !important;
+        width: 100% !important;
+        height: 100% !important;
     }
 
     .theater-video-footer {
-        padding: 14px 16px !important;
+        padding: 12px 14px !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        gap: 12px !important;
+        gap: 10px !important;
+    }
+
+    .theater-lesson-info {
+        width: 100% !important;
+    }
+
+    .theater-lesson-category-tag {
+        font-size: 0.7rem !important;
+        margin-bottom: 2px !important;
+    }
+
+    .theater-lesson-title-display {
+        font-size: 0.98rem !important;
+        font-weight: 800 !important;
+        white-space: normal !important;
+        line-height: 1.35 !important;
+        word-break: break-word !important;
+        text-overflow: clip !important;
     }
 
     .theater-nav-controls {
         width: 100% !important;
         justify-content: flex-end !important;
+        gap: 10px !important;
     }
 
-    .theater-video-container video {
-        max-height: 280px !important;
+    .theater-nav-btn {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .theater-playlist-col {
+        max-height: 240px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .playlist-header {
+        padding: 12px 14px !important;
+    }
+
+    .playlist-items-list {
+        padding: 8px !important;
+    }
+
+    .playlist-item {
+        padding: 10px 12px !important;
+    }
+
+    .playlist-item-title {
+        font-size: 0.8rem !important;
+    }
+
+    .playlist-footer-actions {
+        padding: 10px 12px !important;
+    }
+
+    .playlist-footer-actions a.btn {
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        font-size: 0.82rem !important;
+        padding: 10px 12px !important;
+        width: 100% !important;
+        justify-content: center !important;
+        white-space: normal !important;
+        text-align: center !important;
     }
 }
 

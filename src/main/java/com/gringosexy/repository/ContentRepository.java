@@ -28,6 +28,12 @@ public interface ContentRepository extends MongoRepository<Content, String> {
     @Query("{ 'active': true, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }")
     List<Content> findAllActiveByDevice(DeviceType deviceType);
 
+    @Query(value = "{ 'active': true, 'videoUrl': { $ne: null, $ne: '' }, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", count = true)
+    long countActiveVideosByDevice(DeviceType deviceType);
+
+    @Query(value = "{ 'active': true, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", count = true)
+    long countActiveContentsByDevice(DeviceType deviceType);
+
     long countByCategory(ContentCategory category);
 
     long countByActiveTrue();
