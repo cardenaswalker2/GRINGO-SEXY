@@ -572,28 +572,48 @@ html, body {
     }
 
     .app-topbar {
-        padding: 12px 12px !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
+        padding: 12px 14px !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
         gap: 10px !important;
+        height: auto !important;
     }
 
     .app-topbar > div:first-child {
-        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
     }
 
-    .app-topbar > div:last-child,
-    .app-topbar > button.btn {
+    .app-topbar > div:last-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
         width: 100% !important;
+        justify-content: flex-start !important;
     }
 
-    .app-topbar .btn {
-        width: 100% !important;
+    .app-topbar > div:last-child .glass-card {
+        padding: 4px 10px !important;
+        font-size: 0.78rem !important;
+    }
+
+    .app-topbar > div:last-child .btn {
+        flex: 1 1 auto !important;
+        font-size: 0.82rem !important;
+        padding: 6px 12px !important;
         justify-content: center !important;
     }
 
     .app-topbar h2 {
         font-size: 1.1rem !important;
+        line-height: 1.25 !important;
+        margin: 0 !important;
     }
 
     .app-page-body {
@@ -849,6 +869,27 @@ html, body {
         justify-content: center !important;
         white-space: normal !important;
         text-align: center !important;
+    }
+
+    /* Sensi Photo Grid Mobile Rules */
+    .sensi-photo-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .sensi-photo-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .sensi-photo-title {
+        font-size: 0.84rem !important;
+    }
+
+    .sensi-photo-meta {
+        font-size: 0.72rem !important;
     }
 }
 

@@ -1282,3 +1282,98 @@
     line-height: 1.5;
 }
 
+/* ===================================================================
+   SENSITIVITY PHOTO GALLERY & SHOWCASE CARDS
+   =================================================================== */
+.sensi-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.sensi-photo-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--trans-smooth);
+    box-shadow: var(--shadow-xs);
+    display: flex;
+    flex-direction: column;
+}
+
+.sensi-photo-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px rgba(242, 85, 56, 0.18);
+}
+
+.sensi-photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sensi-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.sensi-photo-card:hover .sensi-photo-wrap img {
+    transform: scale(1.05);
+}
+
+.sensi-photo-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background var(--trans-fast);
+}
+
+.sensi-photo-card:hover .sensi-photo-badge {
+    background: var(--primary);
+}
+
+.sensi-photo-info {
+    padding: 12px 14px;
+    background: #ffffff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sensi-photo-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.3;
+    margin-bottom: 3px;
+}
+
+.sensi-photo-meta {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+

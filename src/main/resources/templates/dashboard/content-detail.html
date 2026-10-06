@@ -22,13 +22,13 @@
                 </div>
             </div>
 
-            <div style="display:flex; align-items:center; gap:12px;">
-                <div class="glass-card" style="padding:6px 14px; border-radius:var(--radius-full); display:flex; align-items:center; gap:8px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; width:auto;">
+                <div class="glass-card" style="padding:6px 14px; border-radius:var(--radius-full); display:inline-flex; align-items:center; gap:8px;">
                     <i th:class="${currentUser.deviceType.iconClass}" style="color:var(--primary);"></i>
                     <span style="font-size:0.85rem; font-weight:700; color:var(--text-main);" th:text="${currentUser.deviceType.displayName}">iPhone</span>
                 </div>
-                <a th:href="@{'/content/' + ${content.category.slug}}" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left"></i> Catálogo de <span th:text="${content.category.displayName}">Módulo</span>
+                <a th:href="@{'/content/' + ${content.category != null ? content.category.slug : 'sensibilidades'}}" class="btn btn-secondary btn-sm" style="white-space:nowrap;">
+                    <i class="fas fa-arrow-left"></i> Catálogo de <span th:text="${content.category != null ? content.category.displayName : 'Módulo'}">Módulo</span>
                 </a>
             </div>
         </div>
@@ -114,6 +114,82 @@
                         </div>
                     </div>
 
+                    <!-- Visual Sensitivity Showcase Section (Exclusive for iPhone Sensi Guides) -->
+                    <div th:if="${#strings.contains(content.slug, 'sensi') or #strings.contains(content.slug, 'iphone')}" 
+                         style="margin-top: 36px; padding: 24px; background: var(--bg-surface-warm); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);">
+                        
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 18px; flex-wrap:wrap; gap:10px;">
+                            <div>
+                                <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main); margin:0;">
+                                    <i class="fas fa-camera" style="color:var(--primary); margin-right:8px;"></i> Capturas Oficiales de Sensibilidad iPhone
+                                </h3>
+                                <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+                                    Toca cualquier captura para verla en pantalla completa en alta definición
+                                </p>
+                            </div>
+                            <span class="badge badge-primary">4 Presets HD</span>
+                        </div>
+
+                        <!-- 4 Responsive Image Cards Grid -->
+                        <div class="sensi-photo-grid">
+                            <!-- Photo 1: Preset Pro 200% -->
+                            <div class="sensi-photo-card" onclick="openPhotoViewer('/images/sensibilidad-iphone-3.jpg', 'Preset A: Modo Competitivo Pro (Miras Rápidas 200%)')">
+                                <div class="sensi-photo-wrap">
+                                    <img src="/images/sensibilidad-iphone-3.jpg" alt="Preset Competitivo Pro" loading="lazy">
+                                    <div class="sensi-photo-badge">
+                                        <i class="fas fa-expand-arrows-alt"></i> Ampliar
+                                    </div>
+                                </div>
+                                <div class="sensi-photo-info">
+                                    <div class="sensi-photo-title">Preset A: Modo Pro 200%</div>
+                                    <div class="sensi-photo-meta">General: 178 • Mira 2X/4X: 200</div>
+                                </div>
+                            </div>
+
+                            <!-- Photo 2: Preset AWM Precision -->
+                            <div class="sensi-photo-card" onclick="openPhotoViewer('/images/sensibilidad-iphone-2.jpg', 'Preset B: Modo AWM & Francotirador Precisión')">
+                                <div class="sensi-photo-wrap">
+                                    <img src="/images/sensibilidad-iphone-2.jpg" alt="Preset AWM Francotirador" loading="lazy">
+                                    <div class="sensi-photo-badge">
+                                        <i class="fas fa-expand-arrows-alt"></i> Ampliar
+                                    </div>
+                                </div>
+                                <div class="sensi-photo-info">
+                                    <div class="sensi-photo-title">Preset B: Modo AWM & Francotirador</div>
+                                    <div class="sensi-photo-meta">General: 190 • AWM: 20</div>
+                                </div>
+                            </div>
+
+                            <!-- Photo 3: Preset Control Dispersion -->
+                            <div class="sensi-photo-card" onclick="openPhotoViewer('/images/sensibilidad-iphone-4.jpg', 'Preset C: Modo Control de Dispersión Equilibrado')">
+                                <div class="sensi-photo-wrap">
+                                    <img src="/images/sensibilidad-iphone-4.jpg" alt="Preset Control de Dispersión" loading="lazy">
+                                    <div class="sensi-photo-badge">
+                                        <i class="fas fa-expand-arrows-alt"></i> Ampliar
+                                    </div>
+                                </div>
+                                <div class="sensi-photo-info">
+                                    <div class="sensi-photo-title">Preset C: Modo Dispersión</div>
+                                    <div class="sensi-photo-meta">General: 69 • 4x Scope: 100</div>
+                                </div>
+                            </div>
+
+                            <!-- Photo 4: Preset Universal Classic -->
+                            <div class="sensi-photo-card" onclick="openPhotoViewer('/images/sensibilidad-iphone-1.jpg', 'Preset D: Modo Universal Clásico')">
+                                <div class="sensi-photo-wrap">
+                                    <img src="/images/sensibilidad-iphone-1.jpg" alt="Preset Universal Clásico" loading="lazy">
+                                    <div class="sensi-photo-badge">
+                                        <i class="fas fa-expand-arrows-alt"></i> Ampliar
+                                    </div>
+                                </div>
+                                <div class="sensi-photo-info">
+                                    <div class="sensi-photo-title">Preset D: Universal Clásico</div>
+                                    <div class="sensi-photo-meta">General: 44 • Miras: 67</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Technical Support Help Box -->
                     <div style="margin-top: 40px; padding: 22px; background: var(--primary-light); border: 1px solid rgba(242,85,56,0.25); border-radius: var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
                         <div style="display:flex; align-items:center; gap:12px;">
@@ -181,8 +257,60 @@
     </div>
 </div>
 
+<!-- Photo Lightbox Modal for Fullscreen Sensi Images -->
+<div class="theater-modal-backdrop" id="photoViewerBackdrop">
+    <div style="background:#0d1117; border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius-xl); max-width:960px; width:100%; max-height:92vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.8);">
+        <div style="padding:14px 20px; background:#161b22; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <i class="fas fa-image" style="color:var(--primary);"></i>
+                <h4 id="photoViewerTitle" style="font-size:0.95rem; font-weight:800; color:#ffffff; margin:0;">Captura de Sensibilidad</h4>
+            </div>
+            <button type="button" class="theater-close-btn" onclick="closePhotoViewer()" title="Cerrar (ESC)">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div style="flex:1; background:#000000; padding:12px; display:flex; align-items:center; justify-content:center; overflow:hidden; min-height:300px;">
+            <img id="photoViewerImg" src="" alt="Captura ampliada" style="max-width:100%; max-height:75vh; object-fit:contain; border-radius:var(--radius-sm);">
+        </div>
+        <div style="padding:12px 20px; background:#11161f; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(255,255,255,0.08); font-size:0.8rem; color:#8b949e;">
+            <span><i class="fas fa-mobile-alt"></i> iPhone • Calibración Free Fire 2026</span>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="closePhotoViewer()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
 <div th:replace="~{fragments/navbar :: alerts}"></div>
 <div th:replace="~{fragments/navbar :: scripts}"></div>
+
+<script>
+    function openPhotoViewer(imgSrc, title) {
+        const modal = document.getElementById('photoViewerBackdrop');
+        const img = document.getElementById('photoViewerImg');
+        const titleEl = document.getElementById('photoViewerTitle');
+        if (modal && img) {
+            img.src = imgSrc;
+            if (titleEl) titleEl.textContent = title || 'Captura de Sensibilidad';
+            modal.style.display = 'flex';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closePhotoViewer() {
+        const modal = document.getElementById('photoViewerBackdrop');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closePhotoViewer();
+        }
+    });
+</script>
 
 </body>
 </html>
