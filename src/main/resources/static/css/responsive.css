@@ -105,7 +105,7 @@ html, body {
         position: sticky !important;
         top: 0 !important;
         z-index: 1000 !important;
-        background: rgba(251, 249, 246, 0.98) !important;
+        background: rgba(7, 9, 13, 0.98) !important;
     }
 
     .hamburger-btn {
@@ -120,14 +120,14 @@ html, body {
         left: -100%;
         width: 100%;
         height: calc(100vh - var(--header-height));
-        background: #ffffff;
+        background: #0b0e14;
         flex-direction: column;
         align-items: flex-start;
         padding: 30px 24px;
         gap: 20px;
         transition: left var(--trans-smooth);
         border-bottom: 1px solid var(--border-subtle);
-        box-shadow: var(--shadow-lg);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         z-index: 999;
         overflow-y: auto;
     }
@@ -227,8 +227,8 @@ html, body {
         height: 100vh !important;
         z-index: 10000 !important;
         transition: left var(--trans-smooth) !important;
-        box-shadow: 15px 0 40px rgba(45, 30, 20, 0.25) !important;
-        background: #ffffff !important;
+        box-shadow: 15px 0 40px rgba(0, 0, 0, 0.7) !important;
+        background: #0b0e14 !important;
     }
 
     .app-sidebar.open {
@@ -239,8 +239,8 @@ html, body {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(30, 27, 24, 0.5);
-        backdrop-filter: blur(4px);
+        background: rgba(4, 6, 9, 0.8);
+        backdrop-filter: blur(6px);
         z-index: 9999;
     }
 

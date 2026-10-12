@@ -84,7 +84,7 @@
 
         <!-- Desktop Action Buttons (Clearly visible & accessible) -->
         <div class="nav-actions" sec:authorize="isAnonymous()">
-            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="font-weight:700; border:1px solid var(--border-subtle); background:#ffffff;">
+            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="font-weight:700;">
                 <i class="fas fa-sign-in-alt" style="color:var(--primary);"></i> Iniciar sesión
             </a>
             <a th:href="@{/register}" class="btn btn-primary btn-sm btn-pill" style="font-weight:700;">
@@ -93,7 +93,7 @@
         </div>
 
         <div class="nav-actions" sec:authorize="isAuthenticated()">
-            <a th:href="@{/profile}" class="btn btn-secondary btn-sm" title="Configuración de mi cuenta" style="border:1px solid var(--border-subtle); font-weight:700; background:#ffffff;">
+            <a th:href="@{/profile}" class="btn btn-secondary btn-sm" title="Configuración de mi cuenta" style="font-weight:700;">
                 <i class="fas fa-cog" style="color:var(--primary);"></i> Configuración
             </a>
             <a th:href="@{/dashboard}" class="btn btn-primary btn-sm btn-pill">

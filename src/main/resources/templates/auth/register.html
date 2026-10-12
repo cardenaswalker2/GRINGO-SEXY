@@ -8,12 +8,30 @@
 <div th:replace="~{fragments/navbar :: alerts}"></div>
 
 <div class="auth-wrapper">
+    <!-- Top Branding matching screenshot -->
+    <div style="text-align: center; margin-bottom: 22px;">
+        <div style="color: #ff5500; font-size: 1.6rem; margin-bottom: 2px;">
+            <i class="fas fa-crown"></i>
+        </div>
+        <div class="auth-brand-badge">
+            <i class="fas fa-fire-alt"></i>
+            <span>GRINGO <span style="color: var(--primary);">SEXY</span></span>
+        </div>
+        <div class="auth-tagline">TU COMUNIDAD, TU ESTILO</div>
+    </div>
+
     <div class="auth-card" style="max-width: 540px;">
-        <div class="auth-header">
-            <div class="auth-logo">
-                <i class="fas fa-fire-alt"></i>
-                <span>GRINGO <span class="text-gradient">SEXY</span></span>
-            </div>
+        <!-- Dual Tab Switcher -->
+        <div class="auth-tab-group">
+            <a th:href="@{/login}" class="auth-tab-item">
+                <i class="fas fa-user"></i> Iniciar sesión
+            </a>
+            <a th:href="@{/register}" class="auth-tab-item active">
+                <i class="fas fa-user-plus"></i> Crear cuenta
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 24px;">
             <h2 class="auth-title">Crea tu Cuenta</h2>
             <p class="auth-subtitle">Accede a sensibilidades y calibraciones optimizadas para tu smartphone</p>
         </div>
@@ -21,20 +39,29 @@
         <form th:action="@{/register}" th:object="${registerRequest}" method="post" id="registerForm">
             <div class="form-group">
                 <label class="form-label" for="fullName">Nombre Completo</label>
-                <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="ej. Carlos Mendoza" required>
+                <div class="input-icon-wrap">
+                    <i class="far fa-user input-icon-left"></i>
+                    <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="ej. Carlos Mendoza" required>
+                </div>
                 <div class="form-text-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
             </div>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
                 <div class="form-group">
                     <label class="form-label" for="username">Usuario</label>
-                    <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="gringo_pro" required>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-at input-icon-left"></i>
+                        <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="gringo_pro" required>
+                    </div>
                     <div class="form-text-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="email">Correo Electrónico</label>
-                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="tu@email.com" required>
+                    <div class="input-icon-wrap">
+                        <i class="far fa-envelope input-icon-left"></i>
+                        <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="tu@email.com" required>
+                    </div>
                     <div class="form-text-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
             </div>
@@ -42,19 +69,25 @@
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
                 <div class="form-group">
                     <label class="form-label" for="password">Contraseña</label>
-                    <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Mínimo 6 caracteres" required>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-lock input-icon-left"></i>
+                        <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Mínimo 6 caracteres" required>
+                    </div>
                     <div class="form-text-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="confirmPassword">Confirmar Contraseña</label>
-                    <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control" placeholder="Repite contraseña" required>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-shield-alt input-icon-left"></i>
+                        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control" placeholder="Repite contraseña" required>
+                    </div>
                     <div class="form-text-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
                 </div>
             </div>
 
             <!-- Device Selection Radio Cards -->
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 6px;">
                 <label class="form-label">Selecciona tu Dispositivo Principal</label>
                 <div class="device-picker-grid">
                     <div th:each="dev : ${devices}" class="device-radio-item">
@@ -79,22 +112,22 @@
                     <!-- VIP All-Access Plan (Featured) -->
                     <div class="module-radio-item">
                         <input type="radio" id="plan_all" th:field="*{requestedModule}" value="ALL" checked>
-                        <label for="plan_all" class="module-card-select" style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:#fffcf9; border:2px solid var(--primary); border-radius:var(--radius-md); cursor:pointer; position:relative;">
+                        <label for="plan_all" class="module-card-select" style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:#141a24; border:2px solid var(--primary); border-radius:14px; cursor:pointer; position:relative;">
                             <div style="display:flex; align-items:center; gap:12px;">
-                                <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
+                                <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,85,0,0.15); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
                                     <i class="fas fa-crown"></i>
                                 </div>
                                 <div>
-                                    <div style="font-weight:800; color:var(--text-main); font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+                                    <div style="font-weight:800; color:#ffffff; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
                                         Membresía Completa VIP
                                         <span style="background:var(--primary); color:#ffffff; font-size:0.68rem; padding:2px 6px; border-radius:4px; font-weight:800;">TODO INCLUIDO</span>
                                     </div>
-                                    <div style="font-size:0.8rem; color:var(--text-muted);">Modificaciones + Sensibilidades + Optimizaciones + Soporte VIP</div>
+                                    <div style="font-size:0.8rem; color:#94a3b8;">Modificaciones + Sensibilidades + Optimizaciones + Soporte VIP</div>
                                 </div>
                             </div>
                             <div style="text-align:right;">
                                 <div style="font-size:1.15rem; font-weight:900; color:var(--primary);">$25 USD</div>
-                                <div style="font-size:0.72rem; color:#16a34a; font-weight:700;">Ahorra 20%</div>
+                                <div style="font-size:0.72rem; color:#34d399; font-weight:700;">Ahorra 20%</div>
                             </div>
                         </label>
                     </div>
@@ -104,53 +137,60 @@
                         <!-- Modificaciones -->
                         <div class="module-radio-item">
                             <input type="radio" id="plan_mod" th:field="*{requestedModule}" value="MODIFICATIONS">
-                            <label for="plan_mod" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:var(--bg-surface-warm); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                            <label for="plan_mod" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:#121721; border:1px solid #1e2636; border-radius:14px; cursor:pointer;">
                                 <div style="display:flex; align-items:center; justify-content:space-between;">
                                     <i class="fas fa-microchip" style="color:var(--primary);"></i>
-                                    <span style="font-weight:800; color:var(--text-main); font-size:0.95rem;">$10 USD</span>
+                                    <span style="font-weight:800; color:#ffffff; font-size:0.95rem;">$10 USD</span>
                                 </div>
-                                <div style="font-weight:700; color:var(--text-main); font-size:0.85rem;">Modificaciones</div>
-                                <div style="font-size:0.74rem; color:var(--text-muted);">Confi & Tutoriales en Video</div>
+                                <div style="font-weight:700; color:#ffffff; font-size:0.85rem;">Modificaciones</div>
+                                <div style="font-size:0.74rem; color:#94a3b8;">Confi & Tutoriales en Video</div>
                             </label>
                         </div>
 
                         <!-- Sensibilidades -->
                         <div class="module-radio-item">
                             <input type="radio" id="plan_sens" th:field="*{requestedModule}" value="SENSITIVITIES">
-                            <label for="plan_sens" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:var(--bg-surface-warm); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                            <label for="plan_sens" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:#121721; border:1px solid #1e2636; border-radius:14px; cursor:pointer;">
                                 <div style="display:flex; align-items:center; justify-content:space-between;">
                                     <i class="fas fa-crosshairs" style="color:var(--accent-amber);"></i>
-                                    <span style="font-weight:800; color:var(--text-main); font-size:0.95rem;">$10 USD</span>
+                                    <span style="font-weight:800; color:#ffffff; font-size:0.95rem;">$10 USD</span>
                                 </div>
-                                <div style="font-weight:700; color:var(--text-main); font-size:0.85rem;">Sensibilidades</div>
-                                <div style="font-size:0.74rem; color:var(--text-muted);">DPI, Puntero & Headshot</div>
+                                <div style="font-weight:700; color:#ffffff; font-size:0.85rem;">Sensibilidades</div>
+                                <div style="font-size:0.74rem; color:#94a3b8;">DPI, Puntero & Headshot</div>
                             </label>
                         </div>
 
                         <!-- Optimizaciones -->
                         <div class="module-radio-item">
                             <input type="radio" id="plan_opt" th:field="*{requestedModule}" value="OPTIMIZATIONS">
-                            <label for="plan_opt" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:var(--bg-surface-warm); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                            <label for="plan_opt" class="module-card-select" style="display:flex; flex-direction:column; gap:6px; padding:12px 14px; background:#121721; border:1px solid #1e2636; border-radius:14px; cursor:pointer;">
                                 <div style="display:flex; align-items:center; justify-content:space-between;">
                                     <i class="fas fa-tachometer-alt" style="color:var(--accent-cyan);"></i>
-                                    <span style="font-weight:800; color:var(--text-main); font-size:0.95rem;">$10 USD</span>
+                                    <span style="font-weight:800; color:#ffffff; font-size:0.95rem;">$10 USD</span>
                                 </div>
-                                <div style="font-weight:700; color:var(--text-main); font-size:0.85rem;">Optimizaciones</div>
-                                <div style="font-size:0.74rem; color:var(--text-muted);">120Hz, RAM & Latencia</div>
+                                <div style="font-weight:700; color:#ffffff; font-size:0.85rem;">Optimizaciones</div>
+                                <div style="font-size:0.74rem; color:#94a3b8;">120Hz, RAM & Latencia</div>
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitRegisterBtn" style="margin-top:24px;">
+            <button type="submit" class="btn-auth-submit" id="submitRegisterBtn" style="margin-top:24px;">
                 <i class="fas fa-user-plus"></i> Continuar al Pago por WhatsApp
             </button>
         </form>
 
-        <div class="auth-footer">
-            ¿Ya tienes una cuenta registrada? <a th:href="@{/login}">Inicia sesión</a>
+        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #94a3b8;">
+            ¿Ya tienes una cuenta registrada? <a th:href="@{/login}" style="color: var(--primary); font-weight: 700;">Inicia sesión</a>
         </div>
+    </div>
+
+    <!-- Bottom aesthetic footer brand -->
+    <div class="auth-bottom-brand">
+        <i class="fas fa-crown"></i>
+        <div>GRINGO SEXY</div>
+        <div style="font-size:0.68rem; color:#64748b; margin-top:2px;">MÁS QUE UNA COMUNIDAD</div>
     </div>
 </div>
 

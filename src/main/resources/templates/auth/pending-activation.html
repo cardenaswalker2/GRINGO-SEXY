@@ -8,31 +8,43 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="auth-wrapper" style="padding: 40px 16px;">
+    <!-- Top Branding matching screenshot -->
+    <div style="text-align: center; margin-bottom: 22px;">
+        <div style="color: #ff5500; font-size: 1.6rem; margin-bottom: 2px;">
+            <i class="fas fa-crown"></i>
+        </div>
+        <div class="auth-brand-badge">
+            <i class="fas fa-fire-alt"></i>
+            <span>GRINGO <span style="color: var(--primary);">SEXY</span></span>
+        </div>
+        <div class="auth-tagline">TU COMUNIDAD, TU ESTILO</div>
+    </div>
+
     <div class="auth-card" style="text-align: center; max-width: 580px; padding: 40px 32px;">
-        <div style="width: 80px; height: 80px; border-radius: 50%; background: #ecfdf5; color: #16a34a; display: inline-flex; align-items: center; justify-content: center; font-size: 2.6rem; margin-bottom: 24px; box-shadow: 0 6px 20px rgba(22, 163, 74, 0.2);">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(37, 211, 102, 0.15); color: #25d366; display: inline-flex; align-items: center; justify-content: center; font-size: 2.6rem; margin-bottom: 24px; box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3); border: 1px solid rgba(37, 211, 102, 0.35);">
             <i class="fab fa-whatsapp"></i>
         </div>
 
-        <h2 class="auth-title" style="font-size: 1.75rem; margin-bottom: 8px; color:var(--text-main);">¡Registro Completado con Éxito!</h2>
-        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6;">
-            Tu cuenta <strong style="color: var(--primary);" th:text="${'@' + username}">@usuario</strong> ha sido creada para tu <strong style="color:var(--text-main);" th:text="${deviceText}">Dispositivo</strong>.
+        <h2 class="auth-title" style="font-size: 1.75rem; margin-bottom: 8px; color:#ffffff;">¡Registro Completado con Éxito!</h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6;">
+            Tu cuenta <strong style="color: var(--primary);" th:text="${'@' + username}">@usuario</strong> ha sido creada para tu <strong style="color:#ffffff;" th:text="${deviceText}">Dispositivo</strong>.
         </p>
 
         <!-- Selected Module Banner -->
-        <div style="background:var(--primary-light); border:1px solid rgba(242,85,56,0.3); border-radius:var(--radius-md); padding:16px 20px; margin-bottom:24px; text-align:left; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <div style="background: rgba(255,85,0,0.1); border: 1px solid rgba(255,85,0,0.3); border-radius: 14px; padding: 16px 20px; margin-bottom: 24px; text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
             <div>
-                <span style="font-size:0.75rem; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; display:block;">Paquete Seleccionado</span>
-                <strong style="font-size:1.02rem; color:var(--text-main);" th:text="${moduleName}">Membresía Completa VIP ($25 USD)</strong>
+                <span style="font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; display: block;">Paquete Seleccionado</span>
+                <strong style="font-size: 1.02rem; color: #ffffff;" th:text="${moduleName}">Membresía Completa VIP ($25 USD)</strong>
             </div>
-            <span class="badge badge-primary" style="font-size:0.8rem; padding:6px 12px;"><i class="fas fa-clock"></i> Esperando Pago</span>
+            <span class="badge badge-primary" style="font-size: 0.8rem; padding: 6px 12px;"><i class="fas fa-clock"></i> Esperando Pago</span>
         </div>
 
         <!-- Steps Guide -->
-        <div class="glass-card" style="padding: 24px; text-align: left; margin-bottom: 28px; border-color: rgba(37, 211, 102, 0.3); background: #f0fdf4;">
-            <div style="font-weight: 800; color: #15803d; margin-bottom: 14px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+        <div class="glass-card" style="padding: 24px; text-align: left; margin-bottom: 28px; border-color: rgba(37, 211, 102, 0.3); background: #0c1511;">
+            <div style="font-weight: 800; color: #34d399; margin-bottom: 14px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-lock" style="color: var(--primary);"></i> Pasos para activar tu acceso:
             </div>
-            <ol style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.75;">
+            <ol style="margin: 0; padding-left: 20px; color: #cbd5e1; font-size: 0.9rem; line-height: 1.75;">
                 <li>Haz clic en el botón verde de abajo para abrir nuestro <strong>WhatsApp oficial</strong>.</li>
                 <li>Envía el mensaje con tu usuario para confirmar tu método de pago preferido.</li>
                 <li>Una vez confirmado tu pago, el administrador <strong>activará tu cuenta de inmediato</strong>.</li>
@@ -41,11 +53,11 @@
 
         <!-- WhatsApp Action Button -->
         <div style="margin-bottom: 20px;">
-            <a th:href="${whatsappUrl}" target="_blank" class="btn btn-lg btn-block" style="background: #25d366; color: #ffffff !important; font-weight: 800; font-size: 1.05rem; padding: 15px 22px; border-radius: var(--radius-full); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s;">
+            <a th:href="${whatsappUrl}" target="_blank" class="btn btn-lg btn-block" style="background: #25d366; color: #ffffff !important; font-weight: 800; font-size: 1.05rem; padding: 15px 22px; border-radius: 14px; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s;">
                 <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i> Contactar por WhatsApp y Activar
             </a>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; font-weight:600;">
-                Atención directa al: <strong style="color: var(--text-main);" th:text="${whatsappNumberDisplay}">+1 (239) 245-0044</strong>
+            <div style="font-size: 0.85rem; color: #64748b; margin-top: 12px; font-weight:600;">
+                Atención directa al: <strong style="color: #ffffff;" th:text="${whatsappNumberDisplay}">+1 (239) 245-0044</strong>
             </div>
         </div>
 
@@ -53,10 +65,17 @@
             <a th:href="@{/login}" class="btn btn-secondary btn-sm">
                 <i class="fas fa-sign-in-alt"></i> Ya pagué, ir a Iniciar Sesión
             </a>
-            <a th:href="@{/}" class="btn btn-secondary btn-sm" style="background: transparent; border: none;">
+            <a th:href="@{/}" class="btn btn-secondary btn-sm" style="background: transparent; border: none; color: #94a3b8;">
                 Volver al Inicio
             </a>
         </div>
+    </div>
+
+    <!-- Bottom aesthetic footer brand -->
+    <div class="auth-bottom-brand">
+        <i class="fas fa-crown"></i>
+        <div>GRINGO SEXY</div>
+        <div style="font-size:0.68rem; color:#64748b; margin-top:2px;">MÁS QUE UNA COMUNIDAD</div>
     </div>
 </div>
 
