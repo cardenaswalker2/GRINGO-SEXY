@@ -40,32 +40,62 @@
         </a>
 
         <ul class="nav-links" id="navLinks">
-            <li><a th:href="@{/}" class="nav-link active">Inicio</a></li>
+            <li><a th:href="@{/}" class="nav-link active"><i class="fas fa-home" style="margin-right:4px;"></i> Inicio</a></li>
             <li><a th:href="@{/#funciones}" class="nav-link">Funciones</a></li>
             <li><a th:href="@{/#compatibilidad}" class="nav-link">Dispositivos</a></li>
-            <li><a th:href="@{/#redes}" class="nav-link">Redes Sociales</a></li>
             <li><a th:href="@{/support}" class="nav-link">Soporte</a></li>
+
+            <!-- Direct Account Navigation inside Menu for High Visibility -->
+            <li sec:authorize="isAnonymous()">
+                <a th:href="@{/login}" class="nav-link" style="color:var(--text-main); font-weight:700;">
+                    <i class="fas fa-sign-in-alt" style="color:var(--primary); margin-right:4px;"></i> Iniciar sesión
+                </a>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a th:href="@{/register}" class="nav-link" style="color:var(--primary); font-weight:700;">
+                    <i class="fas fa-user-plus" style="margin-right:4px;"></i> Registrarse
+                </a>
+            </li>
+
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/profile}" class="nav-link" title="Configuración de la cuenta">
+                    <i class="fas fa-cog" style="color:var(--primary); margin-right:4px;"></i> Configuración
+                </a>
+            </li>
 
             <!-- Mobile actions inside drawer (Only visible on mobile) -->
             <li class="nav-actions-mobile" sec:authorize="isAnonymous()">
-                <a th:href="@{/login}" class="btn btn-secondary btn-block">Iniciar sesión</a>
-                <a th:href="@{/register}" class="btn btn-primary btn-block">Comenzar ahora <i class="fas fa-arrow-right"></i></a>
+                <a th:href="@{/login}" class="btn btn-secondary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+                </a>
+                <a th:href="@{/register}" class="btn btn-primary btn-block">
+                    <i class="fas fa-user-plus"></i> Registrarse ahora
+                </a>
             </li>
             <li class="nav-actions-mobile" sec:authorize="isAuthenticated()">
-                <a th:href="@{/dashboard}" class="btn btn-primary btn-block">Mi Dashboard</a>
+                <a th:href="@{/dashboard}" class="btn btn-primary btn-block">
+                    <i class="fas fa-th-large"></i> Mi Dashboard
+                </a>
+                <a th:href="@{/profile}" class="btn btn-secondary btn-block">
+                    <i class="fas fa-cog"></i> Configuración de Cuenta
+                </a>
             </li>
         </ul>
 
+        <!-- Desktop Action Buttons (Clearly visible & accessible) -->
         <div class="nav-actions" sec:authorize="isAnonymous()">
-            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="background:transparent; border:none; color:var(--text-secondary); font-weight:700;">
-                Iniciar sesión
+            <a th:href="@{/login}" class="btn btn-secondary btn-sm" style="font-weight:700; border:1px solid var(--border-subtle); background:#ffffff;">
+                <i class="fas fa-sign-in-alt" style="color:var(--primary);"></i> Iniciar sesión
             </a>
-            <a th:href="@{/register}" class="btn btn-primary btn-sm btn-pill">
-                Comenzar ahora <i class="fas fa-arrow-right" style="font-size:0.75rem;"></i>
+            <a th:href="@{/register}" class="btn btn-primary btn-sm btn-pill" style="font-weight:700;">
+                <i class="fas fa-user-plus"></i> Registrarse
             </a>
         </div>
 
         <div class="nav-actions" sec:authorize="isAuthenticated()">
+            <a th:href="@{/profile}" class="btn btn-secondary btn-sm" title="Configuración de mi cuenta" style="border:1px solid var(--border-subtle); font-weight:700; background:#ffffff;">
+                <i class="fas fa-cog" style="color:var(--primary);"></i> Configuración
+            </a>
             <a th:href="@{/dashboard}" class="btn btn-primary btn-sm btn-pill">
                 <i class="fas fa-th-large"></i> Dashboard
             </a>

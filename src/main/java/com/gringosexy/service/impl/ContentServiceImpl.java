@@ -231,7 +231,8 @@ public class ContentServiceImpl implements ContentService {
         for (Content c : all) {
             boolean isLegacyInvalidCat = (c.getCategory() == null || ContentCategory.fromSlug(c.getCategory().getSlug()) == null);
             boolean isMockupOrNoMedia = (c.getSlug() != null && (c.getSlug().contains("wallpapers") || c.getSlug().contains("cyberpunk") || c.getSlug().contains("estetica") || ( (c.getVideoUrl() == null || c.getVideoUrl().isEmpty()) && (c.getImageUrl() == null || c.getImageUrl().isEmpty()) )));
-            if (isLegacyInvalidCat || isMockupOrNoMedia) {
+            boolean isLegacyBuffer = (c.getTitle() != null && (c.getTitle().toLowerCase().contains("buffer 17") || c.getTitle().toLowerCase().contains("buffer 16m") || c.getTitle().toLowerCase().contains("registro del sistema")));
+            if (isLegacyInvalidCat || isMockupOrNoMedia || isLegacyBuffer) {
                 contentRepository.delete(c);
             }
         }
@@ -244,11 +245,11 @@ public class ContentServiceImpl implements ContentService {
         Set<DeviceType> xiaomiOnly = Set.of(DeviceType.XIAOMI);
 
         // ==========================================
-        // 1. IPHONE VIDEOS
+        // 1. IPHONE VIDEOS (V1, V2, V3)
         // ==========================================
         upsertMediaContent(
                 "iphone-config-sensi-baja-v1",
-                "CONFIG & SENSI BAJA COMPLETA - IPHONE v1",
+                "Confi iPhone V1",
                 "Calibración de baja sensibilidad para iPhone. Máxima estabilidad en miras telescópicas y control preciso de retroceso.",
                 "Calibración de precisión para iPhone.",
                 ContentCategory.SENSITIVITIES,
@@ -261,7 +262,7 @@ public class ContentServiceImpl implements ContentService {
 
         upsertMediaContent(
                 "iphone-config-sensi-media-v1",
-                "CONFIG & SENSI MEDIA COMPLETA - IPHONE v1",
+                "Confi iPhone V2",
                 "Calibración balanceada para iPhone. Equilibrio perfecto entre agilidad de giro 360° y levantamiento suave de mira.",
                 "Calibración balanceada para iPhone.",
                 ContentCategory.SENSITIVITIES,
@@ -274,8 +275,8 @@ public class ContentServiceImpl implements ContentService {
 
         upsertMediaContent(
                 "iphone-config-sensi-media-v2",
-                "CONFIG & SENSI MEDIA COMPLETA - IPHONE v2 (OLED & 120Hz)",
-                "Calibración media avanzada v2 optimizada para pantallas Super Retina XDR y ProMotion 120Hz (iPhone 12 al 16 Pro Max).",
+                "Confi iPhone V3",
+                "Calibración media avanzada optimizada para pantallas Super Retina XDR y ProMotion 120Hz (iPhone 12 al 16 Pro Max).",
                 "Calibración 120Hz para iPhone Pro / Pro Max.",
                 ContentCategory.SENSITIVITIES,
                 iosOnly,
@@ -290,7 +291,7 @@ public class ContentServiceImpl implements ContentService {
         // ==========================================
         upsertMediaContent(
                 "iphone-sensi-preset-universal-clasico",
-                "SENSI IPHONE - MODO UNIVERSAL CLÁSICO (FOTO HD)",
+                "Sensi iPhone - Modo Universal Clásico (Foto HD)",
                 "Captura oficial del Preset D: General 44, Punto Rojo 67, Mira 2X 67, Mira 4X 67, Francotirador 67.",
                 "Valores exactos: General: 44, Red Dot: 67, 2X: 67, 4X: 67, Sniper: 67, Cámara: 67.",
                 ContentCategory.SENSITIVITIES,
@@ -303,7 +304,7 @@ public class ContentServiceImpl implements ContentService {
 
         upsertMediaContent(
                 "iphone-sensi-preset-awm-precision",
-                "SENSI IPHONE - AWM & FRANCOTIRADOR PRECISIÓN (FOTO HD)",
+                "Sensi iPhone - AWM & Francotirador Precisión (Foto HD)",
                 "Captura oficial del Preset B: General 190, Punto Rojo 50, Mira 2X 100, Mira 4X 100, AWM 20.",
                 "Valores exactos: General: 190, Red Dot: 50, 2X: 100, 4X: 100, AWM: 20, Cámara: 88.",
                 ContentCategory.SENSITIVITIES,
@@ -316,7 +317,7 @@ public class ContentServiceImpl implements ContentService {
 
         upsertMediaContent(
                 "iphone-sensi-preset-competitivo-pro",
-                "SENSI IPHONE - MODO COMPETITIVO PRO 200% (FOTO HD)",
+                "Sensi iPhone - Modo Competitivo Pro (Foto HD)",
                 "Captura oficial del Preset A: General 178, Punto Rojo 178, Mira 2X 200, Mira 4X 200, Francotirador 150.",
                 "Valores exactos: General: 178, Red Dot: 178, 2X: 200, 4X: 200, Sniper: 150, Cámara: 150.",
                 ContentCategory.SENSITIVITIES,
@@ -329,7 +330,7 @@ public class ContentServiceImpl implements ContentService {
 
         upsertMediaContent(
                 "iphone-sensi-preset-control-dispersion",
-                "SENSI IPHONE - CONTROL DE DISPERSIÓN (FOTO HD)",
+                "Sensi iPhone - Control de Dispersión (Foto HD)",
                 "Captura oficial del Preset C: General 69, Red Dot 45, 2x Scope 70, 4x Scope 100, Sniper Scope 0.",
                 "Valores exactos: General: 69, Red Dot: 45, 2X: 70, 4X: 100, Sniper: 0, Free Camera: 0.",
                 ContentCategory.SENSITIVITIES,
@@ -345,7 +346,7 @@ public class ContentServiceImpl implements ContentService {
         // ==========================================
         upsertMediaContent(
                 "samsung-confi-sensi-alta-v1",
-                "CONFIG & SENSI ALTA COMPLETA - SAMSUNG GALAXY v1",
+                "Confi Samsung V1",
                 "Ajuste de DPI perfecto para Samsung Galaxy One UI con Game Booster Plus y frecuencia de muestreo táctil aumentada.",
                 "Ajustes de DPI y Game Booster Plus para Samsung Galaxy.",
                 ContentCategory.SENSITIVITIES,
@@ -353,12 +354,12 @@ public class ContentServiceImpl implements ContentService {
                 false,
                 "/videos/samsung-confi-sensi-alta-v1.mp4",
                 null,
-                8
+                1
         );
 
         upsertMediaContent(
                 "samsung-sensi-captura-oneui-pro",
-                "SENSI SAMSUNG GALAXY - ONE UI 6.0 PRO (FOTO HD)",
+                "Sensi Samsung - One UI Pro (Foto HD)",
                 "Captura fotográfica de calibración para Samsung Galaxy S21/S22/S23/S24 y Serie A (A54/A34).",
                 "Valores de sensibilidad para Samsung Galaxy en resolución nativa.",
                 ContentCategory.SENSITIVITIES,
@@ -366,7 +367,7 @@ public class ContentServiceImpl implements ContentService {
                 false,
                 null,
                 "/images/sensibilidad-iphone-1.jpg",
-                9
+                2
         );
 
         // ==========================================
@@ -374,7 +375,7 @@ public class ContentServiceImpl implements ContentService {
         // ==========================================
         upsertMediaContent(
                 "motorola-confi-sensi-alta-v1",
-                "CONFIG & SENSI ALTA COMPLETA - MOTOROLA v1",
+                "Confi Motorola V1",
                 "Calibración de DPI y sensibilidad pura para Motorola Moto Edge y serie G con Moto Gametime optimizado.",
                 "Calibración Moto Gametime y DPI para Motorola.",
                 ContentCategory.SENSITIVITIES,
@@ -382,12 +383,12 @@ public class ContentServiceImpl implements ContentService {
                 false,
                 "/videos/motorola-confi-sensi-alta-v1.mp4",
                 null,
-                10
+                1
         );
 
         upsertMediaContent(
                 "motorola-sensi-captura-gametime-pro",
-                "SENSI MOTOROLA - MOTO GAMETIME 144HZ (FOTO HD)",
+                "Sensi Motorola - Moto Gametime 144Hz (Foto HD)",
                 "Captura de sensibilidad milimétrica optimizada para pantallas OLED de 144Hz de Motorola Edge.",
                 "Ajuste táctil y sensibilidad en pantalla para Motorola.",
                 ContentCategory.SENSITIVITIES,
@@ -395,7 +396,7 @@ public class ContentServiceImpl implements ContentService {
                 false,
                 null,
                 "/images/sensibilidad-iphone-2.jpg",
-                11
+                2
         );
 
         // ==========================================
@@ -403,7 +404,7 @@ public class ContentServiceImpl implements ContentService {
         // ==========================================
         upsertMediaContent(
                 "xiaomi-hyperos-game-turbo-v1",
-                "CONFIG & SENSI ALTA COMPLETA - XIAOMI / POCO (HyperOS & Game Turbo)",
+                "Confi Xiaomi V1",
                 "Calibración de respuesta táctil a 480Hz, Game Turbo y optimización de DPI para MIUI e HyperOS.",
                 "Optimización de Game Turbo y 480Hz táctil para Xiaomi y POCO.",
                 ContentCategory.SENSITIVITIES,
@@ -411,12 +412,12 @@ public class ContentServiceImpl implements ContentService {
                 false,
                 "/videos/modificacionx.mp4",
                 null,
-                12
+                1
         );
 
         upsertMediaContent(
                 "xiaomi-sensi-captura-poco-pro",
-                "SENSI XIAOMI & POCO - GAME TURBO CALIBRADO (FOTO HD)",
+                "Sensi Xiaomi - Game Turbo Calibrado (Foto HD)",
                 "Captura fotográfica oficial de calibración para POCO X3, X5, X6 Pro, F5 y Xiaomi Serie 13/14.",
                 "Calibración de respuesta de pantalla para Xiaomi y POCO.",
                 ContentCategory.SENSITIVITIES,
@@ -424,10 +425,10 @@ public class ContentServiceImpl implements ContentService {
                 false,
                 null,
                 "/images/sensibilidad-iphone-3.jpg",
-                13
+                2
         );
 
-        log.info("Finished seeding/updating device-centric multimedia content.");
+        log.info("Finished seeding/updating device-centric multimedia content with clear V1, V2 titles.");
     }
 
     private void upsertMediaContent(String slug, String title, String summary, String body,

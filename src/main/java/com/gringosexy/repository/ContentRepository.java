@@ -25,7 +25,7 @@ public interface ContentRepository extends MongoRepository<Content, String> {
     @Query("{ 'category': ?0, 'active': true, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?1 } ] }")
     List<Content> findByCategoryAndDevice(ContentCategory category, DeviceType deviceType);
 
-    @Query("{ 'active': true, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }")
+    @Query(value = "{ 'active': true, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", sort = "{ 'sortOrder': 1, 'createdAt': 1 }")
     List<Content> findAllActiveByDevice(DeviceType deviceType);
 
     @Query(value = "{ 'active': true, 'videoUrl': { $ne: null, $ne: '' }, $or: [ { 'applyToAllDevices': true }, { 'targetDevices': ?0 } ] }", count = true)

@@ -103,6 +103,9 @@
 
 .device-radio-item {
     position: relative;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .device-radio-item input[type="radio"] {
@@ -113,7 +116,8 @@
 }
 
 .device-card-select {
-    display: flex;
+    display: flex !important;
+    visibility: visible !important;
     align-items: center;
     gap: 10px;
     padding: 13px 14px;
